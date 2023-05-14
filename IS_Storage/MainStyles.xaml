@@ -1,0 +1,118 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--Страницы-->
+    <Style TargetType="{x:Type Page}">
+        <Setter Property="FontFamily"
+        Value="Bahnschrift Light SemiCondensed" />
+        <Setter Property="FontSize"
+        Value="14" />
+    </Style>
+    <!--Окна-->
+    <Style TargetType="{x:Type Window}">
+        <Setter Property="FontFamily"
+        Value="Bahnschrift Light SemiCondensed" />
+        <Setter Property="FontSize"
+        Value="14" />
+        <Setter Property="ResizeMode" Value="NoResize"/>
+    </Style>
+    
+    <!--Кнопки-->
+    <Style x:Key="mainButton" TargetType="Button">
+        <Setter Property="BorderBrush" Value="White"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>   
+
+    <Style BasedOn="{StaticResource mainButton}" x:Key="Button1"  TargetType="Button">
+        <Setter Property="Background" Value="#84D183"/>
+        
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background"  Value="#84D103"></Setter>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="BorderBrush" Value="White"></Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style BasedOn="{StaticResource mainButton}" x:Key="Button2"  TargetType="Button">
+        <Setter Property="Background" Value="#E85F5F"/>
+        
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background"  Value="#E85F0F"></Setter>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="BorderBrush" Value="White"></Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style BasedOn="{StaticResource mainButton}" x:Key="Button3"  TargetType="Button">
+        <Setter Property="Background" Value="#83c3d1"/>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background"  Value="#83c381"></Setter>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="BorderBrush" Value="White"></Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--Текстовые поля-->    
+    <Style  TargetType="TextBox">
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Width" Value="120"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                    <Border x:Name="Border" BorderThickness="0,0,0,1" BorderBrush="Black">
+                        <StackPanel>
+                            <ScrollViewer Margin="0"
+                        x:Name="PART_ContentHost">
+                            </ScrollViewer>
+                        </StackPanel>
+                        
+                        
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--Поле пароля-->
+    <Style TargetType="{x:Type PasswordBox}">
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Width" Value="120"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type PasswordBox}">
+                    <Border x:Name="Border" BorderThickness="0,0,0,1" BorderBrush="Black">
+                        <ScrollViewer x:Name="PART_ContentHost" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type Label}">
+        <Setter Property="FontFamily"
+        Value="Bahnschrift Light SemiCondensed" />
+        <Setter Property="FontSize"
+        Value="14" />
+        <Setter Property="Margin" Value="5"/>
+    </Style>
+
+</ResourceDictionary>

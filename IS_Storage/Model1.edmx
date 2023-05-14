@@ -1,0 +1,907 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище stockModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="IDClient" />
+          </Key>
+          <Property Name="IDClient" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PNumber" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Email" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Condition">
+          <Key>
+            <PropertyRef Name="IDCondition" />
+          </Key>
+          <Property Name="IDCondition" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="IDEmp" />
+          </Key>
+          <Property Name="IDEmp" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Full_Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="EEmail" Type="nvarchar(max)" />
+          <Property Name="Emp_Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Emp_Pass" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="ID_Role" Type="int" Nullable="false" />
+          <Property Name="OStatus" Type="bit" Nullable="false" />
+          <Property Name="sysInfo" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Place">
+          <Key>
+            <PropertyRef Name="IDPlace" />
+          </Key>
+          <Property Name="IDPlace" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SpecialCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PlaceCond">
+          <Key>
+            <PropertyRef Name="IDPlaceCond" />
+          </Key>
+          <Property Name="IDPlaceCond" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Place" Type="int" Nullable="false" />
+          <Property Name="ID_Condition" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProdCond">
+          <Key>
+            <PropertyRef Name="IDProdCond" />
+          </Key>
+          <Property Name="IDProdCond" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Product" Type="int" Nullable="false" />
+          <Property Name="ID_Condition" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="IDProduct" />
+          </Key>
+          <Property Name="IDProduct" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Article" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID_Transction" Type="int" Nullable="false" />
+          <Property Name="Exp_Date" Type="date" />
+          <Property Name="ID_Place" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="int" Nullable="false" />
+          <Property Name="UnitID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="reqType">
+          <Key>
+            <PropertyRef Name="ID_Type" />
+          </Key>
+          <Property Name="ID_Type" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="IDTransaction" />
+          </Key>
+          <Property Name="IDTransaction" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Client" Type="int" Nullable="false" />
+          <Property Name="ID_TrTType" Type="int" Nullable="false" />
+          <Property Name="Date" Type="varchar(max)" Nullable="false" />
+          <Property Name="ID_Emp" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TransType">
+          <Key>
+            <PropertyRef Name="IDTypeTrans" />
+          </Key>
+          <Property Name="IDTypeTrans" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UnitType">
+          <Key>
+            <PropertyRef Name="IDUnit" />
+          </Key>
+          <Property Name="IDUnit" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Unit_Title" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Unit_Titlemin" Type="nvarchar" MaxLength="5" Nullable="false" />
+        </EntityType>
+        <EntityType Name="userRequest">
+          <Key>
+            <PropertyRef Name="ID_Request" />
+          </Key>
+          <Property Name="ID_Request" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="requestTime" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="computerName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="requestState" Type="int" Nullable="false" />
+          <Property Name="requestTypeID" Type="int" Nullable="false" />
+          <Property Name="userID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="IDRole" />
+          </Key>
+          <Property Name="IDRole" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Employee_UserRole">
+          <End Role="UserRole" Type="Self.UserRole" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRole">
+              <PropertyRef Name="IDRole" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="ID_Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlaceCond_Condition">
+          <End Role="Condition" Type="Self.Condition" Multiplicity="1" />
+          <End Role="PlaceCond" Type="Self.PlaceCond" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Condition">
+              <PropertyRef Name="IDCondition" />
+            </Principal>
+            <Dependent Role="PlaceCond">
+              <PropertyRef Name="ID_Condition" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlaceCond_Place">
+          <End Role="Place" Type="Self.Place" Multiplicity="1" />
+          <End Role="PlaceCond" Type="Self.PlaceCond" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Place">
+              <PropertyRef Name="IDPlace" />
+            </Principal>
+            <Dependent Role="PlaceCond">
+              <PropertyRef Name="ID_Place" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProdCond_Condition">
+          <End Role="Condition" Type="Self.Condition" Multiplicity="1" />
+          <End Role="ProdCond" Type="Self.ProdCond" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Condition">
+              <PropertyRef Name="IDCondition" />
+            </Principal>
+            <Dependent Role="ProdCond">
+              <PropertyRef Name="ID_Condition" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProdCond_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ProdCond" Type="Self.ProdCond" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="IDProduct" />
+            </Principal>
+            <Dependent Role="ProdCond">
+              <PropertyRef Name="ID_Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Place">
+          <End Role="Place" Type="Self.Place" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Place">
+              <PropertyRef Name="IDPlace" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="ID_Place" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Transaction1">
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transaction">
+              <PropertyRef Name="IDTransaction" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="ID_Transction" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_UnitType">
+          <End Role="UnitType" Type="Self.UnitType" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnitType">
+              <PropertyRef Name="IDUnit" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="UnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="IDClient" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="ID_Client" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="IDEmp" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="ID_Client" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_TransType">
+          <End Role="TransType" Type="Self.TransType" Multiplicity="1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransType">
+              <PropertyRef Name="IDTypeTrans" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="ID_TrTType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_userRequest_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="userRequest" Type="Self.userRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="IDEmp" />
+            </Principal>
+            <Dependent Role="userRequest">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_userRequest_reqType">
+          <End Role="reqType" Type="Self.reqType" Multiplicity="1" />
+          <End Role="userRequest" Type="Self.userRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="reqType">
+              <PropertyRef Name="ID_Type" />
+            </Principal>
+            <Dependent Role="userRequest">
+              <PropertyRef Name="requestTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище stockModelContainer">
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Condition" EntityType="Self.Condition" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Place" EntityType="Self.Place" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PlaceCond" EntityType="Self.PlaceCond" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProdCond" EntityType="Self.ProdCond" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="reqType" EntityType="Self.reqType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transaction" EntityType="Self.Transaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransType" EntityType="Self.TransType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UnitType" EntityType="Self.UnitType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="userRequest" EntityType="Self.userRequest" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Employee_UserRole" Association="Self.FK_Employee_UserRole">
+            <End Role="UserRole" EntitySet="UserRole" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlaceCond_Condition" Association="Self.FK_PlaceCond_Condition">
+            <End Role="Condition" EntitySet="Condition" />
+            <End Role="PlaceCond" EntitySet="PlaceCond" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlaceCond_Place" Association="Self.FK_PlaceCond_Place">
+            <End Role="Place" EntitySet="Place" />
+            <End Role="PlaceCond" EntitySet="PlaceCond" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProdCond_Condition" Association="Self.FK_ProdCond_Condition">
+            <End Role="Condition" EntitySet="Condition" />
+            <End Role="ProdCond" EntitySet="ProdCond" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProdCond_Product" Association="Self.FK_ProdCond_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProdCond" EntitySet="ProdCond" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Place" Association="Self.FK_Product_Place">
+            <End Role="Place" EntitySet="Place" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Transaction1" Association="Self.FK_Product_Transaction1">
+            <End Role="Transaction" EntitySet="Transaction" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_UnitType" Association="Self.FK_Product_UnitType">
+            <End Role="UnitType" EntitySet="UnitType" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Client" Association="Self.FK_Transaction_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Employee" Association="Self.FK_Transaction_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_TransType" Association="Self.FK_Transaction_TransType">
+            <End Role="TransType" EntitySet="TransType" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_userRequest_Employee" Association="Self.FK_userRequest_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="userRequest" EntitySet="userRequest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_userRequest_reqType" Association="Self.FK_userRequest_reqType">
+            <End Role="reqType" EntitySet="reqType" />
+            <End Role="userRequest" EntitySet="userRequest" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="stockModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="IDClient" />
+          </Key>
+          <Property Name="IDClient" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Transaction" Relationship="Self.FK_Transaction_Client" FromRole="Client" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="Condition">
+          <Key>
+            <PropertyRef Name="IDCondition" />
+          </Key>
+          <Property Name="IDCondition" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="PlaceCond" Relationship="Self.FK_PlaceCond_Condition" FromRole="Condition" ToRole="PlaceCond" />
+          <NavigationProperty Name="ProdCond" Relationship="Self.FK_ProdCond_Condition" FromRole="Condition" ToRole="ProdCond" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="IDEmp" />
+          </Key>
+          <Property Name="IDEmp" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Full_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Emp_Pass" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ID_Role" Type="Int32" Nullable="false" />
+          <Property Name="OStatus" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="UserRole" Relationship="Self.FK_Employee_UserRole" FromRole="Employee" ToRole="UserRole" />
+          <NavigationProperty Name="Transaction" Relationship="Self.FK_Transaction_Employee" FromRole="Employee" ToRole="Transaction" />
+          <NavigationProperty Name="userRequest" Relationship="stockModel.FK_userRequest_Employee" FromRole="Employee" ToRole="userRequest" />
+          <Property Name="sysInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Place">
+          <Key>
+            <PropertyRef Name="IDPlace" />
+          </Key>
+          <Property Name="IDPlace" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SpecialCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="PlaceCond" Relationship="Self.FK_PlaceCond_Place" FromRole="Place" ToRole="PlaceCond" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Product_Place" FromRole="Place" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="PlaceCond">
+          <Key>
+            <PropertyRef Name="IDPlaceCond" />
+          </Key>
+          <Property Name="IDPlaceCond" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Place" Type="Int32" Nullable="false" />
+          <Property Name="ID_Condition" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Condition" Relationship="Self.FK_PlaceCond_Condition" FromRole="PlaceCond" ToRole="Condition" />
+          <NavigationProperty Name="Place" Relationship="Self.FK_PlaceCond_Place" FromRole="PlaceCond" ToRole="Place" />
+        </EntityType>
+        <EntityType Name="ProdCond">
+          <Key>
+            <PropertyRef Name="IDProdCond" />
+          </Key>
+          <Property Name="IDProdCond" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Product" Type="Int32" Nullable="false" />
+          <Property Name="ID_Condition" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Condition" Relationship="Self.FK_ProdCond_Condition" FromRole="ProdCond" ToRole="Condition" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_ProdCond_Product" FromRole="ProdCond" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="IDProduct" />
+          </Key>
+          <Property Name="IDProduct" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Article" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ID_Transction" Type="Int32" Nullable="false" />
+          <Property Name="Exp_Date" Type="DateTime" Precision="0" />
+          <Property Name="ID_Place" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Int32" Nullable="false" />
+          <Property Name="UnitID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Place" Relationship="Self.FK_Product_Place" FromRole="Product" ToRole="Place" />
+          <NavigationProperty Name="ProdCond" Relationship="Self.FK_ProdCond_Product" FromRole="Product" ToRole="ProdCond" />
+          <NavigationProperty Name="Transaction" Relationship="Self.FK_Product_Transaction1" FromRole="Product" ToRole="Transaction" />
+          <NavigationProperty Name="UnitType" Relationship="Self.FK_Product_UnitType" FromRole="Product" ToRole="UnitType" />
+        </EntityType>
+        <EntityType Name="reqType">
+          <Key>
+            <PropertyRef Name="ID_Type" />
+          </Key>
+          <Property Name="ID_Type" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="userRequest" Relationship="Self.FK_userRequest_reqType" FromRole="reqType" ToRole="userRequest" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="IDTransaction" />
+          </Key>
+          <Property Name="IDTransaction" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Client" Type="Int32" Nullable="false" />
+          <Property Name="ID_TrTType" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ID_Emp" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_Transaction_Client" FromRole="Transaction" ToRole="Client" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Transaction_Employee" FromRole="Transaction" ToRole="Employee" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Product_Transaction1" FromRole="Transaction" ToRole="Product" />
+          <NavigationProperty Name="TransType" Relationship="Self.FK_Transaction_TransType" FromRole="Transaction" ToRole="TransType" />
+        </EntityType>
+        <EntityType Name="TransType">
+          <Key>
+            <PropertyRef Name="IDTypeTrans" />
+          </Key>
+          <Property Name="IDTypeTrans" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Transaction" Relationship="Self.FK_Transaction_TransType" FromRole="TransType" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="UnitType">
+          <Key>
+            <PropertyRef Name="IDUnit" />
+          </Key>
+          <Property Name="IDUnit" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Unit_Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Unit_Titlemin" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Product_UnitType" FromRole="UnitType" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="userRequest">
+          <Key>
+            <PropertyRef Name="ID_Request" />
+          </Key>
+          <Property Name="ID_Request" Type="Int32" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="requestTime" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="computerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="requestState" Type="Int32" Nullable="false" />
+          <Property Name="requestTypeID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="reqType" Relationship="Self.FK_userRequest_reqType" FromRole="userRequest" ToRole="reqType" />
+          <Property Name="userID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="stockModel.FK_userRequest_Employee" FromRole="userRequest" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="IDRole" />
+          </Key>
+          <Property Name="IDRole" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_UserRole" FromRole="UserRole" ToRole="Employee" />
+        </EntityType>
+        <Association Name="FK_Transaction_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="IDClient" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="ID_Client" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlaceCond_Condition">
+          <End Role="Condition" Type="Self.Condition" Multiplicity="1" />
+          <End Role="PlaceCond" Type="Self.PlaceCond" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Condition">
+              <PropertyRef Name="IDCondition" />
+            </Principal>
+            <Dependent Role="PlaceCond">
+              <PropertyRef Name="ID_Condition" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProdCond_Condition">
+          <End Role="Condition" Type="Self.Condition" Multiplicity="1" />
+          <End Role="ProdCond" Type="Self.ProdCond" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Condition">
+              <PropertyRef Name="IDCondition" />
+            </Principal>
+            <Dependent Role="ProdCond">
+              <PropertyRef Name="ID_Condition" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_UserRole">
+          <End Role="UserRole" Type="Self.UserRole" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRole">
+              <PropertyRef Name="IDRole" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="ID_Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="IDEmp" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="ID_Client" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlaceCond_Place">
+          <End Role="Place" Type="Self.Place" Multiplicity="1" />
+          <End Role="PlaceCond" Type="Self.PlaceCond" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Place">
+              <PropertyRef Name="IDPlace" />
+            </Principal>
+            <Dependent Role="PlaceCond">
+              <PropertyRef Name="ID_Place" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Place">
+          <End Role="Place" Type="Self.Place" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Place">
+              <PropertyRef Name="IDPlace" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="ID_Place" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProdCond_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ProdCond" Type="Self.ProdCond" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="IDProduct" />
+            </Principal>
+            <Dependent Role="ProdCond">
+              <PropertyRef Name="ID_Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Transaction1">
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transaction">
+              <PropertyRef Name="IDTransaction" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="ID_Transction" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_UnitType">
+          <End Role="UnitType" Type="Self.UnitType" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnitType">
+              <PropertyRef Name="IDUnit" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="UnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_userRequest_reqType">
+          <End Role="reqType" Type="Self.reqType" Multiplicity="1" />
+          <End Role="userRequest" Type="Self.userRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="reqType">
+              <PropertyRef Name="ID_Type" />
+            </Principal>
+            <Dependent Role="userRequest">
+              <PropertyRef Name="requestTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_TransType">
+          <End Role="TransType" Type="Self.TransType" Multiplicity="1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransType">
+              <PropertyRef Name="IDTypeTrans" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="ID_TrTType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="stockEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Client" EntityType="Self.Client" />
+          <EntitySet Name="Condition" EntityType="Self.Condition" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" />
+          <EntitySet Name="Place" EntityType="Self.Place" />
+          <EntitySet Name="PlaceCond" EntityType="Self.PlaceCond" />
+          <EntitySet Name="ProdCond" EntityType="Self.ProdCond" />
+          <EntitySet Name="Product" EntityType="Self.Product" />
+          <EntitySet Name="reqType" EntityType="Self.reqType" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Transaction" EntityType="Self.Transaction" />
+          <EntitySet Name="TransType" EntityType="Self.TransType" />
+          <EntitySet Name="UnitType" EntityType="Self.UnitType" />
+          <EntitySet Name="userRequest" EntityType="Self.userRequest" />
+          <EntitySet Name="UserRole" EntityType="Self.UserRole" />
+          <AssociationSet Name="FK_Transaction_Client" Association="Self.FK_Transaction_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlaceCond_Condition" Association="Self.FK_PlaceCond_Condition">
+            <End Role="Condition" EntitySet="Condition" />
+            <End Role="PlaceCond" EntitySet="PlaceCond" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProdCond_Condition" Association="Self.FK_ProdCond_Condition">
+            <End Role="Condition" EntitySet="Condition" />
+            <End Role="ProdCond" EntitySet="ProdCond" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_UserRole" Association="Self.FK_Employee_UserRole">
+            <End Role="UserRole" EntitySet="UserRole" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Employee" Association="Self.FK_Transaction_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlaceCond_Place" Association="Self.FK_PlaceCond_Place">
+            <End Role="Place" EntitySet="Place" />
+            <End Role="PlaceCond" EntitySet="PlaceCond" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Place" Association="Self.FK_Product_Place">
+            <End Role="Place" EntitySet="Place" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProdCond_Product" Association="Self.FK_ProdCond_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProdCond" EntitySet="ProdCond" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Transaction1" Association="Self.FK_Product_Transaction1">
+            <End Role="Transaction" EntitySet="Transaction" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_UnitType" Association="Self.FK_Product_UnitType">
+            <End Role="UnitType" EntitySet="UnitType" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_userRequest_reqType" Association="Self.FK_userRequest_reqType">
+            <End Role="reqType" EntitySet="reqType" />
+            <End Role="userRequest" EntitySet="userRequest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_TransType" Association="Self.FK_Transaction_TransType">
+            <End Role="TransType" EntitySet="TransType" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_userRequest_Employee" Association="stockModel.FK_userRequest_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="userRequest" EntitySet="userRequest" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_userRequest_Employee">
+          <End Type="stockModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="stockModel.userRequest" Role="userRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="IDEmp" />
+            </Principal>
+            <Dependent Role="userRequest">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище stockModelContainer" CdmEntityContainer="stockEntities">
+          <EntitySetMapping Name="Client">
+            <EntityTypeMapping TypeName="stockModel.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="IDClient" ColumnName="IDClient" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PNumber" ColumnName="PNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Condition">
+            <EntityTypeMapping TypeName="stockModel.Condition">
+              <MappingFragment StoreEntitySet="Condition">
+                <ScalarProperty Name="IDCondition" ColumnName="IDCondition" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employee">
+            <EntityTypeMapping TypeName="stockModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="sysInfo" ColumnName="sysInfo" />
+                <ScalarProperty Name="IDEmp" ColumnName="IDEmp" />
+                <ScalarProperty Name="Full_Name" ColumnName="Full_Name" />
+                <ScalarProperty Name="EEmail" ColumnName="EEmail" />
+                <ScalarProperty Name="Emp_Login" ColumnName="Emp_Login" />
+                <ScalarProperty Name="Emp_Pass" ColumnName="Emp_Pass" />
+                <ScalarProperty Name="ID_Role" ColumnName="ID_Role" />
+                <ScalarProperty Name="OStatus" ColumnName="OStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Place">
+            <EntityTypeMapping TypeName="stockModel.Place">
+              <MappingFragment StoreEntitySet="Place">
+                <ScalarProperty Name="IDPlace" ColumnName="IDPlace" />
+                <ScalarProperty Name="SpecialCode" ColumnName="SpecialCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlaceCond">
+            <EntityTypeMapping TypeName="stockModel.PlaceCond">
+              <MappingFragment StoreEntitySet="PlaceCond">
+                <ScalarProperty Name="IDPlaceCond" ColumnName="IDPlaceCond" />
+                <ScalarProperty Name="ID_Place" ColumnName="ID_Place" />
+                <ScalarProperty Name="ID_Condition" ColumnName="ID_Condition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProdCond">
+            <EntityTypeMapping TypeName="stockModel.ProdCond">
+              <MappingFragment StoreEntitySet="ProdCond">
+                <ScalarProperty Name="IDProdCond" ColumnName="IDProdCond" />
+                <ScalarProperty Name="ID_Product" ColumnName="ID_Product" />
+                <ScalarProperty Name="ID_Condition" ColumnName="ID_Condition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product">
+            <EntityTypeMapping TypeName="stockModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="IDProduct" ColumnName="IDProduct" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Article" ColumnName="Article" />
+                <ScalarProperty Name="ID_Transction" ColumnName="ID_Transction" />
+                <ScalarProperty Name="Exp_Date" ColumnName="Exp_Date" />
+                <ScalarProperty Name="ID_Place" ColumnName="ID_Place" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="UnitID" ColumnName="UnitID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="reqType">
+            <EntityTypeMapping TypeName="stockModel.reqType">
+              <MappingFragment StoreEntitySet="reqType">
+                <ScalarProperty Name="ID_Type" ColumnName="ID_Type" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="stockModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transaction">
+            <EntityTypeMapping TypeName="stockModel.Transaction">
+              <MappingFragment StoreEntitySet="Transaction">
+                <ScalarProperty Name="IDTransaction" ColumnName="IDTransaction" />
+                <ScalarProperty Name="ID_Client" ColumnName="ID_Client" />
+                <ScalarProperty Name="ID_TrTType" ColumnName="ID_TrTType" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ID_Emp" ColumnName="ID_Emp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransType">
+            <EntityTypeMapping TypeName="stockModel.TransType">
+              <MappingFragment StoreEntitySet="TransType">
+                <ScalarProperty Name="IDTypeTrans" ColumnName="IDTypeTrans" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UnitType">
+            <EntityTypeMapping TypeName="stockModel.UnitType">
+              <MappingFragment StoreEntitySet="UnitType">
+                <ScalarProperty Name="IDUnit" ColumnName="IDUnit" />
+                <ScalarProperty Name="Unit_Title" ColumnName="Unit_Title" />
+                <ScalarProperty Name="Unit_Titlemin" ColumnName="Unit_Titlemin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="userRequest">
+            <EntityTypeMapping TypeName="stockModel.userRequest">
+              <MappingFragment StoreEntitySet="userRequest">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="ID_Request" ColumnName="ID_Request" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="requestTime" ColumnName="requestTime" />
+                <ScalarProperty Name="computerName" ColumnName="computerName" />
+                <ScalarProperty Name="requestState" ColumnName="requestState" />
+                <ScalarProperty Name="requestTypeID" ColumnName="requestTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRole">
+            <EntityTypeMapping TypeName="stockModel.UserRole">
+              <MappingFragment StoreEntitySet="UserRole">
+                <ScalarProperty Name="IDRole" ColumnName="IDRole" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

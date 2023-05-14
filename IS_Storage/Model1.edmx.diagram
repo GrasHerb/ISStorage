@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="02f84327230e43cb8371aeb3cce4eb7c" Name="Diagram1">
+        <EntityTypeShape EntityType="stockModel.Client" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.Condition" Width="1.5" PointX="7.5" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.Employee" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.Place" Width="1.5" PointX="5.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.PlaceCond" Width="1.5" PointX="9.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.ProdCond" Width="1.5" PointX="9.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.Product" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.reqType" Width="1.5" PointX="7.75" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.Transaction" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.TransType" Width="1.5" PointX="3" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.UnitType" Width="1.5" PointX="5.25" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.userRequest" Width="1.5" PointX="10" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.UserRole" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
+        <AssociationConnector Association="stockModel.FK_Transaction_Client" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_PlaceCond_Condition" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_ProdCond_Condition" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_Employee_UserRole" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_Transaction_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_PlaceCond_Place" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_Product_Place" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_ProdCond_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_Product_Transaction1" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_Product_UnitType" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_userRequest_reqType" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_Transaction_TransType" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_userRequest_Employee" ManuallyRouted="true" >
+          <ConnectorPoint PointX="4.5" PointY="3.4082693567708326" />
+          <ConnectorPoint PointX="4.791666666666667" PointY="3.4082693567708322" />
+          <ConnectorPoint PointX="4.958333333333333" PointY="3.4082693567708326" />
+          <ConnectorPoint PointX="5" PointY="3.4082693567708326" />
+          <ConnectorPoint PointX="5" PointY="4.576396484375" />
+          <ConnectorPoint PointX="7.041666666666667" PointY="4.5763964843749987" />
+          <ConnectorPoint PointX="7.270833333333333" PointY="4.576396484375" />
+          <ConnectorPoint PointX="9.2916666666666661" PointY="4.5763964843749987" />
+          <ConnectorPoint PointX="9.4583333333333339" PointY="4.576396484375" />
+          <ConnectorPoint PointX="11.5" PointY="4.576396484375" />
+          <ConnectorPoint PointX="11.5" PointY="8.3333331812173128" />
+          <ConnectorPoint PointX="11.145833011716604" PointY="8.3333331812173128" />
+          <ConnectorPoint PointX="11.145833011716604" PointY="8.7799999498017129" />
+          <ConnectorPoint PointX="10.75" PointY="8.7799999498017129" />
+          <ConnectorPoint PointX="10.75" PointY="9" />
+        </AssociationConnector>
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

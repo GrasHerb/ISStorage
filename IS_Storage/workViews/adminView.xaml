@@ -1,0 +1,72 @@
+﻿<Page x:Class="IS_Storage.workViews.adminView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:IS_Storage.workViews"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="adminView">
+
+    <TabControl>
+        <TabItem Header="Список">
+            <Grid MinWidth="800" MinHeight="450">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height=".5*"/>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="Список пользователей"/>
+                    <StackPanel Grid.Row="1">
+                    <ScrollViewer Height="300" >
+                        <DataGrid x:Name="uListGrid" IsReadOnly="True" AutoGenerateColumns="False">
+                            <DataGrid.Columns >
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Image Source="{Binding oStatus}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Номер" x:Name="uNumber" Binding="{Binding uNumber}"/>
+                                <DataGridTextColumn Header="ФИО" x:Name="uFullName" Binding="{Binding uFullName}"/>
+                                <DataGridTextColumn Header="Роль" x:Name="uRole" Binding="{Binding uRole}"/>
+                                <DataGridTextColumn Header="Последний вход" x:Name="uLastTime" Binding="{Binding uLastTime}"/>
+                                <DataGridTextColumn Header="Компьютер" x:Name="uComputer" Binding="{Binding uComputer}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </ScrollViewer>
+                    <CheckBox x:Name="visibleOnline" Checked="visibleOnline_Checked" Unchecked="visibleOnline_Checked" FontSize="10" Margin="5" Height="20" Width="150" HorizontalAlignment="Left">
+                        <ContentControl Height="16" Margin="1">
+                            <Viewbox>
+                                <Label Margin="0" Content="Только пользователи в сети"/>
+                            </Viewbox>
+                        </ContentControl>
+                    </CheckBox>
+                        
+                </StackPanel>                
+            </Grid>
+        </TabItem>
+        <TabItem Header="Удалённые">
+            <Grid MinWidth="800" MinHeight="450">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="1">
+                    <ScrollViewer Height="300" >
+                        <DataGrid x:Name="uDelListGrid" IsReadOnly="True" AutoGenerateColumns="False">
+                            <DataGrid.Columns >
+                                <DataGridTextColumn Header="ФИО" x:Name="uDelFullName" Binding="{Binding empID}"/>
+                                <DataGridTextColumn Header="Кем удалён" x:Name="uDelTime" Binding="{Binding empID}"/>
+                                <DataGridTextColumn Header="Дата" x:Name="uDelComputer" Binding="{Binding empID}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </ScrollViewer>
+                </StackPanel>
+            </Grid>
+        </TabItem>
+    </TabControl>
+</Page>

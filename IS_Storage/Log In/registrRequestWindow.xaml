@@ -1,0 +1,32 @@
+﻿<Window x:Class="IS_Storage.Log_In.registrRequestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IS_Storage.Log_In"
+        mc:Ignorable="d"
+        Title="Запрос регистрации" Height="582" Width="340" ResizeMode="NoResize">
+    <StackPanel>
+        <Label  Content="Логин*"/>
+        <TextBox Margin="10,0" Width="auto" x:Name="regLog"/>
+        <Label  Content="Пароль*"/>
+        <TextBox Margin="10,0" Width="auto" x:Name="regPass" TextChanged="regPass_TextChanged" GotFocus="regPass_GotFocus"/>
+        <TextBlock x:Name="reqBlock" Visibility="Collapsed">            
+            <Run x:Name="req1" Text="Пароль не меньше 6 символов."/>            
+            <Run x:Name="req2" Text="Пароль должен содержать прописные и заглавные буквы."/>
+            <Run x:Name="req3" Text="Пароль должен содержать символы и цифры."/>
+        </TextBlock>
+        <Label  Content="Повторите пароль*"/>
+        <TextBox Margin="10,0" Width="auto" x:Name="regPassRep"/>
+        <Label  Content="Фамилия*"/>
+        <TextBox Margin="10,0" Width="auto" x:Name="regSecName"/>
+        <Label  Content="Имя*"/>
+        <TextBox Margin="10,0" Width="auto" x:Name="regFstName"/>
+        <Label  Content="Отчество*"/>
+        <TextBox Margin="10,0" Width="auto" x:Name="regThrName"/>
+        <Label  Content="Электронная почта "/>
+        <TextBox Margin="10,0" Width="auto" x:Name="regMail"/>
+        <Label Content="(для получения уведомлений и восстановления пароля, необязательно)" FontSize="10" Margin="0"/>
+        <Button Style="{StaticResource Button1}" Content="Отправить запрос" Margin="10" Click="Button_Click"/>
+    </StackPanel>
+</Window>
