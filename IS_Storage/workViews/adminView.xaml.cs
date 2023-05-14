@@ -24,9 +24,11 @@ namespace IS_Storage.workViews
     {
         ObservableCollection<userInList> userCollection = new ObservableCollection<userInList>();
         stockEntities localCont = stockEntities.GetStockEntity();
+        Employee cEmp = new Employee();
         public adminView(Employee curEmployee)
         {
             InitializeComponent();
+            cEmp = curEmployee;
             gridUpdate();
         }
 
@@ -42,6 +44,17 @@ namespace IS_Storage.workViews
             }
             else userCollection = userInList.listConvert(localCont.Employee.ToList());
             uListGrid.ItemsSource = userCollection;
+        }
+
+        private void uListGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void crUserBtn_Click(object sender, RoutedEventArgs e)
+        {
+            registrRequestWindow registrWindow = new registrRequestWindow(cEmp);
+            if (registrRequestWindow.ShowDialog() == false) MessageBox.Show("Заявка отменена.");
         }
     }
 }

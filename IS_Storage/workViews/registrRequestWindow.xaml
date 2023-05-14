@@ -3,10 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:IS_Storage.Log_In"
+        xmlns:local="clr-namespace:IS_Storage.workViews"
         mc:Ignorable="d"
         Title="Запрос регистрации" Height="582" Width="340" ResizeMode="NoResize">
     <StackPanel>
+        <Label  Content="Доступ*"/>
+        <ComboBox x:Name="cmbRole" Margin="10,0" BorderBrush="{x:Null}" Background="{x:Null}" SelectedIndex="0">
+            <ComboBoxItem Content="Сотрудник"/>
+            <ComboBoxItem Content="Менеджер"/>
+            <ComboBoxItem Content="Администратор"/>
+        </ComboBox>
         <Label  Content="Логин*"/>
         <TextBox Margin="10,0" Width="auto" x:Name="regLog"/>
         <Label  Content="Пароль*"/>

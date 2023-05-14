@@ -26,15 +26,24 @@ namespace IS_Storage.Log_In
         stockEntities _context = stockEntities.GetStockEntity();
         List<Run> qrun = new List<Run>();
         bool requestp = false;
-        public registrRequestWindow()
+        Employee AdmL = new Employee();
+        public registrRequestWindow(Employee loginAdm)
         {
             InitializeComponent();
+            AdmL = loginAdm;
             qrun.AddRange(new List<Run> { req1, req2, req3 });
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            int roleID = 0;
             var registrEmp = new Employee();
+            switch (cmbRole.SelectedIndex)
+            {
+                case 0: roleID = 3; break;
+                case 1: roleID = 2; break;
+                case 2: roleID = 1; break;
+            }
             if (regLog.Text != "")
                 if (regPass.Text != "")
                     if (regSecName.Text != "")
@@ -48,11 +57,11 @@ namespace IS_Storage.Log_In
                                             Emp_Login = regLog.Text,
                                             Emp_Pass = uControll.Sha256password(regPass.Text),
                                             Full_Name = regSecName.Text + " " + regSecName.Text + " " + regThrName.Text,
-                                            ID_Role = 3,
+                                            ID_Role = roleID,
                                         };
                                         _context.Employee.Add(registrEmp);
                                         _context.SaveChanges();
-                                        _context.userRequest.Add(new userRequest() { requestTypeID = 1, FullName = registrEmp.Full_Name + ": запрос на регистрацию", requestState = 0, requestTime = DateTime.Now.ToString("G"), computerName = Environment.MachineName + " " + Environment.UserName, userID = registrEmp.IDEmp });
+                                        _context.userRequest.Add(new userRequest() { requestTypeID = 2, FullName = AdmL.Full_Name + " создал учётную запись: " + registrEmp.Emp_Login, requestState = 0, requestTime = DateTime.Now.ToString("G"), computerName = Environment.MachineName + " " + Environment.UserName, userID = AdmL.IDEmp  });
                                         _context.SaveChanges();
 
                                         MessageBox.Show("Заявка отправлена!\nСвяжитесь с администратором.");

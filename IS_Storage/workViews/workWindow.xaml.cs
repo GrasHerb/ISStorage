@@ -27,14 +27,13 @@ namespace IS_Storage.workViews
         public workWindow(Employee employee)
         {
             InitializeComponent();
-            List<Page> pages = new List<Page>
+            switch(employee.ID_Role)
             {
-                new adminView(employee),
-                new managerView(employee),
-                new empView(employee)
-            };
-            currentUser = employee;
-            mainFrame.Content = pages[employee.ID_Role-1];
+                case 1: adminView admin = new adminView(employee); mainFrame.Content = admin; break;
+                case 2: managerView manager = new managerView(employee); mainFrame.Content = manager; break;
+                case 3: empView emp = new empView(employee); mainFrame.Content = emp; break;
+            }
+            currentUser = employee;            
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

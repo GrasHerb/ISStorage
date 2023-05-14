@@ -100,8 +100,7 @@ namespace IS_Storage
 
         private void btnRegist_Click(object sender, RoutedEventArgs e)
         {
-            registrRequestWindow registrRequestWindow = new registrRequestWindow();
-            if (registrRequestWindow.ShowDialog() == false) MessageBox.Show("Заявка отменена.");
+            
         }
     }
 }
