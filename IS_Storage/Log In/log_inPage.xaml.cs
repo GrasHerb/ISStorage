@@ -22,8 +22,8 @@ namespace IS_Storage
     /// </summary>
     public partial class log_inPage : Page
     {
+        stockEntities localCont = stockEntities.GetStockEntity();
         MainWindow window = (MainWindow)Application.Current.MainWindow;
-        stockEntities _context = stockEntities.GetStockEntity();
         public log_inPage()
         {
             InitializeComponent();
@@ -47,12 +47,12 @@ namespace IS_Storage
                     break;
                     case 1:
                         MessageBox.Show("Вы были зарегистрированы администратором.\n Для продолжения работы установите пароль.");
-                        passChange passwindow = new passChange(stockEntities.GetStockEntity().Employee.Where(p=>p.Emp_Login == txtLog.Text).FirstOrDefault());
+                        passChange passwindow = new passChange(localCont.Employee.Where(p=>p.Emp_Login == txtLog.Text).FirstOrDefault());
                         if (passwindow.ShowDialog() == true)
                         {                            
-                            employee = _context.Employee.Where(p => p.Emp_Login == txtLog.Text).FirstOrDefault();
+                            employee = localCont.Employee.Where(p => p.Emp_Login == txtLog.Text).FirstOrDefault();
                             employee.Emp_Pass = passwindow.newEmp.Emp_Pass;
-                            _context.SaveChanges();
+                            localCont.SaveChanges();
                             uControll.statusChange(txtLog.Text,1);
                             window.pageChange(2, txtLog.Text);
                         }

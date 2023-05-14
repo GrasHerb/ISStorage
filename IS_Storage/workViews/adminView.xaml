@@ -19,15 +19,9 @@
                 <Label Content="Список пользователей"/>
                     <StackPanel Grid.Row="1">
                     <ScrollViewer Height="300" >
-                        <DataGrid x:Name="uListGrid" IsReadOnly="True" AutoGenerateColumns="False">
-                            <DataGrid.Columns >
-                                <DataGridTemplateColumn>
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Image Source="{Binding oStatus}"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
+                        <DataGrid x:Name="uListGrid" IsReadOnly="True" AutoGenerateColumns="False" Background="White">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn FontSize="20" Foreground="Green" Header="" x:Name="oStatus" Binding="{Binding oStatus}"/>
                                 <DataGridTextColumn Header="Номер" x:Name="uNumber" Binding="{Binding uNumber}"/>
                                 <DataGridTextColumn Header="ФИО" x:Name="uFullName" Binding="{Binding uFullName}"/>
                                 <DataGridTextColumn Header="Роль" x:Name="uRole" Binding="{Binding uRole}"/>
@@ -42,13 +36,16 @@
                                 <Label Margin="0" Content="Только пользователи в сети"/>
                             </Viewbox>
                         </ContentControl>
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="2" ScaleY="2"/>
+                        </CheckBox.LayoutTransform>
                     </CheckBox>
                         
                 </StackPanel>                
             </Grid>
         </TabItem>
         <TabItem Header="Удалённые">
-            <Grid MinWidth="800" MinHeight="450">
+            <Grid MinWidth="800" MinHeight="450" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.5*"/>
                     <RowDefinition Height="4*"/>
@@ -57,7 +54,7 @@
 
                 <StackPanel Grid.Row="1">
                     <ScrollViewer Height="300" >
-                        <DataGrid x:Name="uDelListGrid" IsReadOnly="True" AutoGenerateColumns="False">
+                        <DataGrid x:Name="uDelListGrid" IsReadOnly="True" AutoGenerateColumns="False" Background="White">
                             <DataGrid.Columns >
                                 <DataGridTextColumn Header="ФИО" x:Name="uDelFullName" Binding="{Binding empID}"/>
                                 <DataGridTextColumn Header="Кем удалён" x:Name="uDelTime" Binding="{Binding empID}"/>

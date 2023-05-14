@@ -23,10 +23,10 @@ namespace IS_Storage.workViews
     public partial class adminView : Page
     {
         ObservableCollection<userInList> userCollection = new ObservableCollection<userInList>();
+        stockEntities localCont = stockEntities.GetStockEntity();
         public adminView(Employee curEmployee)
         {
             InitializeComponent();
-            uListGrid.ItemsSource = userCollection;
             gridUpdate();
         }
 
@@ -38,9 +38,10 @@ namespace IS_Storage.workViews
         {            
             if (visibleOnline.IsChecked == true)
             {
-                userCollection = userInList.listConvert(stockEntities.GetStockEntity().Employee.Where(p=>p.OStatus).ToList());
+                userCollection = userInList.listConvert(localCont.Employee.Where(p=>p.OStatus).ToList());
             }
-            else userCollection = userInList.listConvert(stockEntities.GetStockEntity().Employee.ToList());
+            else userCollection = userInList.listConvert(localCont.Employee.ToList());
+            uListGrid.ItemsSource = userCollection;
         }
     }
 }

@@ -23,6 +23,7 @@ namespace IS_Storage.workViews
     public partial class workWindow : Window
     {
         Employee currentUser = new Employee();
+        stockEntities localCont = stockEntities.GetStockEntity();
         public workWindow(Employee employee)
         {
             InitializeComponent();

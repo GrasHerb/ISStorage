@@ -11,6 +11,7 @@ namespace IS_Storage.classes
 {
     public static class uControll
     {
+        
         public static bool[] passwordReq(string passw)
         {
             bool[] checks = { true, true, true };
@@ -50,7 +51,9 @@ namespace IS_Storage.classes
         {
             try
             {
-                Employee a = stockEntities.GetStockEntity().Employee.Where(p => p.Emp_Login == login).FirstOrDefault();
+                stockEntities localCont = stockEntities.GetStockEntity();
+                Employee a = localCont.Employee.Where(p => p.Emp_Login == login).FirstOrDefault();
+                
                 switch (i)
                 {
                     case 1: a.OStatus = true; a.sysInfo = DateTime.Now.ToString("G") + "*" + Environment.MachineName; break;
@@ -59,36 +62,37 @@ namespace IS_Storage.classes
                         break;
                     default: break;
                 }
-                stockEntities.GetStockEntity().SaveChanges();
+                localCont.SaveChanges();
             }
             catch { MessageBox.Show("Ошибка изменения статуса!"); }
         }
-        public static int newEmployee(string newLogin, string newPass, string newFullName)
-        {
-            try
-            {
-                if (stockEntities.GetStockEntity().Employee.Where(p => p.Emp_Login == newLogin).Count() > 0) return 1;
-                Employee employee = new Employee()
-                {
+        //public static int newEmployee(string newLogin, string newPass, string newFullName)
+        //{
+        //    try
+        //    {
+        //        if (stockEntities.GetStockEntity().Employee.Where(p => p.Emp_Login == newLogin).Count() > 0) return 1;
+        //        Employee employee = new Employee()
+        //        {
 
-                };
-                return 0;
+        //        };
+        //        return 0;
 
-            }
-            catch
-            {
-                return -1;
-            }
-        }
+        //    }
+        //    catch
+        //    {
+        //        return -1;
+        //    }
+        //}
         public static int deleteEmp(string delLogin, string admLogin)
         {
             try
             {
-                Employee delemp = stockEntities.GetStockEntity().Employee.Where(p => p.Emp_Login == delLogin).FirstOrDefault();
-                Employee admepm = stockEntities.GetStockEntity().Employee.Where(p => p.Emp_Login == admLogin).FirstOrDefault();
+                stockEntities localCont = stockEntities.GetStockEntity();
+                Employee delemp = localCont.Employee.Where(p => p.Emp_Login == delLogin).FirstOrDefault();
+                Employee admepm = localCont.Employee.Where(p => p.Emp_Login == admLogin).FirstOrDefault();
                 if (delemp.OStatus) return 1;
                 delemp.Emp_Login = "___" + delLogin;
-                stockEntities.GetStockEntity().userRequest.Add(new userRequest() 
+                localCont.userRequest.Add(new userRequest() 
                 { 
                     computerName = Environment.MachineName,
                     FullName = admepm.Full_Name + " удалил " + delemp.Full_Name,
@@ -97,7 +101,7 @@ namespace IS_Storage.classes
                     requestState = 1,
                     requestTime = DateTime.Now.ToString("G")
                 });
-                stockEntities.GetStockEntity().SaveChanges();
+                localCont.SaveChanges();
                 return 0;
             }
             catch { return -1; }

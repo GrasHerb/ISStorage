@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="02f84327230e43cb8371aeb3cce4eb7c" Name="Diagram1">
+      <Diagram DiagramId="02f84327230e43cb8371aeb3cce4eb7c" Name="Diagram1" ZoomLevel="84">
         <EntityTypeShape EntityType="stockModel.Client" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="stockModel.Condition" Width="1.5" PointX="7.5" PointY="5.75" IsExpanded="true" />
         <EntityTypeShape EntityType="stockModel.Employee" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
@@ -32,10 +32,17 @@
         <AssociationConnector Association="stockModel.FK_userRequest_reqType" ManuallyRouted="false" />
         <AssociationConnector Association="stockModel.FK_Transaction_TransType" ManuallyRouted="false" />
         <AssociationConnector Association="stockModel.FK_userRequest_Employee" ManuallyRouted="true" >
-          <ConnectorPoint PointX="4.5" PointY="3.4082693567708326" />
-          <ConnectorPoint PointX="4.791666666666667" PointY="3.4082693567708322" />
-          <ConnectorPoint PointX="4.958333333333333" PointY="3.4082693567708326" />
-          <ConnectorPoint PointX="5" PointY="3.4082693567708326" />
+          <ConnectorPoint PointX="4.5" PointY="4.3840950520833326" />
+          <ConnectorPoint PointX="4.5" PointY="14.501658620792874" />
+          <ConnectorPoint PointX="4.6041665263473988" PointY="14.501658620792874" />
+          <ConnectorPoint PointX="4.6041665263473988" PointY="17.751658592853197" />
+          <ConnectorPoint PointX="4.2499997094273567" PointY="17.751658592853197" />
+          <ConnectorPoint PointX="4.2499997094273567" PointY="21.207387948888787" />
+          <ConnectorPoint PointX="5.3854160634800792" PointY="21.207387948888787" />
+          <ConnectorPoint PointX="5.8854160634800792" PointY="19.275228531948017" />
+          <ConnectorPoint PointX="5.9583329074084759" PointY="19.275228531948017" />
+          <ConnectorPoint PointX="5.9583329074084759" PointY="14.538249234585749" />
+          <ConnectorPoint PointX="5" PointY="14.538249234585749" />
           <ConnectorPoint PointX="5" PointY="4.576396484375" />
           <ConnectorPoint PointX="7.041666666666667" PointY="4.5763964843749987" />
           <ConnectorPoint PointX="7.270833333333333" PointY="4.576396484375" />
