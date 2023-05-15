@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IS_Storage.Log_In"
         mc:Ignorable="d"
-        Title="Смена пароля" Height="262" Width="335" WindowStartupLocation="CenterScreen">
-    <Viewbox VerticalAlignment="Top" Height="335">
+        Title="Смена пароля" Height="260" Width="335" WindowStartupLocation="CenterScreen">
+    <Viewbox VerticalAlignment="Top" Height="245">
         <StackPanel x:Name="newpassttx">
             <Grid>
                 <Grid.ColumnDefinitions>
