@@ -1,4 +1,5 @@
 ﻿using IS_Storage.classes;
+using IS_Storage.Log_In;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -54,7 +55,17 @@ namespace IS_Storage.workViews
         private void crUserBtn_Click(object sender, RoutedEventArgs e)
         {
             registrRequestWindow registrWindow = new registrRequestWindow(cEmp);
-            if (registrRequestWindow.ShowDialog() == false) MessageBox.Show("Заявка отменена.");
+            if (registrWindow.ShowDialog() == false) MessageBox.Show("Заявка отменена.");
+        }
+
+        private void dlUserBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void chUserBtn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

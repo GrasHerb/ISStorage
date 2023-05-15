@@ -28,6 +28,9 @@ namespace IS_Storage.Log_In
             InitializeComponent();
             newEmp = employee;
             qrun.AddRange(new List<Run> { req1, req2, req3 });
+            req1.Text = "Пароль не меньше 6 символов.";
+            req2.Text = "\nПароль должен содержать прописные и заглавные буквы.";
+            req3.Text = "\nПароль должен содержать символы и цифры.";
         }
 
         private void confirmButton_Click(object sender, RoutedEventArgs e)
@@ -81,10 +84,15 @@ namespace IS_Storage.Log_In
                 newPassTxtRep.Password = newPassTxtRepVis.Text;
             }
         }
-
-        private void newPassTxt_PasswordChanged(object sender, RoutedEventArgs e)
+        private void passwordReq(bool type)
         {
-            bool[] passreqs = uControll.passwordReq(newPassTxt.Password);
+            bool[] passreqs = new bool[3];
+            if (type) passreqs = uControll.passwordReq(newPassTxt.Password);
+            else passreqs = uControll.passwordReq(newPassTxt.Password);
+            req1.Text = "Пароль не меньше 6 символов.";
+            req2.Text = "\nПароль должен содержать прописные и заглавные буквы.";
+            req3.Text = "\nПароль должен содержать символы и цифры.";
+            reqBlock.Visibility = Visibility.Visible;
             for (int i = 0; i < passreqs.Length; i++)
             {
                 if (passreqs[i]) qrun[i].Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#75FF5A"));
@@ -95,17 +103,14 @@ namespace IS_Storage.Log_In
             reqBlock.Visibility = Visibility.Collapsed;
         }
 
+        private void newPassTxt_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            passwordReq(true);
+        }
+
         private void newPassTxtVis_TextChanged(object sender, TextChangedEventArgs e)
         {
-            bool[] passreqs = uControll.passwordReq(newPassTxt.Password);
-            for (int i = 0; i < passreqs.Length; i++)
-            {
-                if (passreqs[i]) qrun[i].Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#75FF5A"));
-                else qrun[i].Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF5A5A"));
-            }
-            foreach (Run run in qrun) if (run.Foreground != new SolidColorBrush((Color)ColorConverter.ConvertFromString("#75FF5A"))) return;
-            requestp = true;
-            reqBlock.Visibility = Visibility.Collapsed;
+            passwordReq(false);
         }
     }
 }

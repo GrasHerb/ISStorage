@@ -80,7 +80,7 @@
     <Compile Include="Log In\passChange.xaml.cs">
       <DependentUpon>passChange.xaml</DependentUpon>
     </Compile>
-    <Compile Include="workViews\registrRequestWindow.xaml.cs">
+    <Compile Include="Log In\registrRequestWindow.xaml.cs">
       <DependentUpon>registrRequestWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model1.Context.cs">
@@ -170,7 +170,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="workViews\registrRequestWindow.xaml">
+    <Page Include="Log In\registrRequestWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

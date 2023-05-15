@@ -49,9 +49,9 @@
                 <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom">
                     
 
-                    <Button x:Name="chUserBtn" Style="{StaticResource Button3}" Margin="5" Content="Изменить данные пользователя"/>
+                    <Button x:Name="chUserBtn" Style="{StaticResource Button3}" Margin="5" Content="Изменить данные пользователя" Click="chUserBtn_Click"/>
                     <Button x:Name="crUserBtn" Style="{StaticResource Button1}" Margin="5" Content="Создать пользователя" Click="crUserBtn_Click"/>
-                    <Button x:Name="dlUserBtn" Style="{StaticResource Button2}" Margin="5" Content="Удалить пользователя"/>
+                    <Button x:Name="dlUserBtn" Style="{StaticResource Button2}" Margin="5" Content="Удалить пользователя" Click="dlUserBtn_Click"/>
                 </StackPanel>
                 
             </Grid>

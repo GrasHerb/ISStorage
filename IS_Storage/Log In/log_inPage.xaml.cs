@@ -97,10 +97,5 @@ namespace IS_Storage
                 txtPass.Password = txtPassVisible.Text;
             }
         }
-
-        private void btnRegist_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
     }
 }

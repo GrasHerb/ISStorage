@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IS_Storage.Log_In"
         mc:Ignorable="d"
-        Title="Смена пароля" Height="350" Width="500" WindowStartupLocation="CenterScreen">
-    <Viewbox VerticalAlignment="Top">
+        Title="Смена пароля" Height="262" Width="335" WindowStartupLocation="CenterScreen">
+    <Viewbox VerticalAlignment="Top" Height="335">
         <StackPanel x:Name="newpassttx">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -14,21 +14,22 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Label Margin="0" Content="Новый пароль" VerticalAlignment="Center"/>
-                <Label Margin="0" Content="Повторите пароль" VerticalAlignment="Center" Grid.Row="1"/>
+                <Label Margin="0" Content="Повторите пароль" VerticalAlignment="Center" Grid.Row="2"/>
                 <WrapPanel Grid.Column="1">
                     <PasswordBox x:Name="newPassTxt" PasswordChanged="newPassTxt_PasswordChanged" Width="160"></PasswordBox>
                     <TextBox x:Name="newPassTxtVis"  TextChanged="newPassTxtVis_TextChanged" Visibility="Collapsed" Width="160"></TextBox>
                 </WrapPanel>
-                <TextBlock x:Name="reqBlock" Visibility="Collapsed">            
-                    <Run x:Name="req1" Text="Пароль не меньше 6 символов."/>            
-                    <Run x:Name="req2" Text="Пароль должен содержать прописные и заглавные буквы."/>
-                    <Run x:Name="req3" Text="Пароль должен содержать символы и цифры."/>
+                <TextBlock x:Name="reqBlock" Visibility="Visible" Grid.Row="1" Grid.ColumnSpan="2" Margin="5">            
+                    <Run x:Name="req1" />            
+                    <Run x:Name="req2" />
+                    <Run x:Name="req3" />
                 </TextBlock>
-                <WrapPanel Grid.Column="1" Grid.Row="1">
+                <WrapPanel Grid.Column="1" Grid.Row="2">
                     <PasswordBox x:Name="newPassTxtRep" Width="160"></PasswordBox>
                     <TextBox x:Name="newPassTxtRepVis"  Visibility="Collapsed" Width="160"></TextBox>
                 </WrapPanel>

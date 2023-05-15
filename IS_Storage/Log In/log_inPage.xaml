@@ -26,7 +26,6 @@
             </CheckBox>
             <Label Content="Забыли пароль?" x:Name="lblForgetPass" MouseLeftButtonDown="lblForgetPass_MouseLeftButtonDown" Foreground="#FF2D79CE" FontSize="10"/>
             <Button Content="Вход" Margin="0,10" x:Name="btnEnter" Click="btnEnter_Click" Style="{StaticResource Button1}"/>
-            <Button Content="Регистрация" Margin="10" x:Name="btnRegist" Click="btnRegist_Click" Style="{StaticResource Button3}"/>
         </StackPanel>
     </Viewbox>
 </Page>
