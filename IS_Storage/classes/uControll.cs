@@ -36,12 +36,13 @@ namespace IS_Storage.classes
         {
             try
             {
-                var passwCheck = stockEntities.GetStockEntity().Employee.Where(p => p.Emp_Login == login).FirstOrDefault();
-                if (stockEntities.GetStockEntity().userRequest.Where(p => p.userID == passwCheck.IDEmp && p.requestState == 0 && p.requestTypeID == 1).FirstOrDefault() != null) return 2;
-                if (passwCheck.Emp_Pass == "-") return 1;
-                if (passwCheck.Emp_Login.Contains("___")) return 3;
+                var passCheck = stockEntities.GetStockEntity().Employee.Where(p => p.Emp_Login == login).FirstOrDefault();
+                if (stockEntities.GetStockEntity().userRequest.Where(p => p.userID == passCheck.IDEmp && p.requestState == 0 && p.requestTypeID == 1).FirstOrDefault() != null) return 2;
+                if (passCheck.Emp_Pass == "-") return 1;
+                if (passCheck.Emp_Login.Contains("___")) return 3;
+                if (passCheck.OStatus) return 4;
                 passw = Sha256password(passw);/*входящий пароль кодируется*/
-                if (passw == passwCheck.Emp_Pass /*пароль в базе*/ )
+                if (passw == passCheck.Emp_Pass /*пароль в базе*/ )
                     return 0;
                 else return -1;
             }
@@ -66,45 +67,25 @@ namespace IS_Storage.classes
             }
             catch { MessageBox.Show("Ошибка изменения статуса!"); }
         }
-        //public static int newEmployee(string newLogin, string newPass, string newFullName)
-        //{
-        //    try
-        //    {
-        //        if (stockEntities.GetStockEntity().Employee.Where(p => p.Emp_Login == newLogin).Count() > 0) return 1;
-        //        Employee employee = new Employee()
-        //        {
-
-        //        };
-        //        return 0;
-
-        //    }
-        //    catch
-        //    {
-        //        return -1;
-        //    }
-        //}
-        public static int deleteEmp(string delLogin, string admLogin)
+        public static userRequest deleteEmp(Employee delLogin, Employee admLogin)
         {
             try
             {
-                stockEntities localCont = stockEntities.GetStockEntity();
-                Employee delemp = localCont.Employee.Where(p => p.Emp_Login == delLogin).FirstOrDefault();
-                Employee admepm = localCont.Employee.Where(p => p.Emp_Login == admLogin).FirstOrDefault();
-                if (delemp.OStatus) return 1;
-                delemp.Emp_Login = "___" + delLogin;
-                localCont.userRequest.Add(new userRequest() 
-                { 
+                if (delLogin.OStatus) return new userRequest() { ID_Request = -1 };
+                delLogin.Emp_Login = "___" + delLogin.Emp_Login;
+
+                return new userRequest()
+                {
                     computerName = Environment.MachineName,
-                    FullName = admepm.Full_Name + " удалил " + delemp.Full_Name,
+                    FullName = admLogin.Full_Name + " (" + admLogin.Emp_Login + ")" + " удалил " + delLogin.Emp_Login + " (" + delLogin.Full_Name + ")",
                     requestTypeID = 4,
-                    userID = admepm.IDEmp,
+                    userID = admLogin.IDEmp,
                     requestState = 1,
-                    requestTime = DateTime.Now.ToString("G")
-                });
-                localCont.SaveChanges();
-                return 0;
+                    requestTime = DateTime.Now.ToString("G"),
+                    
+                };
             }
-            catch { return -1; }
+            catch { return new userRequest() { ID_Request = -2 }; }
         }
     }
 }

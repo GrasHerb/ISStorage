@@ -9,7 +9,7 @@
       Title="log_inPage" Width="440" >
 
     <Viewbox VerticalAlignment="Center" HorizontalAlignment="Center">
-        <StackPanel Margin="50,20" Width="180">
+        <StackPanel Width="180">
             <Label Margin="0" Content="Логин"/>
             <TextBox Width="auto" x:Name="txtLog"/>
             <Label Margin="0" Content="Пароль"/>

@@ -68,9 +68,8 @@
                     <ScrollViewer Height="300" >
                         <DataGrid x:Name="uDelListGrid" IsReadOnly="True" AutoGenerateColumns="False" Background="White">
                             <DataGrid.Columns >
-                                <DataGridTextColumn Header="ФИО" x:Name="uDelFullName" Binding="{Binding empID}"/>
-                                <DataGridTextColumn Header="Кем удалён" x:Name="uDelTime" Binding="{Binding empID}"/>
-                                <DataGridTextColumn Header="Дата" x:Name="uDelComputer" Binding="{Binding empID}"/>
+                                <DataGridTextColumn Header="ФИО" x:Name="uDelFullName" Binding="{Binding uFullName}"/>
+                                <DataGridTextColumn Header="Номер запроса" x:Name="uDelTime" Binding="{Binding reqId}"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </ScrollViewer>

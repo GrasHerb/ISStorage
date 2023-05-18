@@ -47,5 +47,30 @@ namespace IS_Storage.classes
 
             return converted;
         }
-    }   
+    }
+    public class deluserInList
+    {
+        public int uNumber { get; set; }
+        public string uFullName { get; set; }
+        public int reqId { get; set; }
+        public static ObservableCollection<deluserInList> listConvert(List<Employee> employees)
+        {
+            stockEntities localCont = stockEntities.GetStockEntity();
+            ObservableCollection<deluserInList> converted = new ObservableCollection<deluserInList>();
+            List<userRequest> delRequests = localCont.userRequest.Where(p => p.requestTypeID == 4).ToList();
+            foreach (Employee a in employees)
+            {
+                if (a.Emp_Login.Contains("___"))
+                    converted.Add
+                        (new deluserInList()
+                        {
+                            uNumber = a.IDEmp,
+                            uFullName = a.Full_Name + " " + a.Emp_Login.Remove(0, 3),
+                            reqId = delRequests.Where(p => p.FullName.Split(' ')[5] == a.Emp_Login.Remove(0,3)).FirstOrDefault().ID_Request
+                        }) ;
+            }
+
+            return converted;
+        }
+    }
 }

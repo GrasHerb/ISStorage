@@ -28,7 +28,7 @@
           <Property Name="IDEmp" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Full_Name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="EEmail" Type="nvarchar(max)" />
-          <Property Name="Emp_Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Emp_Login" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Emp_Pass" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="ID_Role" Type="int" Nullable="false" />
           <Property Name="OStatus" Type="bit" Nullable="false" />
@@ -385,7 +385,7 @@
           <Property Name="IDEmp" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Full_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="EEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Emp_Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Emp_Login" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Emp_Pass" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ID_Role" Type="Int32" Nullable="false" />
           <Property Name="OStatus" Type="Boolean" Nullable="false" />

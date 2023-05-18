@@ -2,6 +2,7 @@
 using IS_Storage.workViews;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace IS_Storage
 {
@@ -27,10 +29,10 @@ namespace IS_Storage
         {
             InitializeComponent();
             Style = (Style)FindResource(typeof(Window));
-            pageUpd();
-            
-            mainFrame.Content = pages[0];
+            pageUpd();            
+            mainFrame.Content = pages[0];            
         }
+        
         private void pageUpd()
         {
             if (pages.Count != 0) pages.Clear();
@@ -43,7 +45,6 @@ namespace IS_Storage
         }
         public void pageChange(int pageI = 0, string uLog = "")
         {
-            pageUpd();
             if (pageI > 1&&uLog != "") 
             {
                 try
@@ -51,16 +52,18 @@ namespace IS_Storage
                     Employee a = stockEntities.GetStockEntity().Employee.Where(p => p.Emp_Login == uLog).FirstOrDefault();
                     workWindow work = new workWindow(a);
                     this.Visibility = Visibility.Hidden;
-                    work.Show();
+                    work.Show();                   
                 }
                 catch { }
             }
             else mainFrame.Content = pages[pageI];
+        
         }
 
         private void exitBtn_Click(object sender, RoutedEventArgs e)
         {
             Environment.Exit(0);
         }
+        
     }
 }

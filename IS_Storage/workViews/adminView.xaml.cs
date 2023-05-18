@@ -3,6 +3,7 @@ using IS_Storage.Log_In;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace IS_Storage.workViews
 {
@@ -24,15 +26,16 @@ namespace IS_Storage.workViews
     public partial class adminView : Page
     {
         ObservableCollection<userInList> userCollection = new ObservableCollection<userInList>();
+        ObservableCollection<deluserInList> deluserCollection = new ObservableCollection<deluserInList>();
         stockEntities localCont = stockEntities.GetStockEntity();
         Employee cEmp = new Employee();
+        DispatcherTimer t = new DispatcherTimer();
         public adminView(Employee curEmployee)
         {
             InitializeComponent();
-            cEmp = curEmployee;
+            cEmp = curEmployee;            
             gridUpdate();
         }
-
         private void visibleOnline_Checked(object sender, RoutedEventArgs e)
         {
             gridUpdate();
@@ -41,9 +44,11 @@ namespace IS_Storage.workViews
         {            
             if (visibleOnline.IsChecked == true)
             {
-                userCollection = userInList.listConvert(localCont.Employee.Where(p=>p.OStatus).ToList());
+                userCollection = userInList.listConvert(localCont.Employee.Where(p=>p.OStatus&&!p.Emp_Login.Contains("___")).ToList());
             }
-            else userCollection = userInList.listConvert(localCont.Employee.ToList());
+            else userCollection = userInList.listConvert(localCont.Employee.Where(p => !p.Emp_Login.Contains("___")).ToList());
+            deluserCollection = deluserInList.listConvert(localCont.Employee.ToList());
+            uDelListGrid.ItemsSource = deluserCollection;
             uListGrid.ItemsSource = userCollection;
         }
 
@@ -60,12 +65,37 @@ namespace IS_Storage.workViews
 
         private void dlUserBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            if (uListGrid.SelectedItem == null || uListGrid.SelectedItems.Count>1) {MessageBox.Show("Выберите одного пользователя."); return; }
+            try
+            {
+                userInList userforDel = (userInList)uListGrid.SelectedItem;
+                userRequest code = uControll.deleteEmp(localCont.Employee.Where(p => p.IDEmp == userforDel.uNumber).FirstOrDefault(),cEmp);
+                if (code.ID_Request > -1) { MessageBox.Show("Пользователь был удалён."); localCont.userRequest.Add(code); localCont.SaveChanges(); }
+                switch (code.ID_Request)
+                {
+                    default: break;
+                    case -1: break;
+                    case -2: break;
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (DbEntityValidationResult validationError in ex.EntityValidationErrors)
+                {
+                    string a = "Object: " + validationError.Entry.Entity.ToString();
+                    foreach (DbValidationError err in validationError.ValidationErrors)
+                    {
+                        a+="\n "+(err.ErrorMessage + "");
+                    }
+                    MessageBox.Show(a);
+                        
+                }
+            }
         }
 
         private void chUserBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
     }
 }

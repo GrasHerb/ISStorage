@@ -27,19 +27,23 @@ namespace IS_Storage.workViews
         public workWindow(Employee employee)
         {
             InitializeComponent();
-            switch(employee.ID_Role)
-            {
-                case 1: adminView admin = new adminView(employee); mainFrame.Content = admin; break;
-                case 2: managerView manager = new managerView(employee); mainFrame.Content = manager; break;
-                case 3: empView emp = new empView(employee); mainFrame.Content = emp; break;
-            }
-            currentUser = employee;            
+            currentUser = employee;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            uControll.statusChange(currentUser.Emp_Login,2);            
+            uControll.statusChange(currentUser.Emp_Login,2);
             Environment.Exit(0);
+        }
+
+        private void Window_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            switch (currentUser.ID_Role)
+            {
+                case 1: adminView admin = new adminView(currentUser); mainFrame.Content = admin; break;
+                case 2: managerView manager = new managerView(currentUser); mainFrame.Content = manager; break;
+                case 3: empView emp = new empView(currentUser); mainFrame.Content = emp; break;
+            }            
         }
     }
 }

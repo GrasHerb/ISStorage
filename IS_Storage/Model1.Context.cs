@@ -15,7 +15,6 @@ namespace IS_Storage
     
     public partial class stockEntities : DbContext
     {
-        public static stockEntities _context; 
         public stockEntities()
             : base("name=stockEntities")
         {
@@ -25,9 +24,10 @@ namespace IS_Storage
         {
             throw new UnintentionalCodeFirstException();
         }
+        static stockEntities _context;
         public static stockEntities GetStockEntity()
         {
-            if( _context == null ) _context = new stockEntities();
+            if (_context == null) _context = new stockEntities();
             return _context;
         }
         public virtual DbSet<Client> Client { get; set; }
