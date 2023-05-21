@@ -2,6 +2,7 @@
 using IS_Storage.workViews;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -59,11 +60,16 @@ namespace IS_Storage
             else mainFrame.Content = pages[pageI];
         
         }
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var bg = new BackgroundWorker();
+            bg.DoWork += new DoWorkEventHandler(bg_DoWork);
+            bg.RunWorkerAsync();
+        }
 
-        private void exitBtn_Click(object sender, RoutedEventArgs e)
+        private void bg_DoWork(object sender, DoWorkEventArgs e)
         {
             Environment.Exit(0);
         }
-        
     }
 }

@@ -59,7 +59,7 @@ namespace IS_Storage.workViews
 
         private void crUserBtn_Click(object sender, RoutedEventArgs e)
         {
-            registrRequestWindow registrWindow = new registrRequestWindow(cEmp);
+            registrRequestWindow registrWindow = new registrRequestWindow(cEmp,1);
             if (registrWindow.ShowDialog() == false) MessageBox.Show("Заявка отменена.");
         }
 
@@ -74,8 +74,9 @@ namespace IS_Storage.workViews
                 switch (code.ID_Request)
                 {
                     default: break;
-                    case -1: break;
-                    case -2: break;
+                    case -1: MessageBox.Show("Пользователь онлайн и не может быть удалён."); break;
+                    case -2: MessageBox.Show("Невозможно удалить текущую учетную запись."); break;
+                    case -3: MessageBox.Show("Невозможно удалить единственную запись с правами администратора."); break;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -95,7 +96,11 @@ namespace IS_Storage.workViews
 
         private void chUserBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (uListGrid.SelectedItem == null || uListGrid.SelectedItems.Count > 1) { MessageBox.Show("Выберите одного пользователя."); return; }
+            userInList userforChange = (userInList)uListGrid.SelectedItem;
+            registrRequestWindow a = new registrRequestWindow(cEmp, 2) { empid = userforChange.uNumber};
             
+            a.ShowDialog();
         }
     }
 }

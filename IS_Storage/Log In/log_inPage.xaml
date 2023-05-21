@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:IS_Storage"
       mc:Ignorable="d" 
       d:DesignHeight="450"
-      Title="log_inPage" Width="440" >
+      Title="log_inPage" Width="440" KeyDown="Page_KeyDown">
 
     <Viewbox VerticalAlignment="Center" HorizontalAlignment="Center">
         <StackPanel Width="180">
@@ -15,7 +15,7 @@
             <Label Margin="0" Content="Пароль"/>
             <WrapPanel Width="auto">
             <PasswordBox x:Name="txtPass" Width="160" />
-                <TextBox  x:Name="txtPassVisible" Visibility="Collapsed" Width="160"/>            
+            <TextBox  x:Name="txtPassVisible" Visibility="Collapsed" Width="160"/>            
             </WrapPanel>
             <CheckBox x:Name="visibilityCheck" Checked="visibilityCheck_Checked" Unchecked="visibilityCheck_Checked" FontSize="10" Margin="5" Height="16">
                 <ContentControl Height="16" Margin="1">

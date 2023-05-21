@@ -46,7 +46,7 @@ namespace IS_Storage.classes
                     return 0;
                 else return -1;
             }
-            catch { MessageBox.Show("Ошибка проверки пароля!"); return -1; }
+            catch { MessageBox.Show("Пользователя с таким логином не существует!"); return -1; }
         }
         public static void statusChange(string login,int i)
         {
@@ -72,6 +72,8 @@ namespace IS_Storage.classes
             try
             {
                 if (delLogin.OStatus) return new userRequest() { ID_Request = -1 };
+                if (delLogin==admLogin) return new userRequest { ID_Request = -2 };
+                if (delLogin.ID_Role == 1 && stockEntities.GetStockEntity().Employee.Where(p=>p.ID_Role==1).Count()<2) return new userRequest{ ID_Request = -3 };
                 delLogin.Emp_Login = "___" + delLogin.Emp_Login;
 
                 return new userRequest()

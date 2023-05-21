@@ -15,13 +15,13 @@
             <ComboBoxItem Content="Администратор"/>
         </ComboBox>
         <Label  Content="Логин*"/>
-        <TextBox Margin="10,0" Width="auto" x:Name="regLog"/>
+        <TextBox Margin="10,0" Width="auto" x:Name="regLog" KeyDown="reg_KeyDown"/>
         <Label  Content="Фамилия*"/>
-        <TextBox Margin="10,0" Width="auto" x:Name="regSecName"/>
+        <TextBox Margin="10,0" Width="auto" x:Name="regSecName" KeyDown="reg_KeyDown"/>
         <Label  Content="Имя*"/>
-        <TextBox Margin="10,0" Width="auto" x:Name="regFstName"/>
+        <TextBox Margin="10,0" Width="auto" x:Name="regFstName" KeyDown="reg_KeyDown"/>
         <Label  Content="Отчество*"/>
-        <TextBox Margin="10,0" Width="auto" x:Name="regThrName"/>
+        <TextBox Margin="10,0" Width="auto" x:Name="regThrName" KeyDown="reg_KeyDown"/>
         <Button Style="{StaticResource Button1}" Content="Отправить запрос" Margin="10" Click="Button_Click"/>
     </StackPanel>
     </Viewbox>

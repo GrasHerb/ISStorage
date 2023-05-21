@@ -23,48 +23,126 @@ namespace IS_Storage.Log_In
     /// </summary>
     public partial class registrRequestWindow : Window
     {
+        public int empid { get; set; }
         stockEntities _context = stockEntities.GetStockEntity();
         Employee AdmL = new Employee();
-        public registrRequestWindow(Employee loginAdm)
+        int type = 0;
+        int roleID = 0;
+        Employee registrEmp = new Employee();
+        public registrRequestWindow(Employee loginAdm, int T)
         {
+            
             InitializeComponent();
             AdmL = loginAdm;
+            type = T;
+            if (empid != 0)
+            {
+                Employee tempEmp = _context.Employee.Where(p=>p.IDEmp==empid).First();
+                regLog.Text = tempEmp.Emp_Login;
+                regFstName.Text = tempEmp.Full_Name.Split(' ')[1];
+                regSecName.Text = tempEmp.Full_Name.Split(' ')[0];
+                regThrName.Text = tempEmp.Full_Name.Split(' ')[2];
+                switch (tempEmp.ID_Role)
+                {
+                    case 1: cmbRole.SelectedIndex = 2; break;
+                    case 2: cmbRole.SelectedIndex = 1; break;
+                    case 3: cmbRole.SelectedIndex = 0; break;
+                }
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            int roleID = 0;
-            var registrEmp = new Employee();
-            switch (cmbRole.SelectedIndex)
+            regLog.IsReadOnly = false;
+            switch (type)
             {
-                case 0: roleID = 3; break;
-                case 1: roleID = 2; break;
-                case 2: roleID = 1; break;
-            }
-            if (regLog.Text != "")
-                if (regSecName.Text != "")
-                    if (regFstName.Text != "")
-                        if (regThrName.Text != "")
-                        { registrEmp = new Employee()
+                default: Close(); break;
+                case 1:
+                    roleID = 0;
+                    switch (cmbRole.SelectedIndex)
+                    {
+                        case 0: roleID = 3; break;
+                        case 1: roleID = 2; break;
+                        case 2: roleID = 1; break;
+                    }
+                    try
+                    {
+                        if (stockEntities.GetStockEntity().Employee.Where(p => p.Emp_Login == regLog.Text).Count() > 0) { MessageBox.Show("Логин занят"); return; }
+                        if (regLog.Text.Contains("___")) { MessageBox.Show("Логин не может содержать '___'"); return; }
+                    }
+                    catch { }
+                    if (regLog.Text != "")
+                        if (regSecName.Text != "")
+                            if (regFstName.Text != "")
+                                if (regThrName.Text != "")
+                                {
+                                    registrEmp = new Employee()
+                                    {
+                                        Emp_Login = regLog.Text,
+                                        Emp_Pass = "-",
+                                        Full_Name = regSecName.Text + " " + regFstName.Text + " " + regThrName.Text,
+                                        ID_Role = roleID,
+                                        sysInfo = " "
+                                    };
+                                    _context.Employee.Add(registrEmp);
+                                    _context.SaveChanges();
+                                    _context.userRequest.Add(new userRequest() { requestTypeID = 2, FullName = AdmL.Full_Name + " создал учётную запись: " + registrEmp.Emp_Login, requestState = 0, requestTime = DateTime.Now.ToString("G"), computerName = Environment.MachineName + " " + Environment.UserName, userID = AdmL.IDEmp });
+                                    _context.SaveChanges();
+                                    MessageBox.Show("Пользователь создан!");
+                                }
+
+                                else MessageBox.Show("Введите Отчество");
+                            else MessageBox.Show("Введите Имя");
+                        else MessageBox.Show("Введите Фамилия");
+                    else MessageBox.Show("Введите Логин");
+                    break;
+                case 2:
+                    if (empid != 0)
+                    {
+                        regLog.IsReadOnly = true;
+                        Employee tempEmp = _context.Employee.Where(p=>p.IDEmp == empid).First();
+                        switch (cmbRole.SelectedIndex)
                         {
-                            Emp_Login = regLog.Text,
-                            Emp_Pass = "-",
-                            Full_Name = regSecName.Text + " " + regFstName.Text + " " + regThrName.Text,
-                            ID_Role = roleID,
-                            sysInfo = " "
-                        };
-                            _context.Employee.Add(registrEmp);
-                            _context.SaveChanges();
-                            _context.userRequest.Add(new userRequest() { requestTypeID = 2, FullName = AdmL.Full_Name + " создал учётную запись: " + registrEmp.Emp_Login, requestState = 0, requestTime = DateTime.Now.ToString("G"), computerName = Environment.MachineName + " " + Environment.UserName, userID = AdmL.IDEmp });
-                            _context.SaveChanges();
-                            MessageBox.Show("Пользователь создан!");
+                            case 0: roleID = 3; break;
+                            case 1: roleID = 2; break;
+                            case 2: roleID = 1; break;
                         }
-                                        
-                            else MessageBox.Show("Введите Отчество");
-                        else MessageBox.Show("Введите Имя");
-                    else MessageBox.Show("Введите Фамилия");
-            else MessageBox.Show("Введите Логин");
+                        try
+                        {
+                            if (stockEntities.GetStockEntity().Employee.Where(p => p.Emp_Login == regLog.Text).Count() > 0) { MessageBox.Show("Логин занят"); return; }
+                            if (regLog.Text.Contains("___")) { MessageBox.Show("Логин не может содержать '___'"); return; }
+                        }
+                        catch { }
+                        if (regLog.Text != "")
+                            if (regSecName.Text != "")
+                                if (regFstName.Text != "")
+                                    if (regThrName.Text != "")
+                                    {
+                                        tempEmp.ID_Role = roleID;
+                                        tempEmp.Full_Name = regSecName.Text + " " + regFstName.Text + " " + regThrName.Text;
+                                        _context.SaveChanges();
+                                        _context.userRequest.Add(new userRequest() { requestTypeID = 4, FullName = AdmL.Full_Name+" ("+AdmL.Emp_Login+")"+" изменил учётную запись: " + tempEmp.Full_Name +" ("+tempEmp.Emp_Login+")", requestState = 0, requestTime = DateTime.Now.ToString("G"), computerName = Environment.MachineName + " " + Environment.UserName, userID = AdmL.IDEmp });
+                                        _context.SaveChanges();
+                                        MessageBox.Show("Пользователь создан!");
+                                    }
+
+                                    else MessageBox.Show("Введите Отчество");
+                                else MessageBox.Show("Введите Имя");
+                            else MessageBox.Show("Введите Фамилия");
+                        else MessageBox.Show("Введите Логин");
+                    }
+                    else Close();
+                break;
+            }
             
+        }
+
+        private void reg_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true;
+            }
         }
     }
 }
