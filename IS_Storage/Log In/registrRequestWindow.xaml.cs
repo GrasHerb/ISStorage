@@ -30,25 +30,10 @@ namespace IS_Storage.Log_In
         int roleID = 0;
         Employee registrEmp = new Employee();
         public registrRequestWindow(Employee loginAdm, int T)
-        {
-            
+        {            
             InitializeComponent();
             AdmL = loginAdm;
-            type = T;
-            if (empid != 0)
-            {
-                Employee tempEmp = _context.Employee.Where(p=>p.IDEmp==empid).First();
-                regLog.Text = tempEmp.Emp_Login;
-                regFstName.Text = tempEmp.Full_Name.Split(' ')[1];
-                regSecName.Text = tempEmp.Full_Name.Split(' ')[0];
-                regThrName.Text = tempEmp.Full_Name.Split(' ')[2];
-                switch (tempEmp.ID_Role)
-                {
-                    case 1: cmbRole.SelectedIndex = 2; break;
-                    case 2: cmbRole.SelectedIndex = 1; break;
-                    case 3: cmbRole.SelectedIndex = 0; break;
-                }
-            }
+            type = T;            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -58,6 +43,7 @@ namespace IS_Storage.Log_In
             {
                 default: Close(); break;
                 case 1:
+                    regLog.IsReadOnly = false;
                     roleID = 0;
                     switch (cmbRole.SelectedIndex)
                     {
@@ -81,12 +67,13 @@ namespace IS_Storage.Log_In
                                         Emp_Login = regLog.Text,
                                         Emp_Pass = "-",
                                         Full_Name = regSecName.Text + " " + regFstName.Text + " " + regThrName.Text,
+                                        EEmail = "-",
                                         ID_Role = roleID,
                                         sysInfo = " "
                                     };
                                     _context.Employee.Add(registrEmp);
                                     _context.SaveChanges();
-                                    _context.userRequest.Add(new userRequest() { requestTypeID = 2, FullName = AdmL.Full_Name + " создал учётную запись: " + registrEmp.Emp_Login, requestState = 0, requestTime = DateTime.Now.ToString("G"), computerName = Environment.MachineName + " " + Environment.UserName, userID = AdmL.IDEmp });
+                                    _context.userRequest.Add(new userRequest() { requestTypeID = 2, FullName = AdmL.Full_Name + " создал учётную запись: " + registrEmp.Emp_Login, requestState = 1, requestTime = DateTime.Now.ToString("G"), computerName = Environment.MachineName + " " + Environment.UserName, userID = AdmL.IDEmp });
                                     _context.SaveChanges();
                                     MessageBox.Show("Пользователь создан!");
                                 }
@@ -118,10 +105,21 @@ namespace IS_Storage.Log_In
                                 if (regFstName.Text != "")
                                     if (regThrName.Text != "")
                                     {
-                                        tempEmp.ID_Role = roleID;
-                                        tempEmp.Full_Name = regSecName.Text + " " + regFstName.Text + " " + regThrName.Text;
+                                        string reqText = "Изменения";                                        
+                                        tempEmp.Emp_Login = regLog.Text;
+                                        if (regSecName.Text + " " + regFstName.Text + " " + regThrName.Text != tempEmp.Full_Name)
+                                        {
+                                            reqText += "\nФИО: " + tempEmp.Full_Name + "=>" + regSecName.Text + " " + regFstName.Text + " " + regThrName.Text;
+                                            tempEmp.Full_Name = regSecName.Text + " " + regFstName.Text + " " + regThrName.Text;
+                                        }
+                                        if (roleID != tempEmp.ID_Role)
+                                        {
+                                            reqText += "\nРоль: " + stockEntities.GetStockEntity().UserRole.Where(p=>p.IDRole == tempEmp.ID_Role).FirstOrDefault().Title + "=>" + stockEntities.GetStockEntity().UserRole.Where(p => p.IDRole == roleID).FirstOrDefault().Title;
+                                            tempEmp.ID_Role = roleID;
+                                        }
+                                        if (MessageBox.Show("Применить изменения?\n" + reqText, "Подтверждение", MessageBoxButton.YesNo) != MessageBoxResult.Yes) { return; }
                                         _context.SaveChanges();
-                                        _context.userRequest.Add(new userRequest() { requestTypeID = 4, FullName = AdmL.Full_Name+" ("+AdmL.Emp_Login+")"+" изменил учётную запись: " + tempEmp.Full_Name +" ("+tempEmp.Emp_Login+")", requestState = 0, requestTime = DateTime.Now.ToString("G"), computerName = Environment.MachineName + " " + Environment.UserName, userID = AdmL.IDEmp });
+                                        _context.userRequest.Add(new userRequest() { requestTypeID = 4, FullName = AdmL.Full_Name+" ("+AdmL.Emp_Login+")"+" изменил учётную запись: " + tempEmp.Full_Name +" ("+tempEmp.Emp_Login+")\n"+reqText, requestState = 0, requestTime = DateTime.Now.ToString("G"), computerName = Environment.MachineName + " " + Environment.UserName, userID = AdmL.IDEmp });
                                         _context.SaveChanges();
                                         MessageBox.Show("Пользователь создан!");
                                     }
@@ -143,6 +141,30 @@ namespace IS_Storage.Log_In
             {
                 e.Handled = true;
             }
+        }
+
+        private void Window_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            try
+            {
+                if (empid != 0)
+                {
+                    Employee tempEmp = _context.Employee.Where(p => p.IDEmp == empid).First();
+                    regLog.Text = tempEmp.Emp_Login;
+                    regFstName.Text = tempEmp.Full_Name.Split(' ')[1];
+                    regSecName.Text = tempEmp.Full_Name.Split(' ')[0];
+                    regThrName.Text = tempEmp.Full_Name.Split(' ')[2];
+                    regLog.IsReadOnly = true;
+                    switch (tempEmp.ID_Role)
+                    {
+                        case 1: cmbRole.SelectedIndex = 2; break;
+                        case 2: cmbRole.SelectedIndex = 1; break;
+                        case 3: cmbRole.SelectedIndex = 0; break;
+                    }
+                }
+            }
+            catch { MessageBox.Show("Ошибка загрузки записи."); }
+            
         }
     }
 }

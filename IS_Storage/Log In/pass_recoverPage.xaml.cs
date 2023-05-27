@@ -69,7 +69,7 @@ namespace IS_Storage.Log_In
                                     timer.Tick += new EventHandler(timer_Tick);
                                     timer.Interval = new TimeSpan(0, 0, 5);
                                     reqTime = DateTime.Now.ToString("G");
-                                    _context.userRequest.Add(new userRequest() { requestTypeID = 2, FullName = newEmp.Full_Name+": запрос на восстановление пароля", requestState = 0, requestTime = reqTime, computerName = Environment.MachineName + " " + Environment.UserName, userID = newEmp.IDEmp });
+                                    _context.userRequest.Add(new userRequest() { requestTypeID = 1, FullName = newEmp.Full_Name+": запрос на восстановление пароля", requestState = 0, requestTime = reqTime, computerName = Environment.MachineName + " " + Environment.UserName, userID = newEmp.IDEmp });
                                     int a = await _context.SaveChangesAsync();
                                     _context = stockEntities.GetStockEntity();
                                     timer.Start();
@@ -136,6 +136,12 @@ namespace IS_Storage.Log_In
                     timer.Stop();
                     recover = 3;
                     recoverProcess(1);
+                }
+                if (_context.userRequest.Where(p => p.userID == newEmp.IDEmp && p.requestTime == reqTime).FirstOrDefault().requestState == 2)
+                {
+                    MessageBox.Show("Запрос был отменён администратором.");
+                    timer.Stop();
+                    cleaning();
                 }
             }
             catch

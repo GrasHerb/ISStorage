@@ -25,11 +25,12 @@ namespace IS_Storage
     /// </summary>
     public partial class log_inPage : Page
     {
-        stockEntities localCont = stockEntities.GetStockEntity();
+        
         MainWindow window = (MainWindow)Application.Current.MainWindow;
         BackgroundWorker bg = new BackgroundWorker() { WorkerSupportsCancellation = true };
         statusWindow sWin = new statusWindow("", "");
         int result = -1;
+        bool working = true;
         public log_inPage()
         {
             InitializeComponent();
@@ -45,24 +46,33 @@ namespace IS_Storage
             mainWork();
             bg.Dispose();
             bg = new BackgroundWorker();
+            working = false;
         }
         
         void messageClose(object sender, RunWorkerCompletedEventArgs e)
-        {            
+        {
+            bg.Dispose();
+            bg = new BackgroundWorker();
             sWin.Close();
             if ((txtPass.Password != "" || txtPassVisible.Text != "") && txtLog.Text != "")
             {
                 result = uControll.passwCheck(txtPass.Password, txtLog.Text);
-                switch (result)
+                if (working)
                 {
-                    case 0: break;
-                    case 1: MessageBox.Show("Вход отменён."); result = -1; break;
-                    case 2: MessageBox.Show("Ваша учётная запись ещё не была подтверждена администратором."); result = -1; break;
-                    case 3: MessageBox.Show("Ваша учётная запись была удалена администратором."); result = -1; break;
-                    case 4: MessageBox.Show("Даннная учётная запись используется другим пользователем."); result = -1; break;
-                    case 5: MessageBox.Show("Учётная запись не найдена."); result = -1; break;
-                    default:break;
+                    working = false;
+                    switch (result)
+                    {
+                        case 0: break;
+                        case 1: MessageBox.Show("Вход отменён."); result = -1; break;
+                        case 2: MessageBox.Show("Ваша учётная запись ещё не была подтверждена администратором."); result = -1; break;
+                        case 3: MessageBox.Show("Ваша учётная запись была удалена администратором."); result = -1; break;
+                        case 4: MessageBox.Show("Даннная учётная запись используется другим пользователем."); result = -1; break;
+                        case 5: MessageBox.Show("Учётная запись не найдена."); result = -1; break;
+                        default: break;
+                    }
+                    
                 }
+                
             }
             else MessageBox.Show("Введите логин и пароль пользователя.");
             
@@ -70,6 +80,8 @@ namespace IS_Storage
         void startEntering()
         {
             sWin = new statusWindow("Загрузка", "Пожалуйста подождите...");
+
+            working = true;
             sWin.Show();
             bg.DoWork += new DoWorkEventHandler(bg_DoWork);
             bg.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bg_RunWorkerCompleted);
@@ -117,50 +129,51 @@ namespace IS_Storage
         }
         void mainWork()
         {
-            Employee employee = new Employee();
-            Dispatcher.Invoke(DispatcherPriority.Background, new
-                        Action(() =>
-                        {
-                            if (txtLog.Text != "" &&
-                        txtPass.Visibility == Visibility.Visible
-                        ?
-                        txtPass.Password != ""
-                        :
-                        txtPassVisible.Text != ""
-                        )
+                stockEntities localCont = stockEntities.GetStockEntity();                
+                Employee employee = new Employee();
+                Dispatcher.Invoke(DispatcherPriority.Background, new
+                            Action(() =>
                             {
-                                int result = uControll.passwCheck(txtPass.Password, txtLog.Text);
-                                switch (result)
+                                if (txtLog.Text != "" &&
+                            txtPass.Visibility == Visibility.Visible
+                            ?
+                            txtPass.Password != ""
+                            :
+                            txtPassVisible.Text != ""
+                            )
                                 {
-                                    case 0:
-                                        uControll.statusChange(txtLog.Text, 1);
-                                        window.pageChange(2, txtLog.Text);
-
-                                        
-                                        break;
-                                    case 1:
-                                        MessageBox.Show("Вы были зарегистрированы администратором.\n Для продолжения работы установите пароль.");
-                                        passChange passwindow = new passChange(localCont.Employee.Where(p => p.Emp_Login == txtLog.Text).FirstOrDefault());
-                                        if (passwindow.ShowDialog() == true)
-                                        {
-                                            employee = localCont.Employee.Where(p => p.Emp_Login == txtLog.Text).FirstOrDefault();
-                                            employee.Emp_Pass = passwindow.newEmp.Emp_Pass;
-                                            localCont.SaveChanges();
+                                    int result = uControll.passwCheck(txtPass.Password, txtLog.Text);
+                                    switch (result)
+                                    {
+                                        case 0:
                                             uControll.statusChange(txtLog.Text, 1);
                                             window.pageChange(2, txtLog.Text);
 
-                                        }
-                                        else
-                                        {                                            
-                                            result = 1;
-                                        }
-                                        break;
-                                    default:  return;
-                                }
 
-                            }
-                            else return;
-                        }));
+                                            break;
+                                        case 1:
+                                            MessageBox.Show("Вы были зарегистрированы администратором.\n Для продолжения работы установите пароль.");
+                                            passChange passwindow = new passChange(localCont.Employee.Where(p => p.Emp_Login == txtLog.Text).FirstOrDefault());
+                                            if (passwindow.ShowDialog() == true)
+                                            {
+                                                employee = localCont.Employee.Where(p => p.Emp_Login == txtLog.Text).FirstOrDefault();
+                                                employee.Emp_Pass = passwindow.newEmp.Emp_Pass;
+                                                localCont.SaveChanges();
+                                                uControll.statusChange(txtLog.Text, 1);
+                                                window.pageChange(2, txtLog.Text);
+                                            }
+                                            else
+                                            {
+
+                                            }
+                                            break;
+                                        default: return;
+                                    }
+
+                                }
+                                else return;
+                            }));
+            
         }
     }
 }

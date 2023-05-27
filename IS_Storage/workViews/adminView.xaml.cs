@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity.Validation;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -36,6 +37,7 @@ namespace IS_Storage.workViews
             cEmp = curEmployee;            
             gridUpdate();
         }
+        
         private void visibleOnline_Checked(object sender, RoutedEventArgs e)
         {
             gridUpdate();
@@ -50,11 +52,7 @@ namespace IS_Storage.workViews
             deluserCollection = deluserInList.listConvert(localCont.Employee.ToList());
             uDelListGrid.ItemsSource = deluserCollection;
             uListGrid.ItemsSource = userCollection;
-        }
-
-        private void uListGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
+            reqsGrid.ItemsSource = localCont.userRequest.OrderByDescending(p=>p.requestTime).ToList();
         }
 
         private void crUserBtn_Click(object sender, RoutedEventArgs e)
@@ -69,7 +67,8 @@ namespace IS_Storage.workViews
             try
             {
                 userInList userforDel = (userInList)uListGrid.SelectedItem;
-                userRequest code = uControll.deleteEmp(localCont.Employee.Where(p => p.IDEmp == userforDel.uNumber).FirstOrDefault(),cEmp);
+                if (MessageBox.Show("Удалить пользователя " + userforDel.uFullName + "?", "Удаление", MessageBoxButton.YesNo) == MessageBoxResult.No) return;
+                    userRequest code = uControll.deleteEmp(localCont.Employee.Where(p => p.IDEmp == userforDel.uNumber).FirstOrDefault(),cEmp);
                 if (code.ID_Request > -1) { MessageBox.Show("Пользователь был удалён."); localCont.userRequest.Add(code); localCont.SaveChanges(); }
                 switch (code.ID_Request)
                 {
@@ -101,6 +100,47 @@ namespace IS_Storage.workViews
             registrRequestWindow a = new registrRequestWindow(cEmp, 2) { empid = userforChange.uNumber};
             
             a.ShowDialog();
+        }
+
+        private void showDetails(object sender, RoutedEventArgs e)
+        {
+            string details = "Подробности запроса номер ";
+            var temp = (userRequest)reqsGrid.SelectedItem;
+            try
+            {
+                temp = localCont.userRequest.Where(p => p.ID_Request == temp.ID_Request).FirstOrDefault();
+                if (temp.reqType.ID_Type == 1 && temp.requestState == 0)
+                {
+                    details += temp.ID_Request;
+                    details += "\nВремя:" + temp.requestTime;
+                    details += "\nТип:" + temp.reqType.Title;
+                    details += "\nКомпьютер: " + temp.computerName;
+                    details += "\nТекст запроса:" + "\n" + temp.FullName;
+                    details += "\nРазрешить восстановление пароля?";
+                    switch (MessageBox.Show(details, "Просмотр запроса", MessageBoxButton.YesNoCancel))
+                    {
+                        case MessageBoxResult.Yes: temp.requestState = 1; temp.FullName += " ОДОБРЕН ("+cEmp.Full_Name+")"; break;
+                        case MessageBoxResult.No: temp.requestState = 2; temp.FullName += " ОТМЕНЁН ("+cEmp.Full_Name+")"; break;
+                        case MessageBoxResult.Cancel: return;;
+                    }
+                    localCont.SaveChanges();
+                    gridUpdate();
+                }
+                else
+                {
+                    details += temp.ID_Request;
+                    details += "\n" + temp.requestTime;
+                    details += "\n" + temp.reqType.Title;
+                    details += "\nТекст запроса:" + "\n" + temp.FullName;
+                    MessageBox.Show(details, "Информация");
+                }
+            }
+            catch { }            
+        }
+
+        private void refreshClick(object sender, RoutedEventArgs e)
+        {
+            gridUpdate();
         }
     }
 }

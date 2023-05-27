@@ -1,4 +1,5 @@
-﻿using IS_Storage.Log_In;
+﻿using IS_Storage.classes;
+using IS_Storage.Log_In;
 using IS_Storage.workViews;
 using System;
 using System.Collections.Generic;
@@ -26,12 +27,15 @@ namespace IS_Storage
     public partial class MainWindow : Window
     {
         List<Page> pages = new List<Page>();
+
+        statusWindow a;
         public MainWindow()
         {
             InitializeComponent();
             Style = (Style)FindResource(typeof(Window));
             pageUpd();            
-            mainFrame.Content = pages[0];            
+            mainFrame.Content = pages[0];
+            a = new statusWindow("Прекращение работы", "Пожалуста подождите");
         }
         
         private void pageUpd()
@@ -62,14 +66,20 @@ namespace IS_Storage
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            a.Show();
             var bg = new BackgroundWorker();
             bg.DoWork += new DoWorkEventHandler(bg_DoWork);
             bg.RunWorkerAsync();
+            
         }
 
         private void bg_DoWork(object sender, DoWorkEventArgs e)
         {
-            Environment.Exit(0);
+            Dispatcher.Invoke(DispatcherPriority.Background, new
+                        Action(() =>
+                        {
+                            Environment.Exit(0);
+                        }));
         }
     }
 }

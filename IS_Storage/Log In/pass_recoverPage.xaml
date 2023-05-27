@@ -4,16 +4,14 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:IS_Storage.Log_In"
-      mc:Ignorable="d" 
-      d:DesignHeight="900" d:DesignWidth="800"
-      Title="pass_recoverPage" >
-
+      mc:Ignorable="d"
+      Title="pass_recoverPage" d:Width="400" Height="440">
     <Viewbox>
-        <StackPanel>            
-            <Label Content="Укажите логин/почту пользователя" x:Name="mainLbl"/>
-            <TextBox x:Name="maintxt" Width="auto" />            
-            <Button Content="Восстановить" Margin="10,0,10,0" x:Name="recoverBtn" Click="recoverBtn_Click" Style="{StaticResource Button1}"/>
-            <Button FontSize="10" Content="Отмена" HorizontalAlignment="Center" Margin="5" x:Name="cancelBtn" Click="cancelBtn_Click" Style="{StaticResource Button2}"/>
-        </StackPanel>
+    <StackPanel VerticalAlignment="Center">
+        <Label Content="Укажите логин/почту пользователя" x:Name="mainLbl"/>
+        <TextBox x:Name="maintxt" Width="auto" />
+        <Button Content="Восстановить" Margin="10,0,10,0" x:Name="recoverBtn" Click="recoverBtn_Click" Style="{StaticResource Button1}"/>
+        <Button FontSize="10" Content="Отмена" HorizontalAlignment="Center" Margin="5" x:Name="cancelBtn" Click="cancelBtn_Click" Style="{StaticResource Button2}" Width="50"/>
+    </StackPanel>
     </Viewbox>
 </Page>

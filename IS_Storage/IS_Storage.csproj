@@ -143,6 +143,9 @@
     <Compile Include="workViews\managerView.xaml.cs">
       <DependentUpon>managerView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="workViews\userInfo.xaml.cs">
+      <DependentUpon>userInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="workViews\workWindow.xaml.cs">
       <DependentUpon>workWindow.xaml</DependentUpon>
     </Compile>
@@ -194,6 +197,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="workViews\managerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="workViews\userInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
