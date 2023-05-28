@@ -24,7 +24,7 @@ namespace IS_Storage
         {
             throw new UnintentionalCodeFirstException();
         }
-        static stockEntities _context;
+        public static stockEntities _context;
         public static stockEntities GetStockEntity()
         {
             if (_context == null) _context = new stockEntities();

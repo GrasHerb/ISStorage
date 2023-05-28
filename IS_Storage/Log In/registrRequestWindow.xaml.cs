@@ -71,6 +71,7 @@ namespace IS_Storage.Log_In
                                         ID_Role = roleID,
                                         sysInfo = " "
                                     };
+                                    if (MessageBox.Show("Создать пользователя?","Подтверждение",MessageBoxButton.YesNo) != MessageBoxResult.Yes) return;
                                     _context.Employee.Add(registrEmp);
                                     _context.SaveChanges();
                                     _context.userRequest.Add(new userRequest() { requestTypeID = 2, FullName = AdmL.Full_Name + " создал учётную запись: " + registrEmp.Emp_Login, requestState = 1, requestTime = DateTime.Now.ToString("G"), computerName = Environment.MachineName + " " + Environment.UserName, userID = AdmL.IDEmp });

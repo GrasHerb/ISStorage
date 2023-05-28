@@ -1,4 +1,5 @@
 ﻿using IS_Storage.classes;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,13 +15,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Office.Core;
+using Microsoft.Office.Interop.Excel;
 
 namespace IS_Storage.workViews
 {
     /// <summary>
     /// Логика взаимодействия для managerView.xaml
     /// </summary>
-    public partial class managerView : Page
+    public partial class managerView : System.Windows.Controls.Page
     {
         ObservableCollection<deluserInList> managerTable = new ObservableCollection<deluserInList>();
         stockEntities localCont = stockEntities.GetStockEntity();
@@ -66,7 +69,62 @@ namespace IS_Storage.workViews
 
         private void dlUserBtn_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                if (clientGrid.SelectedItem == null || clientGrid.SelectedItems.Count > 1) { MessageBox.Show("Выберите одного клиента."); return; }
+                Client cl = (Client)clientGrid.SelectedItem;
+                var a = transactionControll.ProdofClient(cl);
+                if (a.Count != 0) MessageBox.Show("Клиент не может быть удалён.\n Клиент имеет продукцию на складе.");
+                else
+                {
+                    var req = transactionControll.delClient(localCont.Client.Where(p=>p.IDClient==cl.IDClient).First(),cEmp);
+                    if (req.ID_Request != -2)
+                    {
+                        localCont.userRequest.Add(req);
+                        localCont.SaveChanges();
+                        gridUpdate();
+                    }
+                    else MessageBox.Show("Ошибка удаления!");
+                }
+            }
+            catch
+            {
 
+            }
+        }
+
+        private void crClientBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var creating = new newClientWindow(0, cEmp);
+            creating.ShowDialog();
+            if (creating.DialogResult == true) gridUpdate();
+        }
+
+        private void chUserBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var changing = new newClientWindow(1, cEmp);
+            if (clientGrid.SelectedItem == null || clientGrid.SelectedItems.Count > 1) { MessageBox.Show("Выберите одного клиента."); return; }
+            changing.clientChange = (Client)clientGrid.SelectedItem;
+            if (changing.DialogResult == true) gridUpdate();
+        }
+
+        private void exportBtn(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog a = new SaveFileDialog();            
+            if (a.ShowDialog() == true)
+            {
+                switch (expFormatCmb.SelectedIndex)
+                {
+                    case 0: break;
+                    case 1: break;
+                    case 2: break;
+                }
+            }
+        }
+
+        private void importBtn(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog a = new OpenFileDialog();
         }
     }
 }

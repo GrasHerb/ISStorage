@@ -14,22 +14,19 @@ namespace IS_Storage
     
     public partial class Transaction
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Transaction()
-        {
-            this.Product = new HashSet<Product>();
-        }
-    
         public int IDTransaction { get; set; }
         public int ID_Client { get; set; }
         public int ID_TrTType { get; set; }
         public string Date { get; set; }
         public int ID_Emp { get; set; }
+        public int ID_Place { get; set; }
+        public int ID_Product { get; set; }
+        public double Amount { get; set; }
     
         public virtual Client Client { get; set; }
         public virtual Employee Employee { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Product { get; set; }
+        public virtual Place Place { get; set; }
+        public virtual Product Product { get; set; }
         public virtual TransType TransType { get; set; }
     }
 }

@@ -1,0 +1,35 @@
+﻿<Window x:Class="IS_Storage.workViews.newClientWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IS_Storage.workViews"
+        mc:Ignorable="d"
+        Title="Добавление клиента" Height="230" Width="410" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="ФИО/Название" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <TextBox x:Name="txtName" Grid.Column="1" Width="250" KeyDown="txtKeyDown"/>
+        <Label Content="Контактный номер" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="2" KeyDown="txtKeyDown"/>
+        <TextBox x:Name="txtPhNum" Grid.Row="2" Grid.Column="1" Width="250" />
+        <Label Content="E-mail" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Center" KeyDown="txtKeyDown"/>
+        <TextBox x:Name="txtMail" Grid.Row="5" Grid.Column="1" Width="250"/>
+        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="6" Grid.ColumnSpan="2" Orientation="Vertical">
+            <Button Style="{StaticResource Button1}" Content="Применить изменения" Width="200" Margin="5" Click="applyBtn"/>
+            <Button Style="{StaticResource Button2}" Content="Отмена" Width="100" Margin="5" Click="cancelBtn"/>
+        </WrapPanel>
+    </Grid>
+</Window>

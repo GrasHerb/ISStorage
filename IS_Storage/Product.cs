@@ -18,21 +18,19 @@ namespace IS_Storage
         public Product()
         {
             this.ProdCond = new HashSet<ProdCond>();
+            this.Transaction = new HashSet<Transaction>();
         }
     
         public int IDProduct { get; set; }
         public string Name { get; set; }
         public string Article { get; set; }
-        public int ID_Transction { get; set; }
-        public Nullable<System.DateTime> Exp_Date { get; set; }
-        public int ID_Place { get; set; }
-        public int Amount { get; set; }
+        public double Amount { get; set; }
         public int UnitID { get; set; }
     
-        public virtual Place Place { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProdCond> ProdCond { get; set; }
-        public virtual Transaction Transaction { get; set; }
         public virtual UnitType UnitType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Transaction> Transaction { get; set; }
     }
 }

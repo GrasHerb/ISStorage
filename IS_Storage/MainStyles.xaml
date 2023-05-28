@@ -16,6 +16,13 @@
         <Setter Property="ResizeMode" Value="NoResize"/>
     </Style>
     
+    <Style TargetType="DataGrid">
+
+        <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+        <Setter Property="Background" Value="{x:Null}"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+
+    </Style>
     <!--Кнопки-->
     <Style x:Key="mainButton" TargetType="Button">
         <Setter Property="BorderBrush" Value="White"/>

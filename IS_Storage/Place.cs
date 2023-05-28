@@ -18,7 +18,7 @@ namespace IS_Storage
         public Place()
         {
             this.PlaceCond = new HashSet<PlaceCond>();
-            this.Product = new HashSet<Product>();
+            this.Transaction = new HashSet<Transaction>();
         }
     
         public int IDPlace { get; set; }
@@ -27,6 +27,6 @@ namespace IS_Storage
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PlaceCond> PlaceCond { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Product { get; set; }
+        public virtual ICollection<Transaction> Transaction { get; set; }
     }
 }
