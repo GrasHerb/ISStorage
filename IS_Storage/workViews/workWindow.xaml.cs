@@ -32,33 +32,30 @@ namespace IS_Storage.workViews
             InitializeComponent();
             currentUser = localCont.Employee.Where(p => p.IDEmp == employee.IDEmp).FirstOrDefault();
             a = new statusWindow("Прекращение работы", "Пожалуйста подождите");
+            switch (currentUser.ID_Role)
+            {
+                case 1: adminView admin = new adminView(currentUser); mainFrame.Content = admin; break;
+                case 2: managerView manager = new managerView(currentUser); mainFrame.Content = manager; break;
+                case 3: empView emp = new empView(currentUser); mainFrame.Content = emp; break;
+            }
+            uControll.statusChange(employee.Emp_Login, 1);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             a.Show();
+            uControll.statusChange(currentUser.Emp_Login, 2);
             var bg = new BackgroundWorker();
             bg.DoWork += new DoWorkEventHandler(bg_DoWork);
             bg.RunWorkerAsync();
-            
         }
         private void bg_DoWork(object sender, DoWorkEventArgs e)
         {
             Dispatcher.Invoke(DispatcherPriority.Background, new
                         Action(() =>
                         {
-                            uControll.statusChange(currentUser.Emp_Login, 2);
                             Environment.Exit(0);
                         }));
-        }
-        private void Window_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            switch (currentUser.ID_Role)
-            {
-                case 1: adminView admin = new adminView(currentUser); mainFrame.Content = admin; break;
-                case 2: managerView manager = new managerView(currentUser); mainFrame.Content = manager; break;
-                case 3: empView emp = new empView(currentUser); mainFrame.Content = emp; break;
-            }            
         }
 
         private void userInfoCheck(object sender, RoutedEventArgs e)

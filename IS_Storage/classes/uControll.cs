@@ -65,7 +65,7 @@ namespace IS_Storage.classes
                 }
                 localCont.SaveChanges();
             }
-            catch { MessageBox.Show("Ошибка изменения статуса!"); }
+            catch { MessageBox.Show("Ошибка изменения статуса!");}
         }
         public static userRequest deleteEmp(Employee delLogin, Employee admLogin)
         {

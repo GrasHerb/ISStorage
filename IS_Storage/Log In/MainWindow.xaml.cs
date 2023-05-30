@@ -62,7 +62,6 @@ namespace IS_Storage
                 catch { }
             }
             else mainFrame.Content = pages[pageI];
-        
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {

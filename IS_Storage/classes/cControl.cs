@@ -1,53 +1,50 @@
 ﻿using Microsoft.Office.Interop.Excel;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data;
-using System.Data.Entity;
-using System.Globalization;
+using System.IO;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
-using System.Windows.Markup;
+using Microsoft.Office.Interop.Word;
+using System.Windows.Controls;
+using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace IS_Storage.classes
 {
-    public class transactionControll
-    {        
-        public int IDt { get; set; }
-        public string Client { get; set; }
-        public string Date { get; set; }
-        public DateTime actualDate { get; set; }
-        public List<Transaction> actualList { get; set; }
 
-        public static List<transactionControll> listConvert(List<Transaction> tr)
+    public class cControl
+    {
+        public int numActual { get; set; }
+        public int numInGrid { get; set; }
+        public List<Product> productsOfClient { get;set; }
+        public string Name { get; set; }
+        public string PNumber { get; set; }
+        public string Email { get; set; }
+
+        public static List<cControl> listConvert(List<Client> clients)
         {
             stockEntities localCont = stockEntities.GetStockEntity();
-            List<transactionControll> converted = new List<transactionControll>();
+            List<cControl> converted = new List<cControl>();
             int c = 1;
-            var cultureInfo = new CultureInfo("ru-RU");
-            foreach (Transaction a in tr)
+            foreach (Client a in clients)
             {
-                if (converted.Where(p => p.Client == a.Client.Name && p.Date == a.Date).ToList().Count != 0)
-                    converted.Where(p => p.Client == a.Client.Name && p.Date == a.Date).First().actualList.Add(a);
-                else
-                {
                     converted.Add
-                    (new transactionControll()
+                    (new cControl()
                     {
-                        IDt = c++,
-                        Client = a.Client.Name,
-                        Date = a.Date,
-                        actualDate = DateTime.ParseExact(a.Date.Split(' ')[0] + " 00:00:00","G",cultureInfo),
-                        actualList = new List<Transaction>() {a}
+                        numActual = a.IDClient,
+                        numInGrid = c++,
+                        productsOfClient = ProdofClient(a),
+                        Name = a.Name,
+                        PNumber = a.PNumber,
+                        Email = a.Email
                     });
-                }                
             }
+
             return converted;
         }
-
 
         public static List<Product> ProdofClient(Client cl)
         {
@@ -56,7 +53,7 @@ namespace IS_Storage.classes
 
             List<Product> products = new List<Product>();
 
-            foreach (Transaction t in tr.Where(p=>p.ID_TrTType == 1).ToList())
+            foreach (Transaction t in tr.Where(p => p.ID_TrTType == 1).ToList())
             {
                 if (products.Where(p => p.IDProduct == t.ID_Product).Count() > 0) products.Find(p => p.IDProduct == t.ID_Product).Amount += t.Amount;
                 else products.Add(localCont.Product.Where(p => p.IDProduct == t.ID_Product).First());
@@ -86,6 +83,49 @@ namespace IS_Storage.classes
                 };
             }
             catch { return new userRequest() { ID_Request = -2 }; }
+        }
+        public static List<Client> excelImport(List<Client> a, string filePath) 
+        {
+            try
+            {
+                Microsoft.Office.Interop.Excel.Application excel;
+                Microsoft.Office.Interop.Excel.Workbook excelworkBook;
+                Microsoft.Office.Interop.Excel.Worksheet excelSheet;
+                List<Client> addRange = new List<Client>();
+
+                int c = 3;
+
+                excel = new Microsoft.Office.Interop.Excel.Application();
+
+                excel.Visible = false;
+                excel.DisplayAlerts = false;
+
+                excelworkBook = excel.Workbooks.Open(filePath,null,false);
+                excelSheet = excelworkBook.Sheets[1];
+                while (excelSheet.Cells[c,2].Value!=null)
+                {
+                    if (a.Where(p => p.Name == excelSheet.Cells[c, 2].Value2).Count() == 0)
+                    {
+                        addRange.Add(new Client
+                        {                            
+                            Name = Convert.ToString(excelSheet.Cells[c,2].Value2),
+                            PNumber = "+"+Convert.ToString(excelSheet.Cells[c, 3].Value2),
+                            Email = Convert.ToString(excelSheet.Cells[c, 4].Value2)
+                        });
+                    }
+                    c++;
+                }
+                excelworkBook.Close(0);
+                return addRange;
+            }
+            catch { return new List<Client>(); }
+        }
+        public static List<Client> jsonImport(List<Client> a, string filePath) 
+        {
+            var j = File.ReadAllText(filePath, Encoding.GetEncoding(1251));
+            var jlist = JsonConvert.DeserializeObject<List<Client>>(j);
+
+            return jlist;
         }
         public static void excelExport(List<Client> a, string filePath)
         {
@@ -118,7 +158,7 @@ namespace IS_Storage.classes
 
                 for (int i = 0; i < a.Count; i++)
                 {
-                    excelSheet.Cells[i+3, 1].Value2 = a[i].IDClient;
+                    excelSheet.Cells[i + 3, 1].Value2 = a[i].IDClient;
                     excelSheet.Cells[i + 3, 2].Value2 = a[i].Name;
                     excelSheet.Cells[i + 3, 3].Value2 = a[i].PNumber;
                     excelSheet.Cells[i + 3, 4].Value2 = a[i].Email;
@@ -131,8 +171,18 @@ namespace IS_Storage.classes
                 border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
                 border.Weight = 2d;
 
-                excel.Application.ActiveWorkbook.SaveAs(filePath, XlFileFormat.xlExcel12);
-                excel.Quit();
+                excel.Application.ActiveWorkbook.SaveAs(filePath, XlFileFormat.xlExcel12, "", "", false,false,XlSaveAsAccessMode.xlShared) ;
+                excelworkBook.Close(0);
+            }
+            catch { }
+        }
+        public static void jsonExport(List<Client> a, string filePath)
+        {
+            try
+            {
+                var jList = a.Select(p => new { p.IDClient, p.Name, p.PNumber, p.Email }).ToList(); 
+                var j = JsonConvert.SerializeObject(jList);
+                File.WriteAllText(filePath, j, Encoding.GetEncoding(1251));
             }
             catch { }
         }

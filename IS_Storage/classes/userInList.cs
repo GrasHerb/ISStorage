@@ -12,6 +12,7 @@ namespace IS_Storage.classes
     {
         public char oStatus { get; set; }
         public int uNumber { get; set; }
+        public int uNumInGrid { get; set; }
         public string uFullName { get; set; }
         public string uRole { get; set; }
         public string uLastTime { get; set; }
@@ -21,16 +22,7 @@ namespace IS_Storage.classes
             stockEntities localCont = stockEntities.GetStockEntity();
             ObservableCollection<userInList> converted = new ObservableCollection<userInList>();
             List<UserRole> roles = localCont.UserRole.ToList();
-            //for (int i = 0; i<employees.Count; i++)
-            //{
-            //    converted.Add(new userInList());
-            //    converted[i].oStatus = employees[i].OStatus ? '►' : ' ';
-            //    converted[i].uNumber = employees[i].IDEmp;
-            //    converted[i].uFullName = employees[i].Full_Name;
-            //    converted[i].uRole = roles.Where(p => p.IDRole == employees[i].ID_Role).FirstOrDefault().Title;
-            //    converted[i].uLastTime = employees[i].sysInfo != " " ? employees[i].sysInfo.Split('*')[0] : " ";
-            //    converted[i].uComputer = employees[i].sysInfo != " " ? employees[i].sysInfo.Split('*')[1] : " ";
-            //}
+            int c = 1;
             foreach (Employee a in employees)
             {
                 converted.Add
@@ -38,6 +30,7 @@ namespace IS_Storage.classes
                     {
                         oStatus = a.OStatus ? '►' : ' ',
                         uNumber = a.IDEmp,
+                        uNumInGrid = a.Emp_Login.Contains("___") ? 0 : c++,
                         uFullName = a.Full_Name,
                         uRole = roles.Where(p => p.IDRole == a.ID_Role).FirstOrDefault().Title,
                         uLastTime = a.sysInfo != " " ? a.sysInfo.Split('*')[0] : " ",

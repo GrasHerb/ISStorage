@@ -23,11 +23,12 @@ namespace IS_Storage.workViews
         int type = 0;
         Employee employee = null;
         public Client clientChange { get; set; }  = new Client();
-        public newClientWindow(int type, Employee employee)
+        public newClientWindow(int type, Employee employee, Client a = null)
         {
             InitializeComponent();
             this.type = type;
             this.employee = employee;
+            clientChange = a!=null? a : new Client();
             if (clientChange != new Client()) {
                 try
                 {
@@ -72,7 +73,7 @@ namespace IS_Storage.workViews
                 case 1:
                     if (txtMail.Text != "" && txtName.Text != "" && txtPhNum.Text != "")
                     {
-                        if (localCont.Client.Where(p => p.Name == txtName.Text).Count() == 0)
+                        if (txtName.Text != clientChange.Name && localCont.Client.Where(p => p.Name == txtName.Text).Count() == 0)
                         {
                             if (txtName.Text.Contains("___")){ MessageBox.Show("ФИО или название клиента не может содержать '___'"); return; }
                             string reqText = "Изменения";

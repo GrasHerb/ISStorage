@@ -8,7 +8,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="managerView" Height="450" Width="850">
-
+    <Grid>
     <TabControl>
         <TabItem Header="Клиенты">
             <Grid MinWidth="800" MinHeight="400">
@@ -24,23 +24,31 @@
                 <Label Content="Список клиентов"/>
                 <StackPanel Grid.Row="1" >
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBox Width="300" x:Name="txtSearch" IsKeyboardFocusedChanged="txtSearch_IsKeyboardFocusedChanged" Text="Поиск" KeyDown="txtSearch_KeyDown"/>
+                        <TextBox Width="300" x:Name="txtSearch" IsKeyboardFocusedChanged="txtSearch_IsKeyboardFocusedChanged" Text="Поиск"/>
                         <Button x:Name="btnSearch" Click="btnSearch_Click" Margin="5" Width="30" Style="{StaticResource Button3}" Content="🔍︎"/>
+                        <Button x:Name="btnReturn" Click="btnReturn_Click" Margin="5" Width="30" Style="{StaticResource Button3}" Content="Х"/>
                     </StackPanel>
-                    <ScrollViewer Height="235" Width="500" >
+                    <ScrollViewer Height="235" Width="550" >
                         <DataGrid x:Name="clientGrid" IsReadOnly="True" AutoGenerateColumns="False">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Width="auto" Header="Номер" x:Name="clientId" Binding="{Binding IDClient}"/>
+                                    <DataGridTextColumn Width="auto" Header="Номер" x:Name="clientId" Binding="{Binding numInGrid}"/>
                                 <DataGridTextColumn Header="ФИО/Название" x:Name="clientName" Binding="{Binding Name}"/>
                                 <DataGridTextColumn Header="Контактный номер" x:Name="clientPhNumber" Binding="{Binding PNumber}"/>
                                 <DataGridTextColumn Header="Электронная почта" x:Name="clientEmail" Binding="{Binding Email}"/>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                                <Button x:Name="clientProducts" Content="Хранимое" Margin="0,5" Width="60" Style="{StaticResource Button3}" Click="clientProducts_Click"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                     </ScrollViewer>
                     <WrapPanel Height="50" HorizontalAlignment="Center">
                         <Button x:Name="crClientBtn" Style="{StaticResource Button1}" Margin="5" Content="Создать клиента" Width="130"  Click="crClientBtn_Click"/>
-                        <Button x:Name="chClientBtn" Style="{StaticResource Button3}" Margin="5" Content="Изменить данные клиента" Width="160" Click="chUserBtn_Click"/>
-                        <Button x:Name="dlClientBtn" Style="{StaticResource Button2}" Margin="5" Height="20" Width="130" Content="Удалить клиента" Click="dlUserBtn_Click"/>
+                        <Button x:Name="chClientBtn" Style="{StaticResource Button3}" Margin="5" Content="Изменить данные клиента" Width="160" Click="chClientBtn_Click"/>
+                        <Button x:Name="dlClientBtn" Style="{StaticResource Button2}" Margin="5" Height="20" Width="130" Content="Удалить клиента" Click="dlClientBtn_Click"/>
                     </WrapPanel>
                 </StackPanel>
 
@@ -50,8 +58,7 @@
                         <Label Content="Формат экспорта"/>
                         <ComboBox x:Name="expFormatCmb" VerticalAlignment="Center" SelectedIndex="0">
                             <ComboBoxItem Content="Excel"/>
-                            <ComboBoxItem Content="Word"/>
-                            <ComboBoxItem Content="TXT"/>
+                            <ComboBoxItem Content="Json"/>
                         </ComboBox>
                     </StackPanel>
                     <Button Content="Экспорт списка клиентов" Style="{StaticResource Button3}" Margin="5" Click="exportBtn"/>
@@ -60,7 +67,6 @@
                         <ComboBox x:Name="impFormatCmb" VerticalAlignment="Center" SelectedIndex="0">
                             <ComboBoxItem Content="Excel"/>
                             <ComboBoxItem Content="Json"/>
-                            <ComboBoxItem Content="TXT"/>
                         </ComboBox>
                     </StackPanel>
                     <Button Content="Импорт списка клиентов" Style="{StaticResource Button3}" Margin="5" Click="importBtn"/>
@@ -68,11 +74,62 @@
 
             </Grid>
         </TabItem>
-        <TabItem Header="Движения склада">
+            <TabItem Header="Движения склада">
+                <Grid MinWidth="800" MinHeight="400">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height=".5*"/>
+                        <RowDefinition Height="4*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions >
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Список транзакций"/>
+                    <StackPanel Grid.Row="1" >
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        </StackPanel>
+                        <ScrollViewer Height="235" Width="500" >
+                            <DataGrid x:Name="transGrid" IsReadOnly="True" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Width="auto" Header="Номер" x:Name="trId" Binding="{Binding IDt}"/>
+                                    <DataGridTextColumn Header="ФИО/Название" x:Name="trClient" Binding="{Binding Client}"/>
+                                    <DataGridTextColumn Header="Дата и время" x:Name="trDate" Binding="{Binding Date}"/>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button x:Name="trInfo" Margin="0,5" Content="Состав" Style="{StaticResource Button3}" Click="trInfo_Click"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </ScrollViewer>
+                        <WrapPanel Height="50" HorizontalAlignment="Center">
+                        </WrapPanel>
+                    </StackPanel>
 
-        </TabItem>
-        <TabItem Header="Отчётность">
+                    <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Top">
+                        <TextBox HorizontalAlignment="Left"  Width="275" x:Name="txtClient" IsKeyboardFocusedChanged="txtClient_IsKeyboardFocusedChanged" Text="Поиск"/>
+                        <CheckBox Margin="5" Content="В промежутке времени" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"/>
+                        <WrapPanel x:Name="datesSearch" IsEnabled="False">
+                            <Label Content="С "/>
+                            <DatePicker x:Name="dateP1" Margin="5" FirstDayOfWeek="Monday"/>
+                            <Label Content="по"/>
+                            <DatePicker x:Name="dateP2" Margin="5" FirstDayOfWeek="Monday"/>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <Button x:Name="btnSearchTrClient" Click="btnSearchTrClient_Click" Width="25" Height="25" Margin="5" Style="{StaticResource Button3}" Content="🔍︎"/>
+                            <Button x:Name="btnReturnTrClient" Margin="225,0,0,0" Click="btnReturnTrClient_Click" Width="25" Height="25" Style="{StaticResource Button3}" Content="Х"/>
+                        </WrapPanel>
+                    </StackPanel>
 
-        </TabItem>
-    </TabControl>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Места хранения">
+                
+            </TabItem>
+        </TabControl>
+        <Button Style="{StaticResource Button3}" Height="20" Width="20" Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="↻" Click="refreshBtn_Click"/>
+    </Grid>
 </Page>

@@ -90,7 +90,7 @@
                     <Label Content="Список запросов"/>
                     <StackPanel Grid.Row="1">
                         <ScrollViewer Height="300" >
-                            <DataGrid x:Name="reqsGrid" IsReadOnly="True" AutoGenerateColumns="False" Background="White">
+                            <DataGrid RowHeight="30" x:Name="reqsGrid" IsReadOnly="True" AutoGenerateColumns="False" Background="White">
                                 <DataGrid.Columns >
                                     <DataGridTextColumn Header="Номер запроса" x:Name="reqNum" Binding="{Binding ID_Request}"/>
                                     <DataGridTextColumn Header="Дата" x:Name="reqDate" Binding="{Binding requestTime}"/>
@@ -98,7 +98,7 @@
                                     <DataGridTemplateColumn>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <Button Click="showDetails" Style="{StaticResource Button3}">Подробности</Button>
+                                                <Button Click="showDetails" Margin="0,5" Style="{StaticResource Button3}">Подробности</Button>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
