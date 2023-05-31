@@ -134,7 +134,6 @@ namespace IS_Storage.classes
                 Microsoft.Office.Interop.Excel.Application excel;
                 Microsoft.Office.Interop.Excel.Workbook excelworkBook;
                 Microsoft.Office.Interop.Excel.Worksheet excelSheet;
-                Microsoft.Office.Interop.Excel.Range excelCellrange;
 
                 excel = new Microsoft.Office.Interop.Excel.Application();
 
@@ -163,13 +162,6 @@ namespace IS_Storage.classes
                     excelSheet.Cells[i + 3, 3].Value2 = a[i].PNumber;
                     excelSheet.Cells[i + 3, 4].Value2 = a[i].Email;
                 }
-
-                excelCellrange = excelSheet.Range[excelSheet.Cells[2, 1], excelSheet.Cells[a.Count, properties.Count]];
-                excelCellrange.EntireColumn.AutoFit();
-
-                Microsoft.Office.Interop.Excel.Borders border = excelCellrange.Borders;
-                border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
-                border.Weight = 2d;
 
                 excel.Application.ActiveWorkbook.SaveAs(filePath, XlFileFormat.xlExcel12, "", "", false,false,XlSaveAsAccessMode.xlShared) ;
                 excelworkBook.Close(0);

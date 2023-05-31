@@ -27,7 +27,7 @@ namespace IS_Storage
     public partial class MainWindow : Window
     {
         List<Page> pages = new List<Page>();
-
+        public bool working { get; set; }
         statusWindow a;
         public MainWindow()
         {
@@ -57,7 +57,8 @@ namespace IS_Storage
                     Employee a = stockEntities.GetStockEntity().Employee.Where(p => p.Emp_Login == uLog).FirstOrDefault();
                     workWindow work = new workWindow(a);
                     this.Visibility = Visibility.Hidden;
-                    work.Show();                   
+                    work.Show();
+                    working = false;
                 }
                 catch { }
             }

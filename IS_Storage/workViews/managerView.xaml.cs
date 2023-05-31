@@ -42,6 +42,8 @@ namespace IS_Storage.workViews
         }
         public void gridUpdate()
         {
+            placeGrid.ItemsSource = localCont.Place.ToList();
+            if (txtPl.Text != "Поиск" && txtPl.Text != "") placeGrid.ItemsSource = localCont.Place.Where(p => p.SpecialCode == txtPl.Text);
             listClient = cControl.listConvert(localCont.Client.Where(p=>!p.Name.Contains("___")).ToList());
             if (txtSearch.Text != "Поиск" && txtSearch.Text != "")
             {
@@ -75,7 +77,7 @@ namespace IS_Storage.workViews
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            if (txtSearch.Text != "") { gridUpdate(); }
+            gridUpdate();
         }
 
         private void txtSearch_IsKeyboardFocusedChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -88,11 +90,11 @@ namespace IS_Storage.workViews
         }
         private void txtClient_IsKeyboardFocusedChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (txtSearch.IsKeyboardFocused)
+            if (txtClient.IsKeyboardFocused)
             {
-                if (txtSearch.Text == "Поиск") txtSearch.Text = "";
+                if (txtClient.Text == "Поиск") txtSearch.Text = "";
             }
-            else if (txtSearch.Text == "") txtSearch.Text = "Поиск";
+            else if (txtClient.Text == "") txtSearch.Text = "Поиск";
 
         }
         private void btnReturn_Click(object sender, RoutedEventArgs e)
@@ -105,12 +107,13 @@ namespace IS_Storage.workViews
             try
             {
                 if (clientGrid.SelectedItem == null || clientGrid.SelectedItems.Count > 1) { MessageBox.Show("Выберите одного клиента."); return; }
-                Client cl = (Client)clientGrid.SelectedItem;
-                var a = transactionControll.ProdofClient(cl);
+                var c = (cControl)clientGrid.SelectedItem;
+                Client cl = localCont.Client.Where(p=>p.IDClient == c.numActual).First();
+                var a = pControl.ProductsSearch(null,cl);
                 if (a.Count != 0) MessageBox.Show("Клиент не может быть удалён.\n Клиент имеет продукцию на складе.");
                 else
                 {
-                    var req = transactionControll.delClient(localCont.Client.Where(p=>p.IDClient==cl.IDClient).First(),cEmp);
+                    var req = cControl.delClient(localCont.Client.Where(p=>p.IDClient==cl.IDClient).First(),cEmp);
                     if (req.ID_Request != -2)
                     {
                         localCont.userRequest.Add(req);
@@ -278,12 +281,72 @@ namespace IS_Storage.workViews
 
         private void clientProducts_Click(object sender, RoutedEventArgs e)
         {
-            transactionWindow window = new transactionWindow();
+            try
+            {
+                var a = (cControl)clientGrid.SelectedItem;
+                transactionWindow window = new transactionWindow(localCont.Client.Where(p=>p.IDClient == a.numActual).First());
+                window.Show();
+            }
+            catch { }
         }
 
+        private void placeInfo_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var place = (Place)placeGrid.SelectedItem;
+                transactionWindow window = new transactionWindow(null, null, place);
+                window.Show();
+            }
+            catch { }
+        }
         private void trInfo_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                var transaction = (transactionControll)transGrid.SelectedItem;
+                transactionWindow window = new transactionWindow(null, transaction);
+                window.Show();
+            }
+            catch { }
         }
+        private void btnSearchPl_Click(object sender, RoutedEventArgs e)
+        {
+            gridUpdate();
+        }
+
+        private void btnReturnPl_Click(object sender, RoutedEventArgs e)
+        {
+            txtPl.Text = "Поиск"; gridUpdate();
+        }
+
+        private void txtPl_IsKeyboardFocusedChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (txtPl.IsKeyboardFocused)
+            {
+                if (txtPl.Text == "Поиск") txtPl.Text = "";
+            }
+            else if (txtSearch.Text == "") txtPl.Text = "Поиск";
+        }
+
+        private void expTrans_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog a = new SaveFileDialog();
+            a.Filter = "Файлы Word | *.docx|Таблицы Excel | *.xlsb";
+            var client = txtClient.Text!="Поиск"?txtClient.Text:null;
+            string date = dateP1.SelectedDate.ToString().Split(' ')[0]+" "+ dateP2.SelectedDate.ToString().Split(' ')[0];
+            if (a.ShowDialog() == true)
+            {
+                switch (a.FileName.Split('.')[1])
+                {
+                    case "docx":
+                        transactionControll.wordExport(trInList, a.FileName);
+                        MessageBox.Show("Экспорт завершён!");
+                        break;
+                    case "xlsb": transactionControll.excelExport(trInList, a.FileName, date!=""?date:null, client!=null?client:null); MessageBox.Show("Экспорт завершён!"); break;
+                }
+            }
+        }
+
     }
 }

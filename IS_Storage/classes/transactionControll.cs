@@ -1,4 +1,5 @@
 ﻿using Microsoft.Office.Interop.Excel;
+using Microsoft.Office.Interop.Word;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,9 +8,11 @@ using System.Data;
 using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Markup;
 
 namespace IS_Storage.classes
@@ -49,52 +52,16 @@ namespace IS_Storage.classes
         }
 
 
-        public static List<Product> ProdofClient(Client cl)
-        {
-            stockEntities localCont = stockEntities.GetStockEntity();
-            List<Transaction> tr = localCont.Transaction.Where(p => p.ID_Client == cl.IDClient).ToList();
+        
 
-            List<Product> products = new List<Product>();
 
-            foreach (Transaction t in tr.Where(p=>p.ID_TrTType == 1).ToList())
-            {
-                if (products.Where(p => p.IDProduct == t.ID_Product).Count() > 0) products.Find(p => p.IDProduct == t.ID_Product).Amount += t.Amount;
-                else products.Add(localCont.Product.Where(p => p.IDProduct == t.ID_Product).First());
-            }
-            foreach (Transaction t in tr.Where(p => p.ID_TrTType == 2).ToList())
-            {
-                if (products.Where(p => p.IDProduct == t.ID_Product).Count() > 0) products.Find(p => p.IDProduct == t.ID_Product).Amount -= t.Amount;
-            }
-            return products;
-
-        }
-
-        public static userRequest delClient(Client delClient, Employee managerLog)
-        {
-            try
-            {
-                delClient.Name = "___" + delClient.Name;
-
-                return new userRequest()
-                {
-                    computerName = Environment.MachineName,
-                    FullName = managerLog.Full_Name + " (" + managerLog.Emp_Login + ")" + " удалил " + delClient.Name,
-                    requestTypeID = 4,
-                    userID = managerLog.IDEmp,
-                    requestState = 1,
-                    requestTime = DateTime.Now.ToString("G"),
-                };
-            }
-            catch { return new userRequest() { ID_Request = -2 }; }
-        }
-        public static void excelExport(List<Client> a, string filePath)
+        public static void excelExport(List<transactionControll> a, string filePath, string date = null, string client = null)
         {
             try
             {
                 Microsoft.Office.Interop.Excel.Application excel;
                 Microsoft.Office.Interop.Excel.Workbook excelworkBook;
                 Microsoft.Office.Interop.Excel.Worksheet excelSheet;
-                Microsoft.Office.Interop.Excel.Range excelCellrange;
 
                 excel = new Microsoft.Office.Interop.Excel.Application();
 
@@ -104,35 +71,120 @@ namespace IS_Storage.classes
                 excelworkBook = excel.Workbooks.Add(Type.Missing);
 
                 excelSheet = (Microsoft.Office.Interop.Excel.Worksheet)excelworkBook.ActiveSheet;
-                excelSheet.Name = "Список клиентов";
+                excelSheet.Name = "Список транзакций";
+                int c = 0;
+                excelSheet.Cells[1, 1].Value2 = "Транзакции";
 
-                excelSheet.Cells[1, 1] = "Клиенты в базе";
-                excelSheet.Cells[1, 2] = "Дата списка: " + DateTime.Now.ToShortDateString();
+                excelSheet.Cells[1, 2].Value2 = "Дата составления: ";
+                excelSheet.Cells[1, 3].Value2 = DateTime.Now.ToString("G");
+
+                if (date != null)
+                {
+                    c++;
+                    excelSheet.Cells[1 + c, 1].Value2 = "Период транзакций: ";
+                    excelSheet.Cells[1 + c, 2].Value2 = date.Split(' ')[0];
+                    excelSheet.Cells[1 + c, 3].Value2 = date.Split(' ')[1];
+                }
+
+                if(client != null)
+                {
+                    c++;
+                    excelSheet.Cells[1 + c, 1].Value2 = "Клиент: ";
+                    excelSheet.Cells[1 + c, 2].Value2 = client;
+                }
 
                 PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(Client));
 
-                excelSheet.Cells[2, 1].Value2 = "Номер";
-                excelSheet.Cells[2, 2].Value2 = "ФИО/Название";
-                excelSheet.Cells[2, 3].Value2 = "Контактный номер";
-                excelSheet.Cells[2, 4].Value2 = "Электронная почта";
+                excelSheet.Cells[2 + c, 1].Value2 = "Номер";
+                excelSheet.Cells[2 + c, 2].Value2 = "ФИО/Название";
+                excelSheet.Cells[2 + c, 3].Value2 = "Дата";
+
+                c++;
 
                 for (int i = 0; i < a.Count; i++)
                 {
-                    excelSheet.Cells[i+3, 1].Value2 = a[i].IDClient;
-                    excelSheet.Cells[i + 3, 2].Value2 = a[i].Name;
-                    excelSheet.Cells[i + 3, 3].Value2 = a[i].PNumber;
-                    excelSheet.Cells[i + 3, 4].Value2 = a[i].Email;
+                    excelSheet.Cells[i + 3 + c, 1].Value2 = a[i].IDt;
+                    excelSheet.Cells[i + 3 + c, 2].Value2 = a[i].Client;
+                    excelSheet.Cells[i + 3 + c, 3].Value2 = a[i].Date;
                 }
 
-                excelCellrange = excelSheet.Range[excelSheet.Cells[2, 1], excelSheet.Cells[a.Count, properties.Count]];
-                excelCellrange.EntireColumn.AutoFit();
-
-                Microsoft.Office.Interop.Excel.Borders border = excelCellrange.Borders;
-                border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
-                border.Weight = 2d;
+                excelSheet.Columns.AutoFit();
 
                 excel.Application.ActiveWorkbook.SaveAs(filePath, XlFileFormat.xlExcel12);
                 excel.Quit();
+            }
+            catch { }
+        }
+        public static void wordExport(List<transactionControll> a, string filePath, string date = null, string client = null)
+        {
+            try
+            {
+                Microsoft.Office.Interop.Word.Application word;
+
+                word = new Microsoft.Office.Interop.Word.Application();
+
+                word.Visible = false;
+
+                var document = word.Documents.Add();
+
+                var p = document.Paragraphs.Add();
+
+                p = document.Paragraphs.Add();
+
+                p.Range.Text = "Транзакции";
+
+                p = document.Paragraphs.Add();
+
+                p.Range.Text = "Дата составления: " + DateTime.Now.ToString("G");
+
+                p = document.Paragraphs.Add();
+
+
+                if (date != null)
+                {
+                    p.Range.Text = "Период транзакций: " + date.Split(' ')[0]+" "+date.Split(' ')[1];
+                    p = document.Paragraphs.Add();
+                }
+
+                if (client != null)
+                {
+                    p.Range.Text = "Клиент: " + client;
+                    p = document.Paragraphs.Add();
+                }
+                p = document.Paragraphs.Add();
+                p = document.Paragraphs.Add();
+                Table table = document.Tables.Add(p.Range,a.Count+1,3);
+
+                table.Borders[WdBorderType.wdBorderRight].LineStyle = WdLineStyle.wdLineStyleSingle;
+                table.Borders[WdBorderType.wdBorderLeft].LineStyle = WdLineStyle.wdLineStyleSingle;
+                table.Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleSingle;
+                table.Borders[WdBorderType.wdBorderTop].LineStyle = WdLineStyle.wdLineStyleSingle;
+
+
+                table.Cell(1, 1).Range.Text = "Номер";
+                table.Cell(1, 2).Range.Text = "ФИО/Название";
+                table.Cell(1, 3).Range.Text = "Дата";
+                for (int i = 0; i < a.Count; i++)
+                {
+                    table.Cell(i+2, 1).Range.Text = a[i].IDt.ToString();
+                    table.Cell(i + 2, 1).Range.Borders[WdBorderType.wdBorderRight].LineStyle = WdLineStyle.wdLineStyleSingle;
+                    table.Cell(i + 2, 1).Range.Borders[WdBorderType.wdBorderLeft].LineStyle = WdLineStyle.wdLineStyleSingle;
+                    table.Cell(i + 2, 1).Range.Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleSingle;
+                    table.Cell(i + 2, 1).Range.Borders[WdBorderType.wdBorderTop].LineStyle = WdLineStyle.wdLineStyleSingle;
+                    table.Cell(i+2, 2).Range.Text = a[i].Client;
+                    table.Cell(i + 2, 2).Range.Borders[WdBorderType.wdBorderRight].LineStyle = WdLineStyle.wdLineStyleSingle;
+                    table.Cell(i + 2, 2).Range.Borders[WdBorderType.wdBorderLeft].LineStyle = WdLineStyle.wdLineStyleSingle;
+                    table.Cell(i + 2, 2).Range.Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleSingle;
+                    table.Cell(i + 2, 2).Range.Borders[WdBorderType.wdBorderTop].LineStyle = WdLineStyle.wdLineStyleSingle;
+                    table.Cell(i+2, 3).Range.Text = a[i].Date;
+                    table.Cell(i + 2, 3).Range.Borders[WdBorderType.wdBorderRight].LineStyle = WdLineStyle.wdLineStyleSingle;
+                    table.Cell(i + 2, 3).Range.Borders[WdBorderType.wdBorderLeft].LineStyle = WdLineStyle.wdLineStyleSingle;
+                    table.Cell(i + 2, 3).Range.Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleSingle;
+                    table.Cell(i + 2, 3).Range.Borders[WdBorderType.wdBorderTop].LineStyle = WdLineStyle.wdLineStyleSingle;
+                }
+
+                word.Application.ActiveDocument.SaveAs2(filePath, WdSaveFormat.wdFormatDocumentDefault);
+                word.Quit();
             }
             catch { }
         }

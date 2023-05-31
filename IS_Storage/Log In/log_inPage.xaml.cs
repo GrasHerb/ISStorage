@@ -30,59 +30,23 @@ namespace IS_Storage
         BackgroundWorker bg = new BackgroundWorker() { WorkerSupportsCancellation = true };
         statusWindow sWin = new statusWindow("", "");
         int result = -1;
-        bool working = true;
         public log_inPage()
         {
             InitializeComponent();
             txtLog.Focus();
         }
-        void bg_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            sWin.Close();
-        }
 
         void bg_DoWork(object sender, DoWorkEventArgs e)
         {
             mainWork();
-            bg.Dispose();
-            bg = new BackgroundWorker();
-            working = false;
-        }
-        void mssClose()
-        {
-            bg.Dispose();
-            bg = new BackgroundWorker();
-            sWin.Close();
-            if ((txtPass.Password != "" || txtPassVisible.Text != "") && txtLog.Text != "")
-            {
-                if (working)
-                {
-                    working = false;
-                    result = uControll.passwCheck(txtPass.Password, txtLog.Text);
-                    switch (result)
-                    {
-                        case 0: break;
-                        case 1: MessageBox.Show("Вход отменён."); break;
-                        case 2: MessageBox.Show("Ваша учётная запись ещё не была подтверждена администратором."); break;
-                        case 3: MessageBox.Show("Ваша учётная запись была удалена администратором."); break;
-                        case 4: MessageBox.Show("Даннная учётная запись используется другим пользователем."); break;
-                        case 5: MessageBox.Show("Учётная запись не найдена."); break;
-                        default: break;
-                    }
-
-                }
-
-            }
-            else MessageBox.Show("Введите логин и пароль пользователя.");
         }
         
         void messageClose(object sender, RunWorkerCompletedEventArgs e)
         {
             if ((txtPass.Password != "" || txtPassVisible.Text != "") && txtLog.Text != "")
             {
-                if (working)
+                if (window.working)
                 {
-                    working = false;
                     result = uControll.passwCheck(txtPass.Password, txtLog.Text);
                     switch (result)
                     {
@@ -94,26 +58,23 @@ namespace IS_Storage
                         case 5: MessageBox.Show("Учётная запись не найдена."); break;
                         default: break;
                     }
-                    sWin.Close();
-
-                    bg.Dispose();
-                    bg = new BackgroundWorker();
                 }
 
             }
             else MessageBox.Show("Введите логин и пароль пользователя.");
-            
+            sWin.Close();
+            bg.Dispose();
+            bg = new BackgroundWorker();
         }
         void startEntering()
         {
             sWin = new statusWindow("Загрузка", "Пожалуйста подождите...");
-
-            working = true;
+            window.working = true;
             sWin.Show();
             bg.DoWork += new DoWorkEventHandler(bg_DoWork);
-            bg.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bg_RunWorkerCompleted);
+            bg.RunWorkerCompleted += new RunWorkerCompletedEventHandler(messageClose);
             bg.RunWorkerAsync();
-            bg.RunWorkerCompleted += messageClose;
+            
         }
         private void btnEnter_Click(object sender, RoutedEventArgs e)
         {
@@ -149,7 +110,7 @@ namespace IS_Storage
             {
                 if (txtLog.IsFocused)
                     if (visibilityCheck.IsChecked == true) Keyboard.Focus(txtPassVisible);
-                    else Keyboard.Focus(txtPass);
+                    else if (txtPass.Visibility == Visibility.Visible) Keyboard.Focus(txtPass); else Keyboard.Focus(txtPassVisible);
                 else { result = 0; startEntering(); }
             }
         }
@@ -168,7 +129,7 @@ namespace IS_Storage
                             txtPassVisible.Text != ""
                             )
                                 {
-                                    int result = uControll.passwCheck(txtPass.Password, txtLog.Text);
+                                    int result = txtPass.Visibility == Visibility.Visible ? uControll.passwCheck(txtPass.Password, txtLog.Text): uControll.passwCheck(txtPassVisible.Text, txtLog.Text);
                                     switch (result)
                                     {
                                         case 0:

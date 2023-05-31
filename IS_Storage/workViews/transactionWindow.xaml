@@ -5,8 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IS_Storage.workViews"
         mc:Ignorable="d"
-        Title="transactionWindow" Height="360" Width="660">
-    <Grid>
+        Title="Окно транзакций" Height="500" Width="760" ResizeMode="NoResize">
+    <Viewbox>
+        <StackPanel>
+            <ScrollViewer Height="250" x:Name="noExtra">
+        <DataGrid Margin="10" x:Name="mainGrid" AutoGenerateColumns="False" HorizontalScrollBarVisibility="Visible">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="Артикул" Binding="{Binding Article}"/>
+                    <DataGridTextColumn Header="Количество" Binding="{Binding Amount}"/>                    
+                </DataGrid.Columns>
+        </DataGrid>            
+        </ScrollViewer>
+        <ScrollViewer Height="250" x:Name="yExtra">
+                <DataGrid Margin="10" x:Name="mainGridExtra" AutoGenerateColumns="False" HorizontalScrollBarVisibility="Visible">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Клиент" Binding="{Binding Client}"/>
+                    <DataGridTextColumn Header="Продукт" Binding="{Binding prodName}"/>
+                    <DataGridTextColumn Header="Место" Binding="{Binding Place}"/>
+                    <DataGridTextColumn Header="Количество" Binding="{Binding Amount}"/>
+                    <DataGridTextColumn Header="Дата последней поставки" Binding="{Binding ArivalDate}"/>
+                </DataGrid.Columns>
+        </DataGrid>
+        </ScrollViewer>
+        <CheckBox x:Name="extraCh" Content="Подробности" Margin="10" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked"/>
 
-    </Grid>
+        <WrapPanel x:Name="managerControls" Height="30" HorizontalAlignment="Center">
+                <Button x:Name="exportBtn" Style="{StaticResource Button3}" Margin="5" Content="Экспорт в документ" Width="180" Click="exportBtn_Click"/>
+            <Button x:Name="mailSendBtn" Style="{StaticResource Button3}" Margin="5" Height="20" Width="200" Content="Отправить данные клиенту" Click="mailSendBtn_Click"/>
+        </WrapPanel>
+    </StackPanel>
+    </Viewbox>
 </Window>

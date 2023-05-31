@@ -70,6 +70,7 @@
     </ApplicationDefinition>
     <Compile Include="classes\cControl.cs" />
     <Compile Include="classes\mailManager.cs" />
+    <Compile Include="classes\pControl.cs" />
     <Compile Include="classes\transactionControll.cs" />
     <Compile Include="classes\uControll.cs" />
     <Compile Include="classes\userInList.cs" />
