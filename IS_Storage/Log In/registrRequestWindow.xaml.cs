@@ -24,7 +24,7 @@ namespace IS_Storage.Log_In
     public partial class registrRequestWindow : Window
     {
         public int empid { get; set; }
-        asonov_KPEntities _context = asonov_KPEntities.GetStockEntity();
+        stockEntities _context = stockEntities.GetStockEntity();
         Employee AdmL = new Employee();
         int type = 0;
         int roleID = 0;
@@ -53,7 +53,7 @@ namespace IS_Storage.Log_In
                     }
                     try
                     {
-                        if (asonov_KPEntities.GetStockEntity().Employee.Where(p => p.Emp_Login == regLog.Text).Count() > 0) { MessageBox.Show("Логин занят"); return; }
+                        if (stockEntities.GetStockEntity().Employee.Where(p => p.Emp_Login == regLog.Text).Count() > 0) { MessageBox.Show("Логин занят"); return; }
                         if (regLog.Text.Contains("___")) { MessageBox.Show("Логин не может содержать '___'"); return; }
                     }
                     catch { }
@@ -97,7 +97,7 @@ namespace IS_Storage.Log_In
                         }
                         try
                         {
-                            if (asonov_KPEntities.GetStockEntity().Employee.Where(p => p.Emp_Login == regLog.Text).Count() > 0) { MessageBox.Show("Логин занят"); return; }
+                            if (stockEntities.GetStockEntity().Employee.Where(p => p.Emp_Login == regLog.Text).Count() > 0) { MessageBox.Show("Логин занят"); return; }
                             if (regLog.Text.Contains("___")) { MessageBox.Show("Логин не может содержать '___'"); return; }
                         }
                         catch { }
@@ -115,7 +115,7 @@ namespace IS_Storage.Log_In
                                         }
                                         if (roleID != tempEmp.ID_Role)
                                         {
-                                            reqText += "\nРоль: " + asonov_KPEntities.GetStockEntity().UserRole.Where(p=>p.IDRole == tempEmp.ID_Role).FirstOrDefault().Title + "=>" + asonov_KPEntities.GetStockEntity().UserRole.Where(p => p.IDRole == roleID).FirstOrDefault().Title;
+                                            reqText += "\nРоль: " + stockEntities.GetStockEntity().UserRole.Where(p=>p.IDRole == tempEmp.ID_Role).FirstOrDefault().Title + "=>" + stockEntities.GetStockEntity().UserRole.Where(p => p.IDRole == roleID).FirstOrDefault().Title;
                                             tempEmp.ID_Role = roleID;
                                         }
                                         if (MessageBox.Show("Применить изменения?\n" + reqText, "Подтверждение", MessageBoxButton.YesNo) != MessageBoxResult.Yes) { return; }

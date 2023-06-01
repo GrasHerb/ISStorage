@@ -26,7 +26,7 @@ namespace IS_Storage.classes
 
         public static List<cControl> listConvert(List<Client> clients)
         {
-            asonov_KPEntities localCont = asonov_KPEntities.GetStockEntity();
+            stockEntities localCont = stockEntities.GetStockEntity();
             List<cControl> converted = new List<cControl>();
             int c = 1;
             foreach (Client a in clients)
@@ -48,7 +48,7 @@ namespace IS_Storage.classes
 
         public static List<Product> ProdofClient(Client cl)
         {
-            asonov_KPEntities localCont = asonov_KPEntities.GetStockEntity();
+            stockEntities localCont = stockEntities.GetStockEntity();
             List<Transaction> tr = localCont.Transaction.Where(p => p.ID_Client == cl.IDClient).ToList();
 
             List<Product> products = new List<Product>();

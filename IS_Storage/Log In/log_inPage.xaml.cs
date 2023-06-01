@@ -116,7 +116,7 @@ namespace IS_Storage
         }
         void mainWork()
         {
-            asonov_KPEntities localCont = asonov_KPEntities.GetStockEntity();                
+            stockEntities localCont = stockEntities.GetStockEntity();                
                 Employee employee = new Employee();
                 Dispatcher.Invoke(DispatcherPriority.Background, new
                             Action(() =>

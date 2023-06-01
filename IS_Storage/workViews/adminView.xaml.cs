@@ -28,7 +28,7 @@ namespace IS_Storage.workViews
     {
         ObservableCollection<userInList> userCollection = new ObservableCollection<userInList>();
         ObservableCollection<deluserInList> deluserCollection = new ObservableCollection<deluserInList>();
-        asonov_KPEntities localCont = asonov_KPEntities.GetStockEntity();
+        stockEntities localCont = stockEntities.GetStockEntity();
         Employee cEmp = new Employee();
         DispatcherTimer t = new DispatcherTimer();
         public adminView(Employee curEmployee)

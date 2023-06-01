@@ -27,7 +27,7 @@ namespace IS_Storage.workViews
     /// </summary>
     public partial class transactionWindow : System.Windows.Window
     {
-        asonov_KPEntities localCont = asonov_KPEntities.GetStockEntity();
+        stockEntities localCont = stockEntities.GetStockEntity();
         List<pControl> productsExtra;
         List<Product> products;
         transactionControll trans;

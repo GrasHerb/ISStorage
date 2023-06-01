@@ -13,22 +13,22 @@ namespace IS_Storage
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class asonov_KPEntities : DbContext
+    public partial class stockEntities : DbContext
     {
-        public asonov_KPEntities()
+        public stockEntities()
             : base("name=asonov_KPEntities")
         {
         }
 
-        public static asonov_KPEntities _context;
-        public static asonov_KPEntities GetStockEntity()
+        public static stockEntities _context;
+        public static stockEntities GetStockEntity()
         {
-            if (_context == null) _context = new asonov_KPEntities();
+            if (_context == null) _context = new stockEntities();
             return _context;
         }
-        public static asonov_KPEntities GetStockEntityD()
+        public static stockEntities GetStockEntityD()
         {
-            return new asonov_KPEntities();
+            return new stockEntities();
         }
 
 

@@ -30,7 +30,7 @@ namespace IS_Storage.workViews
     /// </summary>
     public partial class managerView : System.Windows.Controls.Page
     {
-        asonov_KPEntities localCont = asonov_KPEntities.GetStockEntity();
+        stockEntities localCont = stockEntities.GetStockEntity();
         Employee cEmp = new Employee();
         List<cControl> listClient;
         List<transactionControll> trInList;

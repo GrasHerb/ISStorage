@@ -28,7 +28,7 @@ namespace IS_Storage.classes
 
         public static List<Product> ProductsSearch(transactionControll transaction = null, Client cl = null, Place place = null)
         {
-            asonov_KPEntities localCont = asonov_KPEntities.GetStockEntity();
+            stockEntities localCont = stockEntities.GetStockEntity();
             List<Transaction> tr = localCont.Transaction.ToList();
 
             if (transaction != null) tr = transaction.actualList;
@@ -57,7 +57,7 @@ namespace IS_Storage.classes
 
         public static List<pControl> pControlConvert(transactionControll trC = null)
         {
-            asonov_KPEntities localCont = asonov_KPEntities.GetStockEntity();
+            stockEntities localCont = stockEntities.GetStockEntity();
 
             List<Transaction> tr = localCont.Transaction.ToList();
 
