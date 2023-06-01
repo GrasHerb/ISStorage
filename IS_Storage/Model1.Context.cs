@@ -13,23 +13,30 @@ namespace IS_Storage
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class stockEntities : DbContext
+    public partial class asonov_KPEntities : DbContext
     {
-        public stockEntities()
-            : base("name=stockEntities")
+        public asonov_KPEntities()
+            : base("name=asonov_KPEntities")
         {
         }
-    
+
+        public static asonov_KPEntities _context;
+        public static asonov_KPEntities GetStockEntity()
+        {
+            if (_context == null) _context = new asonov_KPEntities();
+            return _context;
+        }
+        public static asonov_KPEntities GetStockEntityD()
+        {
+            return new asonov_KPEntities();
+        }
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
         }
-        public static stockEntities _context;
-        public static stockEntities GetStockEntity()
-        {
-            if (_context == null) _context = new stockEntities();
-            return _context;
-        }
+    
         public virtual DbSet<Client> Client { get; set; }
         public virtual DbSet<Condition> Condition { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }

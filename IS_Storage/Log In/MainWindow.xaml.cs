@@ -54,7 +54,7 @@ namespace IS_Storage
             {
                 try
                 {
-                    Employee a = stockEntities.GetStockEntity().Employee.Where(p => p.Emp_Login == uLog).FirstOrDefault();
+                    Employee a = asonov_KPEntities.GetStockEntity().Employee.Where(p => p.Emp_Login == uLog).FirstOrDefault();
                     workWindow work = new workWindow(a);
                     this.Visibility = Visibility.Hidden;
                     work.Show();

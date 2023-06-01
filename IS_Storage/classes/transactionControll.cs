@@ -27,7 +27,7 @@ namespace IS_Storage.classes
 
         public static List<transactionControll> listConvert(List<Transaction> tr)
         {
-            stockEntities localCont = stockEntities.GetStockEntity();
+            asonov_KPEntities localCont = asonov_KPEntities.GetStockEntity();
             List<transactionControll> converted = new List<transactionControll>();
             int c = 1;
             var cultureInfo = new CultureInfo("ru-RU");

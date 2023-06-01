@@ -30,7 +30,7 @@ namespace IS_Storage.workViews
     /// </summary>
     public partial class managerView : System.Windows.Controls.Page
     {
-        stockEntities localCont = stockEntities.GetStockEntity();
+        asonov_KPEntities localCont = asonov_KPEntities.GetStockEntity();
         Employee cEmp = new Employee();
         List<cControl> listClient;
         List<transactionControll> trInList;
@@ -57,6 +57,7 @@ namespace IS_Storage.workViews
                     
                 }
             }
+            
             clientGrid.ItemsSource = listClient;
 
             trInList = transactionControll.listConvert(localCont.Transaction.ToList());

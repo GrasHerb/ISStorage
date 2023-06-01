@@ -26,7 +26,7 @@ namespace IS_Storage.classes
 
         public static List<cControl> listConvert(List<Client> clients)
         {
-            stockEntities localCont = stockEntities.GetStockEntity();
+            asonov_KPEntities localCont = asonov_KPEntities.GetStockEntity();
             List<cControl> converted = new List<cControl>();
             int c = 1;
             foreach (Client a in clients)
@@ -48,7 +48,7 @@ namespace IS_Storage.classes
 
         public static List<Product> ProdofClient(Client cl)
         {
-            stockEntities localCont = stockEntities.GetStockEntity();
+            asonov_KPEntities localCont = asonov_KPEntities.GetStockEntity();
             List<Transaction> tr = localCont.Transaction.Where(p => p.ID_Client == cl.IDClient).ToList();
 
             List<Product> products = new List<Product>();
@@ -164,7 +164,7 @@ namespace IS_Storage.classes
                 }
 
                 excel.Application.ActiveWorkbook.SaveAs(filePath, XlFileFormat.xlExcel12, "", "", false,false,XlSaveAsAccessMode.xlShared) ;
-                excelworkBook.Close(0);
+                excelworkBook.Close(WdSaveOptions.wdSaveChanges);
             }
             catch { }
         }

@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using MailMessage = System.Net.Mail.MailMessage;
 using System.Net.Http;
 using System.IO;
+using System.ComponentModel;
 
 namespace IS_Storage.workViews
 {
@@ -26,7 +27,7 @@ namespace IS_Storage.workViews
     /// </summary>
     public partial class transactionWindow : System.Windows.Window
     {
-        stockEntities localCont = stockEntities.GetStockEntity();
+        asonov_KPEntities localCont = asonov_KPEntities.GetStockEntity();
         List<pControl> productsExtra;
         List<Product> products;
         transactionControll trans;
@@ -76,16 +77,26 @@ namespace IS_Storage.workViews
         }
         private void exportBtn_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\tempdocument.docx");
+            }
+            catch { }
             startExporting(1);
         }
 
         private void mailSendBtn_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\tempdocument.docx");
+            }
+            catch { }
             startExporting(2);
         }
         void startExporting(int type = 2)
         {
-            switch(type) 
+            switch (type) 
             {
                 case 1:
                     SaveFileDialog a = new SaveFileDialog();
@@ -97,19 +108,19 @@ namespace IS_Storage.workViews
                     if(MessageBox.Show("Отправить данные на почту " + cClient.Email + "?", "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
                         pControl.wordExport(productsExtra, products, "", document);
-                        
+
                         MailAddress from = new MailAddress("is_storage@rambler.ru", "ИС Склад");
                         MailAddress to = new MailAddress(cClient.Email);
                         MailMessage m = new MailMessage(from, to);
-                        m.Attachments.Add(new Attachment("tempdocument.docx"));
+                        m.Body = "<p style=\"text - align: center; \">ИС Склад</p><p style=\"text - align: left; \">Здравствуйте, "+ cClient.Name+ ", ваш отчёт находится в прикреплённом документе.</p><p style=\"text - align: left; \">Дата отчёта: "+DateTime.Now.ToString("G")+"</p>";
                         m.IsBodyHtml = true;
-                        mailManager.Sending(m);
-                        File.Delete("tempdocument.docx");
+                        mailManager.Sending(m, Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\tempdocument.docx");
+
+                        if (MessageBox.Show("Документ отправлен!\nЗакрыть окно?", "Отправка документа", MessageBoxButton.YesNo) == MessageBoxResult.Yes) this.Close();
                     }
                     break;
             }
         }
-
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
             gridUpdate();

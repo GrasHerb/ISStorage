@@ -19,7 +19,7 @@ namespace IS_Storage.workViews
     /// </summary>
     public partial class newClientWindow : Window
     {
-        stockEntities localCont = stockEntities.GetStockEntity();
+        asonov_KPEntities localCont = asonov_KPEntities.GetStockEntity();
         int type = 0;
         Employee employee = null;
         public Client clientChange { get; set; }  = new Client();

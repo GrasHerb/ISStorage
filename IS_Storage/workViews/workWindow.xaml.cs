@@ -24,7 +24,7 @@ namespace IS_Storage.workViews
     public partial class workWindow : Window
     {
         Employee currentUser = new Employee();
-        stockEntities localCont = stockEntities.GetStockEntity();
+        asonov_KPEntities localCont = asonov_KPEntities.GetStockEntity();
         statusWindow a;
         userInfo uInfo;
         public workWindow(Employee employee)

@@ -36,8 +36,8 @@ namespace IS_Storage.classes
         {
             try
             {
-                var passCheck = stockEntities.GetStockEntity().Employee.Where(p => p.Emp_Login == login).FirstOrDefault();
-                if (stockEntities.GetStockEntity().userRequest.Where(p => p.userID == passCheck.IDEmp && p.requestState == 0 && p.requestTypeID == 1).FirstOrDefault() != null) return 2;
+                var passCheck = asonov_KPEntities.GetStockEntity().Employee.Where(p => p.Emp_Login == login).FirstOrDefault();
+                if (asonov_KPEntities.GetStockEntity().userRequest.Where(p => p.userID == passCheck.IDEmp && p.requestState == 0 && p.requestTypeID == 1).FirstOrDefault() != null) return 2;
                 if (passCheck.Emp_Pass == "-") return 1;
                 if (passCheck.Emp_Login.Contains("___")) return 3;
                 if (passCheck.OStatus) return 4;
@@ -52,7 +52,7 @@ namespace IS_Storage.classes
         {
             try
             {
-                stockEntities localCont = stockEntities.GetStockEntity();
+                asonov_KPEntities localCont = asonov_KPEntities.GetStockEntity();
                 Employee a = localCont.Employee.Where(p => p.Emp_Login == login).FirstOrDefault();
                 
                 switch (i)
@@ -73,7 +73,7 @@ namespace IS_Storage.classes
             {
                 if (delLogin.OStatus) return new userRequest() { ID_Request = -1 };
                 if (delLogin==admLogin) return new userRequest { ID_Request = -2 };
-                if (delLogin.ID_Role == 1 && stockEntities.GetStockEntity().Employee.Where(p=>p.ID_Role==1).Count()<2) return new userRequest{ ID_Request = -3 };
+                if (delLogin.ID_Role == 1 && asonov_KPEntities.GetStockEntity().Employee.Where(p=>p.ID_Role==1).Count()<2) return new userRequest{ ID_Request = -3 };
                 delLogin.Emp_Login = "___" + delLogin.Emp_Login;
 
                 return new userRequest()

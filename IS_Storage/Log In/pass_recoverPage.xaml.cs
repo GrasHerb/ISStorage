@@ -31,7 +31,7 @@ namespace IS_Storage.Log_In
         string usLog = "";
         Employee newEmp = new Employee();
         MainWindow window = (MainWindow)Application.Current.MainWindow;
-        stockEntities _context = stockEntities.GetStockEntity();
+        asonov_KPEntities _context = asonov_KPEntities.GetStockEntity();
         DispatcherTimer timer = new DispatcherTimer();
         string reqTime = "";
         public pass_recoverPage(string usLogIn)
@@ -71,7 +71,7 @@ namespace IS_Storage.Log_In
                                     reqTime = DateTime.Now.ToString("G");
                                     _context.userRequest.Add(new userRequest() { requestTypeID = 1, FullName = newEmp.Full_Name+": запрос на восстановление пароля", requestState = 0, requestTime = reqTime, computerName = Environment.MachineName + " " + Environment.UserName, userID = newEmp.IDEmp });
                                     int a = await _context.SaveChangesAsync();
-                                    _context = stockEntities.GetStockEntity();
+                                    _context = asonov_KPEntities.GetStockEntity();
                                     timer.Start();
                                     mainLbl.Content = "Запрос на восстановление пароля отправлен.\n Свяжитесь с администратором."; 
                                     recoverBtn.Visibility = Visibility.Collapsed; }
@@ -130,7 +130,7 @@ namespace IS_Storage.Log_In
         {
             try
             {
-                _context = stockEntities.GetStockEntity();
+                _context = asonov_KPEntities.GetStockEntity();
                 if (_context.userRequest.Where(p => p.userID == newEmp.IDEmp && p.requestTime == reqTime).FirstOrDefault().requestState == 1)
                 {
                     timer.Stop();
@@ -162,7 +162,7 @@ namespace IS_Storage.Log_In
             usLog = "";
             newEmp = new Employee();
             window = (MainWindow)Application.Current.MainWindow;
-            _context = stockEntities.GetStockEntity();
+            _context = asonov_KPEntities.GetStockEntity();
             timer = new DispatcherTimer();
             reqTime = "";
         }

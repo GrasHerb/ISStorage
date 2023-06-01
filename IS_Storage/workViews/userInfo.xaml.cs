@@ -20,7 +20,7 @@ namespace IS_Storage.workViews
     /// </summary>
     public partial class userInfo : Window
     {
-        stockEntities localCont = stockEntities.GetStockEntity();
+        asonov_KPEntities localCont = asonov_KPEntities.GetStockEntity();
         Employee empChanges = new Employee();
         public Employee empChanged { get; set; } = new Employee();
         passChange a;
@@ -54,7 +54,7 @@ namespace IS_Storage.workViews
             {
                 if (txtLog.Text!=empChanges.Emp_Login)
                 {
-                    if (stockEntities.GetStockEntity().Employee.Where(p => p.Emp_Login == txtLog.Text).Count() > 0) { MessageBox.Show("Логин занят"); return; }
+                    if (asonov_KPEntities.GetStockEntity().Employee.Where(p => p.Emp_Login == txtLog.Text).Count() > 0) { MessageBox.Show("Логин занят"); return; }
                     if (txtLog.Text.Contains("___")) { MessageBox.Show("Логин не может содержать '___'"); return; }
                     reqText += "\nЛогин: " + empChanges.Emp_Login +"=>"+txtLog.Text;
                     empChanges.Emp_Login = txtLog.Text;

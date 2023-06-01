@@ -28,7 +28,7 @@ namespace IS_Storage.classes
 
         public static List<Product> ProductsSearch(transactionControll transaction = null, Client cl = null, Place place = null)
         {
-            stockEntities localCont = stockEntities.GetStockEntity();
+            asonov_KPEntities localCont = asonov_KPEntities.GetStockEntity();
             List<Transaction> tr = localCont.Transaction.ToList();
 
             if (transaction != null) tr = transaction.actualList;
@@ -57,7 +57,7 @@ namespace IS_Storage.classes
 
         public static List<pControl> pControlConvert(transactionControll trC = null)
         {
-            stockEntities localCont = stockEntities.GetStockEntity();
+            asonov_KPEntities localCont = asonov_KPEntities.GetStockEntity();
 
             List<Transaction> tr = localCont.Transaction.ToList();
 
@@ -152,7 +152,7 @@ namespace IS_Storage.classes
 
                 p.Range.Text = "Дата составления: " + DateTime.Now.ToString("G");
 
-                p = document.Paragraphs.Add();
+                p.Range.InsertParagraphAfter();
                 Table table = document.Tables.Add(p.Range, product.Count + 1, 3);
 
                 table.Borders[WdBorderType.wdBorderRight].LineStyle = WdLineStyle.wdLineStyleSingle;
@@ -182,10 +182,11 @@ namespace IS_Storage.classes
                     table.Cell(i + 2, 3).Range.Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleSingle;
                     table.Cell(i + 2, 3).Range.Borders[WdBorderType.wdBorderTop].LineStyle = WdLineStyle.wdLineStyleSingle;
                 }
-                p = document.Paragraphs.Add();
+                p.Range.InsertParagraphAfter();
                 p.Range.Text = "Подробнее";
 
-                p = document.Paragraphs.Add();
+                p.Range.InsertParagraphAfter();
+
                 Table table1 = document.Tables.Add(p.Range, productExtra.Count + 1, 6);
 
                 table1.Borders[WdBorderType.wdBorderRight].LineStyle = WdLineStyle.wdLineStyleSingle;
@@ -234,7 +235,7 @@ namespace IS_Storage.classes
                     table1.Cell(i + 2, 6).Range.Borders[WdBorderType.wdBorderTop].LineStyle = WdLineStyle.wdLineStyleSingle;
                 }
                 word.Application.ActiveDocument.SaveAs2(filePath!=""?filePath:"tempdocument.docx", WdSaveFormat.wdFormatDocumentDefault);             
-                word.Quit();
+                word.Quit(WdSaveOptions.wdSaveChanges);
             }
             catch
             {
