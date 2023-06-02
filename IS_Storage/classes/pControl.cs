@@ -25,10 +25,38 @@ namespace IS_Storage.classes
         public string Client { get; set; }
         public string ArivalDate { get; set; }
         public DateTime actualArivalDate { get; set; }
+        public static void amountCount()
+        {
+            stockEntities localCont = stockEntities.GetStockEntity();
+            var transactions = localCont.Transaction.Where(p => p.ID_TrTType != 3).ToList();
+
+
+            List<Product> products = new List<Product>();
+
+            foreach ( var t in transactions)
+            {
+                if (t.ID_TrTType == 1)
+                {
+                    if (products.Where(p => p.IDProduct == t.ID_Product).Count() > 0)
+                    {
+                        products.Find(p => p.IDProduct == t.ID_Product).Amount += t.Amount;
+                    }
+                    else
+                    {
+                        products.Add(localCont.Product.Where(p => p.IDProduct == t.ID_Product).First()); products.Last().Amount = t.Amount;
+                    }
+                }
+                else
+                {
+                    if (products.Where(p => p.IDProduct == t.ID_Product).Count() > 0) products.Find(p => p.IDProduct == t.ID_Product).Amount -= t.Amount;
+                }
+            }
+            localCont.SaveChanges();
+        }
 
         public static List<Product> ProductsSearch(transactionControll transaction = null, Client cl = null, Place place = null)
         {
-            stockEntities localCont = stockEntities.GetStockEntity();
+            stockEntities localCont = stockEntities.GetStockEntityD();
             List<Transaction> tr = localCont.Transaction.ToList();
 
             if (transaction != null) tr = transaction.actualList;
@@ -57,7 +85,7 @@ namespace IS_Storage.classes
 
         public static List<pControl> pControlConvert(transactionControll trC = null)
         {
-            stockEntities localCont = stockEntities.GetStockEntity();
+            stockEntities localCont = stockEntities.GetStockEntityD();
 
             List<Transaction> tr = localCont.Transaction.ToList();
 

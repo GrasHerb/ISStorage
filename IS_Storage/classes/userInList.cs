@@ -19,7 +19,7 @@ namespace IS_Storage.classes
         public string uComputer { get; set; }
         public static ObservableCollection<userInList> listConvert(List<Employee> employees)
         {
-            stockEntities localCont = stockEntities.GetStockEntity();
+            stockEntities localCont = stockEntities.GetStockEntityD();
             ObservableCollection<userInList> converted = new ObservableCollection<userInList>();
             List<UserRole> roles = localCont.UserRole.ToList();
             int c = 1;
@@ -48,7 +48,7 @@ namespace IS_Storage.classes
         public int reqId { get; set; }
         public static ObservableCollection<deluserInList> listConvert(List<Employee> employees)
         {
-            stockEntities localCont = stockEntities.GetStockEntity();
+            stockEntities localCont = stockEntities.GetStockEntityD();
             ObservableCollection<deluserInList> converted = new ObservableCollection<deluserInList>();
             List<userRequest> delRequests = localCont.userRequest.Where(p => p.requestTypeID == 4).ToList();
             foreach (Employee a in employees)

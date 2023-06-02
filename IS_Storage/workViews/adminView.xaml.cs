@@ -40,6 +40,7 @@ namespace IS_Storage.workViews
         
         private void visibleOnline_Checked(object sender, RoutedEventArgs e)
         {
+            localCont.SaveChanges();
             gridUpdate();
         }
         public void gridUpdate()

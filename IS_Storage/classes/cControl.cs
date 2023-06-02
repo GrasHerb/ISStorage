@@ -26,7 +26,6 @@ namespace IS_Storage.classes
 
         public static List<cControl> listConvert(List<Client> clients)
         {
-            stockEntities localCont = stockEntities.GetStockEntity();
             List<cControl> converted = new List<cControl>();
             int c = 1;
             foreach (Client a in clients)

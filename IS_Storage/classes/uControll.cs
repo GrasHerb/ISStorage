@@ -36,7 +36,7 @@ namespace IS_Storage.classes
         {
             try
             {
-                var passCheck = stockEntities.GetStockEntity().Employee.Where(p => p.Emp_Login == login).FirstOrDefault();
+                var passCheck = stockEntities.GetStockEntityD().Employee.Where(p => p.Emp_Login == login).FirstOrDefault();
                 if (stockEntities.GetStockEntity().userRequest.Where(p => p.userID == passCheck.IDEmp && p.requestState == 0 && p.requestTypeID == 1).FirstOrDefault() != null) return 2;
                 if (passCheck.Emp_Pass == "-") return 1;
                 if (passCheck.Emp_Login.Contains("___")) return 3;
@@ -52,7 +52,7 @@ namespace IS_Storage.classes
         {
             try
             {
-                stockEntities localCont = stockEntities.GetStockEntity();
+                stockEntities localCont = stockEntities.GetStockEntityD();
                 Employee a = localCont.Employee.Where(p => p.Emp_Login == login).FirstOrDefault();
                 
                 switch (i)

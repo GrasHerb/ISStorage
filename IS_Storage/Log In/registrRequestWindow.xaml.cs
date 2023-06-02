@@ -120,7 +120,7 @@ namespace IS_Storage.Log_In
                                         }
                                         if (MessageBox.Show("Применить изменения?\n" + reqText, "Подтверждение", MessageBoxButton.YesNo) != MessageBoxResult.Yes) { return; }
                                         _context.SaveChanges();
-                                        _context.userRequest.Add(new userRequest() { requestTypeID = 4, FullName = AdmL.Full_Name+" ("+AdmL.Emp_Login+")"+" изменил учётную запись: " + tempEmp.Full_Name +" ("+tempEmp.Emp_Login+")\n"+reqText, requestState = 0, requestTime = DateTime.Now.ToString("G"), computerName = Environment.MachineName + " " + Environment.UserName, userID = AdmL.IDEmp });
+                                        _context.userRequest.Add(new userRequest() { requestTypeID = 3, FullName = AdmL.Full_Name+" ("+AdmL.Emp_Login+")"+" изменил учётную запись: " + tempEmp.Full_Name +" ("+tempEmp.Emp_Login+")\n"+reqText, requestState = 0, requestTime = DateTime.Now.ToString("G"), computerName = Environment.MachineName + " " + Environment.UserName, userID = AdmL.IDEmp });
                                         _context.SaveChanges();
                                         MessageBox.Show("Пользователь создан!");
                                     }

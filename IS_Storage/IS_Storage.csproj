@@ -72,6 +72,7 @@
     <Compile Include="classes\cControl.cs" />
     <Compile Include="classes\mailManager.cs" />
     <Compile Include="classes\pControl.cs" />
+    <Compile Include="classes\plControl.cs" />
     <Compile Include="classes\transactionControll.cs" />
     <Compile Include="classes\uControll.cs" />
     <Compile Include="classes\userInList.cs" />
@@ -144,6 +145,12 @@
     <Compile Include="workViews\adminView.xaml.cs">
       <DependentUpon>adminView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="workViews\empCondWindow.xaml.cs">
+      <DependentUpon>empCondWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="workViews\empPlaceWindow.xaml.cs">
+      <DependentUpon>empPlaceWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="workViews\empView.xaml.cs">
       <DependentUpon>empView.xaml</DependentUpon>
     </Compile>
@@ -202,6 +209,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="workViews\adminView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="workViews\empCondWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="workViews\empPlaceWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

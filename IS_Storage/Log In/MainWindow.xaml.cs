@@ -2,6 +2,7 @@
 using IS_Storage.Log_In;
 using IS_Storage.workViews;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -26,6 +27,7 @@ namespace IS_Storage
     /// </summary>
     public partial class MainWindow : Window
     {
+       
         List<Page> pages = new List<Page>();
         public bool working { get; set; }
         statusWindow a;
@@ -36,6 +38,8 @@ namespace IS_Storage
             pageUpd();            
             mainFrame.Content = pages[0];
             a = new statusWindow("Прекращение работы", "Пожалуста подождите");
+            List<PlaceCond> aw = stockEntities.GetStockEntityD().Place.First().PlaceCond.ToList();
+            pControl.amountCount();
         }
         
         private void pageUpd()

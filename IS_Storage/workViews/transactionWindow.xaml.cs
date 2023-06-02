@@ -27,13 +27,15 @@ namespace IS_Storage.workViews
     /// </summary>
     public partial class transactionWindow : System.Windows.Window
     {
-        stockEntities localCont = stockEntities.GetStockEntity();
+        stockEntities localCont = stockEntities.GetStockEntityD();
         List<pControl> productsExtra;
         List<Product> products;
         transactionControll trans;
         Client cClient = new Client();
         string document = "";
-        public transactionWindow(Client cl = null,transactionControll tr = null, Place pl = null)
+        MailMessage m;
+        Employee cEmp;
+        public transactionWindow(Client cl = null,transactionControll tr = null, Place pl = null, Employee cE = null)
         {
             InitializeComponent();
             if (cl != null)
@@ -41,12 +43,14 @@ namespace IS_Storage.workViews
                 products = pControl.ProductsSearch(null,cl);
                 productsExtra = pControl.pControlConvert().Where(p=>p.Client==cl.Name).ToList();
                 cClient = cl;
+                m.Subject = "Продукция клиента: " + cl.Name;
                 document = "Продукция клиента: " + cl.Name;
             }
             if (tr != null)
             {
                 products = pControl.ProductsSearch(tr);
                 productsExtra = pControl.pControlConvert(tr).ToList();
+                m.Subject = "Информация о транзакции: " + tr.Date+" "+tr.Client;
                 document = "Информация о транзакции: " + tr.Date+" "+tr.Client;
             }
             if (pl != null)
@@ -111,11 +115,25 @@ namespace IS_Storage.workViews
 
                         MailAddress from = new MailAddress("is_storage@rambler.ru", "ИС Склад");
                         MailAddress to = new MailAddress(cClient.Email);
-                        MailMessage m = new MailMessage(from, to);
+                        m = new MailMessage(from, to);
                         m.Body = "<p style=\"text - align: center; \">ИС Склад</p><p style=\"text - align: left; \">Здравствуйте, "+ cClient.Name+ ", ваш отчёт находится в прикреплённом документе.</p><p style=\"text - align: left; \">Дата отчёта: "+DateTime.Now.ToString("G")+"</p>";
                         m.IsBodyHtml = true;
                         mailManager.Sending(m, Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\tempdocument.docx");
+                        if (cEmp != null) 
+                        {
+                            localCont.userRequest.Add(new userRequest()
+                            {
+                                FullName = cEmp.Full_Name + " (" + cEmp.Emp_Login + ") " + " создал и отправил документ '" + document + " клиенту " + cClient.Name + " на почту " + cClient.Email,
+                                computerName = Environment.MachineName,
+                                requestTypeID = 2,
+                                userID = cEmp.IDEmp,
+                                requestState = 1,
+                                requestTime = DateTime.Now.ToString("G"),
 
+                            });
+                            localCont.SaveChanges();
+                        }
+                        
                         if (MessageBox.Show("Документ отправлен!\nЗакрыть окно?", "Отправка документа", MessageBoxButton.YesNo) == MessageBoxResult.Yes) this.Close();
                     }
                     break;

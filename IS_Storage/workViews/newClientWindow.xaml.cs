@@ -73,7 +73,7 @@ namespace IS_Storage.workViews
                 case 1:
                     if (txtMail.Text != "" && txtName.Text != "" && txtPhNum.Text != "")
                     {
-                        if (txtName.Text != clientChange.Name && localCont.Client.Where(p => p.Name == txtName.Text).Count() == 0)
+                        if ((txtName.Text != clientChange.Name && localCont.Client.Where(p => p.Name == txtName.Text).Count() == 0)||(txtName.Text == clientChange.Name && localCont.Client.Where(p => p.Name == txtName.Text).Count() == 1))
                         {
                             if (txtName.Text.Contains("___")){ MessageBox.Show("ФИО или название клиента не может содержать '___'"); return; }
                             string reqText = "Изменения";
@@ -96,7 +96,7 @@ namespace IS_Storage.workViews
                             var changing = localCont.Client.Where(p => p.IDClient == clientChange.IDClient).First();
                             changing = clientChange;
                             localCont.SaveChanges();
-                            localCont.userRequest.Add(new userRequest() { requestTypeID = 4, FullName = employee.Full_Name + " изменил данные клиента.\n" + reqText, requestState = 1, requestTime = DateTime.Now.ToString("G"), computerName = Environment.MachineName + " " + Environment.UserName, userID = employee.IDEmp });
+                            localCont.userRequest.Add(new userRequest() { requestTypeID = 3, FullName = employee.Full_Name + " изменил данные клиента.\n" + reqText, requestState = 1, requestTime = DateTime.Now.ToString("G"), computerName = Environment.MachineName + " " + Environment.UserName, userID = employee.IDEmp });
                             localCont.SaveChanges();
                         }
                         else MessageBox.Show("Клиент уже существует в базе данных!");

@@ -16,7 +16,7 @@ namespace IS_Storage
     public partial class stockEntities : DbContext
     {
         public stockEntities()
-            : base("name=asonov_KPEntities")
+            : base("name=stockEntities")
         {
         }
 

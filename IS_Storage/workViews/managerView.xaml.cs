@@ -30,7 +30,7 @@ namespace IS_Storage.workViews
     /// </summary>
     public partial class managerView : System.Windows.Controls.Page
     {
-        stockEntities localCont = stockEntities.GetStockEntity();
+        stockEntities localCont = stockEntities.GetStockEntityD();
         Employee cEmp = new Employee();
         List<cControl> listClient;
         List<transactionControll> trInList;
@@ -109,7 +109,7 @@ namespace IS_Storage.workViews
             {
                 if (clientGrid.SelectedItem == null || clientGrid.SelectedItems.Count > 1) { MessageBox.Show("Выберите одного клиента."); return; }
                 var c = (cControl)clientGrid.SelectedItem;
-                Client cl = localCont.Client.Where(p=>p.IDClient == c.numActual).First();
+                Client cl = stockEntities.GetStockEntity().Client.Where(p=>p.IDClient == c.numActual).First();
                 var a = pControl.ProductsSearch(null,cl);
                 if (a.Count != 0) MessageBox.Show("Клиент не может быть удалён.\n Клиент имеет продукцию на складе.");
                 else
@@ -117,8 +117,8 @@ namespace IS_Storage.workViews
                     var req = cControl.delClient(localCont.Client.Where(p=>p.IDClient==cl.IDClient).First(),cEmp);
                     if (req.ID_Request != -2)
                     {
-                        localCont.userRequest.Add(req);
-                        localCont.SaveChanges();
+                        stockEntities.GetStockEntity().userRequest.Add(req);
+                        stockEntities.GetStockEntity().SaveChanges();
                         gridUpdate();
                     }
                     else MessageBox.Show("Ошибка удаления!");
@@ -202,13 +202,13 @@ namespace IS_Storage.workViews
                                     if (client.PNumber != "" && client.Email != "" && client.Name != "")
                                     {
                                         clientsToAdd += "\n" + client.Name + " " + client.Email + " " + client.PNumber;
-                                        localCont.Client.Add(new Client { Name = client.Name, Email = client.Email, PNumber = client.PNumber });
-                                        localCont.userRequest.Add(new userRequest { requestTypeID = 2, FullName = cEmp.Full_Name + " создал клиента: " + client.Name, requestState = 1, requestTime = DateTime.Now.ToString("G"), computerName = Environment.MachineName + " " + Environment.UserName, userID = cEmp.IDEmp });
+                                        stockEntities.GetStockEntity().Client.Add(new Client { Name = client.Name, Email = client.Email, PNumber = client.PNumber });
+                                        stockEntities.GetStockEntity().userRequest.Add(new userRequest { requestTypeID = 2, FullName = cEmp.Full_Name + " создал клиента: " + client.Name, requestState = 1, requestTime = DateTime.Now.ToString("G"), computerName = Environment.MachineName + " " + Environment.UserName, userID = cEmp.IDEmp });
                                     }                                    
                                 }
                                 if (MessageBox.Show("Добавить записи: " + clientsToAdd, "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                                 {
-                                    localCont.SaveChanges();
+                                    stockEntities.GetStockEntity().SaveChanges();
                                     gridUpdate();
                                     MessageBox.Show("Импорт завершён!");
                                 }
@@ -228,13 +228,13 @@ namespace IS_Storage.workViews
                                     if (client.Name != "" && client.Email != "" && client.PNumber != "")
                                     {
                                         clientsToAdd += "\n" + client.Name + " " + client.Email + " " + client.PNumber;
-                                        localCont.Client.Add(new Client { Name = client.Name, Email = client.Email, PNumber = client.PNumber });
-                                        localCont.userRequest.Add(new userRequest { requestTypeID = 2, FullName = cEmp.Full_Name + " создал клиента: " + client.Name, requestState = 1, requestTime = DateTime.Now.ToString("G"), computerName = Environment.MachineName + " " + Environment.UserName, userID = cEmp.IDEmp });
+                                        stockEntities.GetStockEntity().Client.Add(new Client { Name = client.Name, Email = client.Email, PNumber = client.PNumber });
+                                        stockEntities.GetStockEntity().userRequest.Add(new userRequest { requestTypeID = 2, FullName = cEmp.Full_Name + " создал клиента: " + client.Name, requestState = 1, requestTime = DateTime.Now.ToString("G"), computerName = Environment.MachineName + " " + Environment.UserName, userID = cEmp.IDEmp });
                                     }
                                 }
                                 if (MessageBox.Show("Добавить записи: " + clientsToAdd, "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                                 {
-                                    localCont.SaveChanges();
+                                    stockEntities.GetStockEntity().SaveChanges();
                                     gridUpdate();
                                     MessageBox.Show("Импорт завершён!");
                                 }
