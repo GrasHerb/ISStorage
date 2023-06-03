@@ -42,7 +42,7 @@ namespace IS_Storage.workViews
         }
         public void gridUpdate()
         {
-            placeGrid.ItemsSource = localCont.Place.ToList();
+            placeGrid.ItemsSource = localCont.Place.Where(p=>!p.SpecialCode.Contains("Удалено___")).ToList();
             if (txtPl.Text != "Поиск" && txtPl.Text != "") placeGrid.ItemsSource = localCont.Place.Where(p => p.SpecialCode == txtPl.Text);
             listClient = cControl.listConvert(localCont.Client.Where(p=>!p.Name.Contains("___")).ToList());
             if (txtSearch.Text != "Поиск" && txtSearch.Text != "")

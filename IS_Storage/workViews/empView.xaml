@@ -22,14 +22,13 @@
                                     <DataGridTextColumn Width="auto" Header="Номер" x:Name="trId" Binding="{Binding IDt}"/>
                                     <DataGridTextColumn Header="ФИО/Название" x:Name="trClient" Binding="{Binding Client}"/>
                                     <DataGridTextColumn Header="Дата и время" x:Name="trDate" Binding="{Binding Date}"/>
-                                    <DataGridTextColumn Header="Сотрудник" x:Name="trEmp" Binding="{Binding Date}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </ScrollViewer>
                         <WrapPanel Height="50" HorizontalAlignment="Center">
                                 <Button x:Name="chTransBtn" Style="{StaticResource Button3}" Margin="10" Width="200" Content="Изменить данные транзакции" Click="chTransBtn_Click"/>
                                 <Button x:Name="crTransBtn" Style="{StaticResource Button1}" Margin="10"  Width="150" Content="Создать транзакцию" Click="crTransBtn_Click"/>
-                                <Button x:Name="dlTransBtn" Style="{StaticResource Button2}" Margin="10"  Width="200" Content="Удалить транзакцию" Click="dlTransBtn_Click"/>
+                                <Button x:Name="dlTransBtn" Style="{StaticResource Button2}" Margin="10"  Width="200" Content="Отменить транзакцию" Click="dlTransBtn_Click"/>
                         </WrapPanel>
                     </StackPanel>
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IS_Storage.classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,8 +32,9 @@ namespace IS_Storage.workViews
 
         void gridUpdate()
         {
-            condGrid.ItemsSource = stockEntities.GetStockEntity().Condition.Where(p => p.Title != "Удалено").ToList();
-            placeGrid.ItemsSource = stockEntities.GetStockEntity().Place.Where(p => p.SpecialCode != "Удалено").ToList();
+            condGrid.ItemsSource = stockEntities.GetStockEntity().Condition.Where(p => !p.Title.Contains("Удалено___")).ToList();
+            placeGrid.ItemsSource = stockEntities.GetStockEntity().Place.Where(p => !p.SpecialCode.Contains("Удалено___")).ToList();
+            transGrid.ItemsSource = transactionControll.listConvert(stockEntities.GetStockEntityD().Transaction.ToList());
         }
         private void crPlaceBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -56,7 +58,7 @@ namespace IS_Storage.workViews
             if (MessageBox.Show("Удалить место хранения " + a.SpecialCode + "?", "Удаление", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 MessageBox.Show("Данное место будет отмечено как 'Удалено' и не станет отображаться для создания новых продуктов");
-                a.SpecialCode = "Удалено";
+                a.SpecialCode = "Удалено___"+a.SpecialCode;
                 stockEntities.GetStockEntity().userRequest.Add(new userRequest
                 {
                     requestTypeID = 4,
@@ -121,10 +123,37 @@ namespace IS_Storage.workViews
 
         private void crTransBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            empTransaction a = new empTransaction(employee);
+            a.ShowDialog();
+            if (a.DialogResult == true) stockEntities.GetStockEntity().SaveChanges();
         }
 
         private void dlTransBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void prodAddBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (!txtNewName.Text.Contains("___"))
+            {
+                if (txtNewName.Text != "" && txtNewArticle.Text != "")
+                    if (stockEntities.GetStockEntityD().Product.Where(p => p.Name == txtNewName.Text).Count() == 0 && stockEntities.GetStockEntityD().Product.Where(p => p.Article == txtNewArticle.Text).Count() == 0)
+                    {
+
+                    }
+                    else MessageBox.Show("Такой товар уже существует!");
+                else MessageBox.Show("Заполните название и артикул продукции!");
+            }
+            else MessageBox.Show("Название не может содержать '___'");
+        }
+
+        private void prodChBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void prodDelBtn_Click(object sender, RoutedEventArgs e)
         {
 
         }

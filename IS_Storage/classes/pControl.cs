@@ -54,7 +54,7 @@ namespace IS_Storage.classes
             localCont.SaveChanges();
         }
 
-        public static List<Product> ProductsSearch(transactionControll transaction = null, Client cl = null, Place place = null)
+        public static List<Product> ProductsSearch(transactionControll transaction = null, Client cl = null, Place place = null, int type = 0)
         {
             stockEntities localCont = stockEntities.GetStockEntityD();
             List<Transaction> tr = localCont.Transaction.ToList();
@@ -80,7 +80,9 @@ namespace IS_Storage.classes
             {
                 if (products.Where(p => p.IDProduct == t.ID_Product).Count() > 0) products.Find(p => p.IDProduct == t.ID_Product).Amount -= t.Amount;
             }
-            return products;
+            if (type == 1)
+                foreach (Product pr in localCont.Product) if (products.Where(p => p.IDProduct == pr.IDProduct).Count() == 0) { products.Add(localCont.Product.Where(p => p.IDProduct == pr.IDProduct).First()); products.Last().Amount = 0; }
+                        return products.Where(p=>!p.Name.Contains("___")).ToList();
         }
 
         public static List<pControl> pControlConvert(transactionControll trC = null)

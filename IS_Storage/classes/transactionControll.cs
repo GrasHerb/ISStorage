@@ -21,6 +21,7 @@ namespace IS_Storage.classes
     {        
         public int IDt { get; set; }
         public string Client { get; set; }
+        public Client aClient { get; set; }
         public string Date { get; set; }
         public DateTime actualDate { get; set; }
         public List<Transaction> actualList { get; set; }
@@ -42,10 +43,11 @@ namespace IS_Storage.classes
                     {
                         IDt = c++,
                         Client = a.Client.Name,
+                        aClient = a.Client,
                         Date = a.Date,
-                        actualDate = DateTime.ParseExact(a.Date.Split(' ')[0] + " 00:00:00","G",cultureInfo),
-                        actualList = new List<Transaction>() {a}
-                    });
+                        actualDate = DateTime.ParseExact(a.Date.Split(' ')[0] + " 00:00:00", "G", cultureInfo),
+                        actualList = new List<Transaction>() { a }
+                    }) ;
                 }                
             }
             return converted;
