@@ -60,7 +60,7 @@ namespace IS_Storage.workViews
             
             clientGrid.ItemsSource = listClient;
 
-            trInList = transactionControll.listConvert(localCont.Transaction.ToList());
+            trInList = transactionControll.listConvert(localCont.Transaction.AsNoTracking().ToList());
             if (txtClient.Text != "Поиск" && txtClient.Text != "")
             {
                 trInList = trInList.Where(p => p.Client == txtClient.Text).ToList();

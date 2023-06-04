@@ -25,8 +25,7 @@
                                 </DataGrid.Columns>
                             </DataGrid>
                         </ScrollViewer>
-                        <WrapPanel Height="50" HorizontalAlignment="Center">
-                                <Button x:Name="chTransBtn" Style="{StaticResource Button3}" Margin="10" Width="200" Content="Изменить данные транзакции" Click="chTransBtn_Click"/>
+                            <WrapPanel Height="50" HorizontalAlignment="Center">
                                 <Button x:Name="crTransBtn" Style="{StaticResource Button1}" Margin="10"  Width="150" Content="Создать транзакцию" Click="crTransBtn_Click"/>
                                 <Button x:Name="dlTransBtn" Style="{StaticResource Button2}" Margin="10"  Width="200" Content="Отменить транзакцию" Click="dlTransBtn_Click"/>
                         </WrapPanel>
@@ -40,10 +39,10 @@
                         <WrapPanel Height="300">
                             <StackPanel>
                             <ScrollViewer Height="250" Width="350" Margin="30,0">
-                                    <DataGrid IsReadOnly="True" x:Name="placeGrid" AutoGenerateColumns="False">
+                            <DataGrid IsReadOnly="True" x:Name="placeGrid" AutoGenerateColumns="False">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Номер" Binding="{Binding IDPlace}"/>
-                                            <DataGridTextColumn Header="Код места хранения" Binding="{Binding SpecialCode}"/>
+                                    <DataGridTextColumn Header="Код места хранения" Binding="{Binding SpecialCode}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
                             </ScrollViewer>
@@ -71,7 +70,51 @@
                         </WrapPanel>
                 </StackPanel>
             </TabItem>
+                <TabItem Header="Добавление продукции">
+                    <StackPanel MinWidth="800" MinHeight="350" x:Name="newProduct">
+                        <Label Content="Добавление продукции"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <Label Content="Название"/>
+                                <Label Content="Артикул"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" HorizontalAlignment="Left">
+                                <TextBox x:Name="txtNewName" Width="300"/>
+                                <TextBox x:Name="txtNewArticle" Width="300"/>
+                            </StackPanel>
+                            <Button Grid.Column="2" Style="{StaticResource Button3}" Content="🔍︎" Margin="10" HorizontalAlignment="Left" Height="20" Click="Button_Click_2"/>
+                        </Grid>
+                        <ScrollViewer Height="150" Margin="10,0">
+                            <DataGrid IsReadOnly="True" x:Name="condGridP" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Style="{StaticResource Button3}" Margin="1" Width="15" Height="15" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Click_1"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Header="Особенность хранения" Binding="{Binding Title}"/>
+                                    <DataGridTextColumn Header="Присутсвует" Binding="{Binding Chosen}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </ScrollViewer>
+                        <WrapPanel>
+                            <Button x:Name="prodAddBtn" Style="{StaticResource Button1}" Content="Добавить" Margin="5" Width="70" Click="prodAddBtn_Click"/>
+                            <Button x:Name="prodChBtn" Style="{StaticResource Button3}" Content="Изменить" Margin="5" Width="70" Click="prodChBtn_Click"/>
+                            <Button x:Name="prodDelBtn" Style="{StaticResource Button2}" Content="Удалить" Margin="5" Width="70" Click="prodDelBtn_Click"/>
+                        </WrapPanel>
+                    </StackPanel>
+
+
+                </TabItem>
             </TabControl>
+            
         <Button Style="{StaticResource Button3}" Height="20" Width="20" Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="↻" Click="Button_Click"/>
         </Grid>
     </Viewbox>

@@ -5,44 +5,46 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IS_Storage.workViews"
         mc:Ignorable="d"
-        Title="" Height="450" Width="500">
-    <StackPanel>
-        <WrapPanel>
-            <Label Content="Тип"/>
-            <ComboBox x:Name="typeTr" SelectedIndex="0" VerticalAlignment="Center" SelectionChanged="typeChanged" >
-                <ComboBoxItem Content="Привоз"/>
-                <ComboBoxItem Content="Вывоз"/>
-            </ComboBox>
-        </WrapPanel>
-        <WrapPanel>
-            <StackPanel>
-                <WrapPanel>
-                    <Label Content="Продукция в базе"/>
-                </WrapPanel>
-                <ScrollViewer Height="150" Width="500">
-                    <DataGrid IsReadOnly="True" x:Name="productsClientGrid" SelectedCellsChanged="productsClientGrid_SelectedCellsChanged">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
-                            <DataGridTextColumn Header="Акртикул" Binding="{Binding Article}"/>
-                            <DataGridTextColumn Header="Количество у клиента" Binding="{Binding Amount}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </ScrollViewer>
-                <Label Content="Место хранения"/>
-                <ScrollViewer Height="100" Width="500">
-                    <DataGrid IsReadOnly="True" x:Name="placeGrid" AutoGenerateColumns="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Номер" Binding="{Binding IDPlace}"/>
-                            <DataGridTextColumn Header="Код места хранения" Binding="{Binding SpecialCode}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </ScrollViewer>
-            </StackPanel>
-        </WrapPanel>
-        <WrapPanel>
-            <Label Content="Количество"/>
-            <TextBox x:Name="amountTxt"/>
-        </WrapPanel>
-        <Button x:Name="addButton" Style="{StaticResource Button1}" Content="Сохранить" Width="100" HorizontalAlignment="Left" Margin="100,5" Click="addButton_Click"/>
-    </StackPanel>
+        Title="" Height="510" Width="550" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen">
+    <Viewbox VerticalAlignment="Top">
+        <StackPanel>
+            <WrapPanel>
+                <Label Content="Тип"/>
+                <ComboBox x:Name="typeTr" VerticalAlignment="Center" SelectionChanged="typeChanged">
+                    <ComboBoxItem Content="Привоз"/>
+                    <ComboBoxItem Content="Вывоз"/>
+                </ComboBox>
+            </WrapPanel>
+            <WrapPanel>
+                <StackPanel>
+                    <WrapPanel>
+                        <Label Content="Продукция в базе"/>
+                    </WrapPanel>
+                    <ScrollViewer Height="150" Width="500">
+                        <DataGrid AutoGenerateColumns="False" IsReadOnly="True" x:Name="productsClientGrid" SelectionChanged="productsClientGrid_SelectionChanged">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
+                                <DataGridTextColumn Header="Акртикул" Binding="{Binding Article}"/>
+                                <DataGridTextColumn Header="Количество у клиента" Binding="{Binding Amount}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </ScrollViewer>
+                    <Label Content="Место хранения"/>
+                    <ScrollViewer Height="100" Width="500">
+                        <DataGrid IsReadOnly="True" x:Name="placeGrid" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Номер" Binding="{Binding IDPlace}"/>
+                                <DataGridTextColumn Header="Код места хранения" Binding="{Binding SpecialCode}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </ScrollViewer>
+                </StackPanel>
+            </WrapPanel>
+            <WrapPanel>
+                <Label Content="Количество"/>
+                <TextBox x:Name="amountTxt"/>
+            </WrapPanel>
+            <Button x:Name="addButton" Style="{StaticResource Button1}" Content="Сохранить" Width="150" Height="30" HorizontalAlignment="Left" Margin="100,5" Click="addButton_Click"/>
+        </StackPanel>
+    </Viewbox>
 </Window>

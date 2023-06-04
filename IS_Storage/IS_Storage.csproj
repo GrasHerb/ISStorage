@@ -151,6 +151,9 @@
     <Compile Include="workViews\empPlaceWindow.xaml.cs">
       <DependentUpon>empPlaceWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="workViews\empProductWindow.xaml.cs">
+      <DependentUpon>empProductWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="workViews\empTransaction.xaml.cs">
       <DependentUpon>empTransaction.xaml</DependentUpon>
     </Compile>
@@ -220,6 +223,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="workViews\empPlaceWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="workViews\empProductWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

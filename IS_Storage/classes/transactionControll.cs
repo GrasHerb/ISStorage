@@ -32,7 +32,7 @@ namespace IS_Storage.classes
             List<transactionControll> converted = new List<transactionControll>();
             int c = 1;
             var cultureInfo = new CultureInfo("ru-RU");
-            foreach (Transaction a in tr)
+            foreach (Transaction a in tr.Where(p=>p.ID_TrTType!=3).ToList())
             {
                 if (converted.Where(p => p.Client == a.Client.Name && p.Date == a.Date).ToList().Count != 0)
                     converted.Where(p => p.Client == a.Client.Name && p.Date == a.Date).First().actualList.Add(a);
@@ -52,7 +52,6 @@ namespace IS_Storage.classes
             }
             return converted;
         }
-
 
         
 

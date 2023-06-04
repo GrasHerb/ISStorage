@@ -28,5 +28,6 @@ namespace IS_Storage
         public virtual Place Place { get; set; }
         public virtual Product Product { get; set; }
         public virtual TransType TransType { get; set; }
+        public virtual Employee Employee1 { get; set; }
     }
 }

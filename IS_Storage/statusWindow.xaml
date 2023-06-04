@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IS_Storage"
         mc:Ignorable="d"
-        Title="statusWindow" Height="120" Width="275" WindowStyle="None" WindowStartupLocation="CenterScreen">
+        Title="statusWindow" ShowInTaskbar="False" Height="120" Width="275" WindowStyle="None" WindowStartupLocation="CenterScreen">
     <TextBlock Margin="10" VerticalAlignment="Center" >
         <Run x:Name="headL" Text="dw"/>
         <Run x:Name="textL" Text="dwd"/>

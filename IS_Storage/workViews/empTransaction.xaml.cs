@@ -1,6 +1,7 @@
 ﻿using IS_Storage.classes;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +21,9 @@ namespace IS_Storage.workViews
     /// </summary>
     public partial class empTransaction : Window
     {
-        transactionControll transaction { get; set; }
+        public transactionControll transaction { get; set; }
         Employee cEmp = null;
-        string actions = "";
+        public string actions { get; set; }
         public empTransaction(Employee employee, transactionControll t = null)
         {
             InitializeComponent();
@@ -33,6 +34,11 @@ namespace IS_Storage.workViews
                 clientTxt.Text = t.Client;
                 clientTxt.IsEnabled = false;
             }
+            else
+            {
+                transaction = new transactionControll() {actualList=new List<Transaction>() };
+            }
+            actions = "";
             cEmp = employee;
         }
 
@@ -41,11 +47,13 @@ namespace IS_Storage.workViews
             if (clientTxt.Text != "" && stockEntities.GetStockEntityD().Client.Where(p => p.Name == clientTxt.Text).Count() != 0)
             {
                 if (mainGridExtra.SelectedItems.Count != 1) { MessageBox.Show("Выберите одну транзакцию на изменение!"); return; }
-                empProductWindow a = new empProductWindow(stockEntities.GetStockEntityD().Client.Where(p => p.Name == clientTxt.Text).First(), cEmp, (Transaction)mainGridExtra.SelectedItem);
+                empProductWindow a = new empProductWindow(stockEntities.GetStockEntityD().Client.Where(p => p.Name == clientTxt.Text).AsNoTracking().First(), cEmp, (Transaction)mainGridExtra.SelectedItem);
                 a.ShowDialog();
                 if (a.DialogResult == true)
                 {
-                    actions += "Изменение транзакции: id " + a.controll.IDTransaction + " " + (a.controll.ID_TrTType == 1 ? "привоз" : "вывоз") + " продукции " + a.controll.ID_Product + " в количестве " + a.controll.Amount + " с места " + a.controll.Place.SpecialCode;
+                    var prodAction = stockEntities.GetStockEntityD().Product.Single(p => p.IDProduct == a.controll.ID_Product).Name;
+                    var placeAction = stockEntities.GetStockEntityD().Place.Single(p => p.IDPlace == a.controll.ID_Place).SpecialCode;
+                    actions += "\nИзменение транзакции: id " + a.controll.IDTransaction + ", " + (a.controll.ID_TrTType == 1 ? "привоз" : "вывоз") + ", продукции " + prodAction + ", в количестве " + a.controll.Amount + ", место " + placeAction;
                     var ind = transaction.actualList.FindIndex(p => p.IDTransaction == a.controll.IDTransaction);
                     transaction.actualList[ind] = a.controll;
                 }
@@ -59,12 +67,14 @@ namespace IS_Storage.workViews
         {
             if (clientTxt.Text != "" && stockEntities.GetStockEntityD().Client.Where(p => p.Name == clientTxt.Text).Count() != 0)
             {
-                empProductWindow a = new empProductWindow(stockEntities.GetStockEntityD().Client.Where(p => p.Name == clientTxt.Text).First(), cEmp);
+                empProductWindow a = new empProductWindow(stockEntities.GetStockEntityD().Client.Where(p => p.Name == clientTxt.Text).AsNoTracking().First(), cEmp);
                 a.ShowDialog();
                 if (a.DialogResult == true)
                 {
+                    var prodAction = stockEntities.GetStockEntityD().Product.Single(p => p.IDProduct == a.controll.ID_Product).Name;
+                    var placeAction = stockEntities.GetStockEntityD().Place.Single(p => p.IDPlace == a.controll.ID_Place).SpecialCode;
                     transaction.actualList.Add(a.controll);                    
-                    actions += "Добавление транзакции: "+(a.controll.ID_TrTType==1?"привоз":"вывоз") +" продукции " + a.controll.ID_Product+" в количестве " + a.controll.Amount + " с места "+ a.controll.Place.SpecialCode;
+                    actions += "\nДобавление транзакции: " + (a.controll.ID_TrTType==1?"привоз":"вывоз") +" продукции " + prodAction + ", в количестве " + a.controll.Amount + ", место "+ placeAction;
                 }
 
                 mainGridExtra.ItemsSource = null;
@@ -81,8 +91,8 @@ namespace IS_Storage.workViews
                 if (MessageBox.Show("Удалить данную транзакцию?", "Удаление", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     var a = (Transaction)mainGridExtra.SelectedItem;
+                    actions = "\nУдаление транзакции: " + (a.ID_TrTType == 1 ? "привоз" : "вывоз") + " продукции " + a.ID_Product + " в количестве " + a.Amount + " с места " + a.Place.SpecialCode;
                     a.ID_TrTType = 3;
-                    
                     mainGridExtra.ItemsSource = null;
                     mainGridExtra.ItemsSource = transaction.actualList;
                 }
@@ -97,7 +107,7 @@ namespace IS_Storage.workViews
         {
             if (actions != "")
             {
-                if (MessageBox.Show("Применить изменения?", "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Применить изменения?"+actions, "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     DialogResult = true;
                 }

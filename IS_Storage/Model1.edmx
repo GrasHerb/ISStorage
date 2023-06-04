@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище asonov_KPModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище stockModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Client">
           <Key>
             <PropertyRef Name="IDClient" />
@@ -215,7 +215,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Transaction_Employee">
+        <Association Name="FK_Transaction_Employee1">
           <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
           <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
           <ReferentialConstraint>
@@ -227,7 +227,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Transaction_Place">
+        <Association Name="FK_Transaction_Place1">
           <End Role="Place" Type="Self.Place" Multiplicity="1" />
           <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
           <ReferentialConstraint>
@@ -239,7 +239,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Transaction_Product">
+        <Association Name="FK_Transaction_Product1">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
           <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
           <ReferentialConstraint>
@@ -287,7 +287,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Хранилище asonov_KPModelContainer">
+        <EntityContainer Name="Хранилище stockModelContainer">
           <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Condition" EntityType="Self.Condition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
@@ -330,15 +330,15 @@
             <End Role="Client" EntitySet="Client" />
             <End Role="Transaction" EntitySet="Transaction" />
           </AssociationSet>
-          <AssociationSet Name="FK_Transaction_Employee" Association="Self.FK_Transaction_Employee">
+          <AssociationSet Name="FK_Transaction_Employee1" Association="Self.FK_Transaction_Employee1">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="Transaction" EntitySet="Transaction" />
           </AssociationSet>
-          <AssociationSet Name="FK_Transaction_Place" Association="Self.FK_Transaction_Place">
+          <AssociationSet Name="FK_Transaction_Place1" Association="Self.FK_Transaction_Place1">
             <End Role="Place" EntitySet="Place" />
             <End Role="Transaction" EntitySet="Transaction" />
           </AssociationSet>
-          <AssociationSet Name="FK_Transaction_Product" Association="Self.FK_Transaction_Product">
+          <AssociationSet Name="FK_Transaction_Product1" Association="Self.FK_Transaction_Product1">
             <End Role="Product" EntitySet="Product" />
             <End Role="Transaction" EntitySet="Transaction" />
           </AssociationSet>
@@ -355,11 +355,10 @@
             <End Role="userRequest" EntitySet="userRequest" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="asonov_KPModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="stockModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Client">
           <Key>
             <PropertyRef Name="IDClient" />
@@ -394,6 +393,7 @@
           <NavigationProperty Name="UserRole" Relationship="Self.FK_Employee_UserRole" FromRole="Employee" ToRole="UserRole" />
           <NavigationProperty Name="Transaction" Relationship="Self.FK_Transaction_Employee" FromRole="Employee" ToRole="Transaction" />
           <NavigationProperty Name="userRequest" Relationship="Self.FK_userRequest_Employee" FromRole="Employee" ToRole="userRequest" />
+          <NavigationProperty Name="Transaction1" Relationship="stockModel.FK_Transaction_Employee1" FromRole="Employee" ToRole="Transaction" />
         </EntityType>
         <EntityType Name="Place">
           <Key>
@@ -402,7 +402,7 @@
           <Property Name="IDPlace" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SpecialCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="PlaceCond" Relationship="Self.FK_PlaceCond_Place" FromRole="Place" ToRole="PlaceCond" />
-          <NavigationProperty Name="Transaction" Relationship="Self.FK_Transaction_Place" FromRole="Place" ToRole="Transaction" />
+          <NavigationProperty Name="Transaction" Relationship="Self.FK_Transaction_Place1" FromRole="Place" ToRole="Transaction" />
         </EntityType>
         <EntityType Name="PlaceCond">
           <Key>
@@ -435,7 +435,7 @@
           <Property Name="UnitID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ProdCond" Relationship="Self.FK_ProdCond_Product" FromRole="Product" ToRole="ProdCond" />
           <NavigationProperty Name="UnitType" Relationship="Self.FK_Product_UnitType" FromRole="Product" ToRole="UnitType" />
-          <NavigationProperty Name="Transaction" Relationship="Self.FK_Transaction_Product" FromRole="Product" ToRole="Transaction" />
+          <NavigationProperty Name="Transaction" Relationship="Self.FK_Transaction_Product1" FromRole="Product" ToRole="Transaction" />
         </EntityType>
         <EntityType Name="reqType">
           <Key>
@@ -469,9 +469,10 @@
           <Property Name="Amount" Type="Double" Nullable="false" />
           <NavigationProperty Name="Client" Relationship="Self.FK_Transaction_Client" FromRole="Transaction" ToRole="Client" />
           <NavigationProperty Name="Employee" Relationship="Self.FK_Transaction_Employee" FromRole="Transaction" ToRole="Employee" />
-          <NavigationProperty Name="Place" Relationship="Self.FK_Transaction_Place" FromRole="Transaction" ToRole="Place" />
-          <NavigationProperty Name="Product" Relationship="Self.FK_Transaction_Product" FromRole="Transaction" ToRole="Product" />
+          <NavigationProperty Name="Place" Relationship="Self.FK_Transaction_Place1" FromRole="Transaction" ToRole="Place" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Transaction_Product1" FromRole="Transaction" ToRole="Product" />
           <NavigationProperty Name="TransType" Relationship="Self.FK_Transaction_TransType" FromRole="Transaction" ToRole="TransType" />
+          <NavigationProperty Name="Employee1" Relationship="stockModel.FK_Transaction_Employee1" FromRole="Transaction" ToRole="Employee" />
         </EntityType>
         <EntityType Name="TransType">
           <Key>
@@ -568,7 +569,7 @@
               <PropertyRef Name="IDEmp" />
             </Principal>
             <Dependent Role="Transaction">
-              <PropertyRef Name="ID_Emp" />
+              <PropertyRef Name="ID_Client" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -596,7 +597,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Transaction_Place">
+        <Association Name="FK_Transaction_Place1">
           <End Role="Place" Type="Self.Place" Multiplicity="1" />
           <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
           <ReferentialConstraint>
@@ -632,7 +633,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Transaction_Product">
+        <Association Name="FK_Transaction_Product1">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
           <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
           <ReferentialConstraint>
@@ -668,7 +669,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="asonov_KPEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="stockEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Client" EntityType="Self.Client" />
           <EntitySet Name="Condition" EntityType="Self.Condition" />
           <EntitySet Name="Employee" EntityType="Self.Employee" />
@@ -711,7 +712,7 @@
             <End Role="Place" EntitySet="Place" />
             <End Role="PlaceCond" EntitySet="PlaceCond" />
           </AssociationSet>
-          <AssociationSet Name="FK_Transaction_Place" Association="Self.FK_Transaction_Place">
+          <AssociationSet Name="FK_Transaction_Place1" Association="Self.FK_Transaction_Place1">
             <End Role="Place" EntitySet="Place" />
             <End Role="Transaction" EntitySet="Transaction" />
           </AssociationSet>
@@ -723,7 +724,7 @@
             <End Role="UnitType" EntitySet="UnitType" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
-          <AssociationSet Name="FK_Transaction_Product" Association="Self.FK_Transaction_Product">
+          <AssociationSet Name="FK_Transaction_Product1" Association="Self.FK_Transaction_Product1">
             <End Role="Product" EntitySet="Product" />
             <End Role="Transaction" EntitySet="Transaction" />
           </AssociationSet>
@@ -735,15 +736,31 @@
             <End Role="TransType" EntitySet="TransType" />
             <End Role="Transaction" EntitySet="Transaction" />
           </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Employee1" Association="stockModel.FK_Transaction_Employee1">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Transaction_Employee1">
+          <End Type="stockModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="stockModel.Transaction" Role="Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="IDEmp" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="ID_Emp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище asonov_KPModelContainer" CdmEntityContainer="asonov_KPEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище stockModelContainer" CdmEntityContainer="stockEntities">
           <EntitySetMapping Name="Client">
-            <EntityTypeMapping TypeName="asonov_KPModel.Client">
+            <EntityTypeMapping TypeName="stockModel.Client">
               <MappingFragment StoreEntitySet="Client">
                 <ScalarProperty Name="IDClient" ColumnName="IDClient" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -753,7 +770,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Condition">
-            <EntityTypeMapping TypeName="asonov_KPModel.Condition">
+            <EntityTypeMapping TypeName="stockModel.Condition">
               <MappingFragment StoreEntitySet="Condition">
                 <ScalarProperty Name="IDCondition" ColumnName="IDCondition" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -761,7 +778,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Employee">
-            <EntityTypeMapping TypeName="asonov_KPModel.Employee">
+            <EntityTypeMapping TypeName="stockModel.Employee">
               <MappingFragment StoreEntitySet="Employee">
                 <ScalarProperty Name="IDEmp" ColumnName="IDEmp" />
                 <ScalarProperty Name="Full_Name" ColumnName="Full_Name" />
@@ -775,7 +792,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Place">
-            <EntityTypeMapping TypeName="asonov_KPModel.Place">
+            <EntityTypeMapping TypeName="stockModel.Place">
               <MappingFragment StoreEntitySet="Place">
                 <ScalarProperty Name="IDPlace" ColumnName="IDPlace" />
                 <ScalarProperty Name="SpecialCode" ColumnName="SpecialCode" />
@@ -783,7 +800,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PlaceCond">
-            <EntityTypeMapping TypeName="asonov_KPModel.PlaceCond">
+            <EntityTypeMapping TypeName="stockModel.PlaceCond">
               <MappingFragment StoreEntitySet="PlaceCond">
                 <ScalarProperty Name="IDPlaceCond" ColumnName="IDPlaceCond" />
                 <ScalarProperty Name="ID_Place" ColumnName="ID_Place" />
@@ -792,7 +809,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ProdCond">
-            <EntityTypeMapping TypeName="asonov_KPModel.ProdCond">
+            <EntityTypeMapping TypeName="stockModel.ProdCond">
               <MappingFragment StoreEntitySet="ProdCond">
                 <ScalarProperty Name="IDProdCond" ColumnName="IDProdCond" />
                 <ScalarProperty Name="ID_Product" ColumnName="ID_Product" />
@@ -801,7 +818,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Product">
-            <EntityTypeMapping TypeName="asonov_KPModel.Product">
+            <EntityTypeMapping TypeName="stockModel.Product">
               <MappingFragment StoreEntitySet="Product">
                 <ScalarProperty Name="IDProduct" ColumnName="IDProduct" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -812,7 +829,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="reqType">
-            <EntityTypeMapping TypeName="asonov_KPModel.reqType">
+            <EntityTypeMapping TypeName="stockModel.reqType">
               <MappingFragment StoreEntitySet="reqType">
                 <ScalarProperty Name="ID_Type" ColumnName="ID_Type" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -820,7 +837,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="asonov_KPModel.sysdiagrams">
+            <EntityTypeMapping TypeName="stockModel.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
@@ -831,7 +848,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Transaction">
-            <EntityTypeMapping TypeName="asonov_KPModel.Transaction">
+            <EntityTypeMapping TypeName="stockModel.Transaction">
               <MappingFragment StoreEntitySet="Transaction">
                 <ScalarProperty Name="IDTransaction" ColumnName="IDTransaction" />
                 <ScalarProperty Name="ID_Client" ColumnName="ID_Client" />
@@ -845,7 +862,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TransType">
-            <EntityTypeMapping TypeName="asonov_KPModel.TransType">
+            <EntityTypeMapping TypeName="stockModel.TransType">
               <MappingFragment StoreEntitySet="TransType">
                 <ScalarProperty Name="IDTypeTrans" ColumnName="IDTypeTrans" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -853,7 +870,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UnitType">
-            <EntityTypeMapping TypeName="asonov_KPModel.UnitType">
+            <EntityTypeMapping TypeName="stockModel.UnitType">
               <MappingFragment StoreEntitySet="UnitType">
                 <ScalarProperty Name="IDUnit" ColumnName="IDUnit" />
                 <ScalarProperty Name="Unit_Title" ColumnName="Unit_Title" />
@@ -862,7 +879,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="userRequest">
-            <EntityTypeMapping TypeName="asonov_KPModel.userRequest">
+            <EntityTypeMapping TypeName="stockModel.userRequest">
               <MappingFragment StoreEntitySet="userRequest">
                 <ScalarProperty Name="ID_Request" ColumnName="ID_Request" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
@@ -875,7 +892,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserRole">
-            <EntityTypeMapping TypeName="asonov_KPModel.UserRole">
+            <EntityTypeMapping TypeName="stockModel.UserRole">
               <MappingFragment StoreEntitySet="UserRole">
                 <ScalarProperty Name="IDRole" ColumnName="IDRole" />
                 <ScalarProperty Name="Title" ColumnName="Title" />

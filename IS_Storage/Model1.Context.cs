@@ -19,19 +19,7 @@ namespace IS_Storage
             : base("name=stockEntities")
         {
         }
-
-        public static stockEntities _context;
-        public static stockEntities GetStockEntity()
-        {
-            if (_context == null) _context = new stockEntities();
-            return _context;
-        }
-        public static stockEntities GetStockEntityD()
-        {
-            return new stockEntities();
-        }
-
-
+    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();

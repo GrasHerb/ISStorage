@@ -19,6 +19,7 @@ namespace IS_Storage
         {
             this.Transaction = new HashSet<Transaction>();
             this.userRequest = new HashSet<userRequest>();
+            this.Transaction1 = new HashSet<Transaction>();
         }
     
         public int IDEmp { get; set; }
@@ -35,5 +36,7 @@ namespace IS_Storage
         public virtual ICollection<Transaction> Transaction { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<userRequest> userRequest { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Transaction> Transaction1 { get; set; }
     }
 }

@@ -4,34 +4,43 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="6f15138b518044d29e171e2809beac6b" Name="Diagram1" ZoomLevel="97">
-        <EntityTypeShape EntityType="asonov_KPModel.Client" Width="1.5" PointX="3.75" PointY="7.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="asonov_KPModel.Condition" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="asonov_KPModel.Employee" Width="1.5" PointX="3.75" PointY="10.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="asonov_KPModel.Place" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="asonov_KPModel.PlaceCond" Width="1.5" PointX="3" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="asonov_KPModel.ProdCond" Width="1.5" PointX="9" PointY="7.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="asonov_KPModel.Product" Width="1.5" PointX="3.75" PointY="14" IsExpanded="true" />
-        <EntityTypeShape EntityType="asonov_KPModel.reqType" Width="1.5" PointX="3.75" PointY="19.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="asonov_KPModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="asonov_KPModel.Transaction" Width="1.5" PointX="6" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="asonov_KPModel.TransType" Width="1.5" PointX="3.75" PointY="17.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="asonov_KPModel.UnitType" Width="1.5" PointX="1.5" PointY="14.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="asonov_KPModel.userRequest" Width="1.5" PointX="6" PointY="10.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="asonov_KPModel.UserRole" Width="1.5" PointX="1.5" PointY="10.875" IsExpanded="true" />
-        <AssociationConnector Association="asonov_KPModel.FK_Transaction_Client" ManuallyRouted="false" />
-        <AssociationConnector Association="asonov_KPModel.FK_PlaceCond_Condition" ManuallyRouted="false" />
-        <AssociationConnector Association="asonov_KPModel.FK_ProdCond_Condition" ManuallyRouted="false" />
-        <AssociationConnector Association="asonov_KPModel.FK_Employee_UserRole" ManuallyRouted="false" />
-        <AssociationConnector Association="asonov_KPModel.FK_Transaction_Employee" ManuallyRouted="false" />
-        <AssociationConnector Association="asonov_KPModel.FK_userRequest_Employee" ManuallyRouted="false" />
-        <AssociationConnector Association="asonov_KPModel.FK_PlaceCond_Place" ManuallyRouted="false" />
-        <AssociationConnector Association="asonov_KPModel.FK_Transaction_Place" ManuallyRouted="false" />
-        <AssociationConnector Association="asonov_KPModel.FK_ProdCond_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="asonov_KPModel.FK_Product_UnitType" ManuallyRouted="false" />
-        <AssociationConnector Association="asonov_KPModel.FK_Transaction_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="asonov_KPModel.FK_userRequest_reqType" ManuallyRouted="false" />
-        <AssociationConnector Association="asonov_KPModel.FK_Transaction_TransType" ManuallyRouted="false" />
+      <Diagram DiagramId="37afec0b1b814c19adb23ab27b7a0376" Name="Diagram1">
+        <EntityTypeShape EntityType="stockModel.Client" Width="1.5" PointX="3.75" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.Condition" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.Employee" Width="1.5" PointX="3.75" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.Place" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.PlaceCond" Width="1.5" PointX="3" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.ProdCond" Width="1.5" PointX="9" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.Product" Width="1.5" PointX="3.75" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.reqType" Width="1.5" PointX="3.75" PointY="19.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.Transaction" Width="1.5" PointX="6" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.TransType" Width="1.5" PointX="3.75" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.UnitType" Width="1.5" PointX="1.5" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.userRequest" Width="1.5" PointX="6" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="stockModel.UserRole" Width="1.5" PointX="1.5" PointY="10.875" IsExpanded="true" />
+        <AssociationConnector Association="stockModel.FK_Transaction_Client" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_PlaceCond_Condition" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_ProdCond_Condition" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_Employee_UserRole" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_Transaction_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_userRequest_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_PlaceCond_Place" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_Transaction_Place1" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_ProdCond_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_Product_UnitType" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_Transaction_Product1" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_userRequest_reqType" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_Transaction_TransType" ManuallyRouted="false" />
+        <AssociationConnector Association="stockModel.FK_Transaction_Employee1" ManuallyRouted="true" >
+          <ConnectorPoint PointX="5.25" PointY="10.721122108191663" />
+          <ConnectorPoint PointX="5.75" PointY="10.721122108191663" />
+          <ConnectorPoint PointX="5.75" PointY="10" />
+          <ConnectorPoint PointX="5.8958331309258938" PointY="10" />
+          <ConnectorPoint PointX="5.8958331309258938" PointY="7.7126195638020825" />
+          <ConnectorPoint PointX="6.75" PointY="7.7126195638020825" />
+          <ConnectorPoint PointX="6.75" PointY="6.5859993489583326" />
+        </AssociationConnector>
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

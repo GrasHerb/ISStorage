@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IS_Storage.workViews"
         mc:Ignorable="d"
-        Title="Добавление нового условия хранения" Height="180" Width="400" ResizeMode="NoResize">
+        Title="Добавление нового условия хранения" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" Height="180" Width="400" ResizeMode="NoResize">
     <Viewbox>
         <Grid>
             <Grid.ColumnDefinitions>

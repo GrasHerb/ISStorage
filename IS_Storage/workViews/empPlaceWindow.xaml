@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IS_Storage.workViews"
         mc:Ignorable="d"
-        Title="Место хранения" ResizeMode="NoResize" Height="380" Width="600">
+        Title="Место хранения" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Height="380" Width="600">
     <StackPanel>
         <WrapPanel>
             <Label Content="Код места хранения"/>            

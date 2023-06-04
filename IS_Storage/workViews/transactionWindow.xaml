@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IS_Storage.workViews"
         mc:Ignorable="d"
-        Title="Окно транзакций" Height="500" Width="760" ResizeMode="NoResize">
+        Title="Окно транзакций" Height="500" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" Width="760" ResizeMode="NoResize">
     <Viewbox>
         <StackPanel>
             <ScrollViewer Height="250" x:Name="noExtra">
