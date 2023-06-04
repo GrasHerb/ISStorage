@@ -50,6 +50,15 @@ namespace IS_Storage.classes
                 {
                     if (products.Where(p => p.IDProduct == t.ID_Product).Count() > 0) products.Find(p => p.IDProduct == t.ID_Product).Amount -= t.Amount;
                 }
+                if(t.ID_TrTType == 3)
+                    if (products.Where(p => p.IDProduct == t.ID_Product).Count() > 0)
+                    {
+                        products.Find(p => p.IDProduct == t.ID_Product).Amount = 0;
+                    }
+                    else
+                    {
+                        products.Add(localCont.Product.Where(p => p.IDProduct == t.ID_Product).First()); products.Last().Amount = 0;
+                    }
             }
             localCont.SaveChanges();
         }

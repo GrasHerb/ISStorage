@@ -5,19 +5,19 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:IS_Storage.workViews"
       mc:Ignorable="d"
-      Title="adminView" Height="450" Width="850">
+      Title="adminView" Height="405" Width="850">
 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TabControl >
-            <TabItem Header="Список" Width="55" Height="25">
-                <Grid MinWidth="800" MinHeight="400">
+        <TabControl Height="405" >
+            <TabItem Header="Список"  Height="25">
+                <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height=".5*"/>
-                        <RowDefinition Height="4*"/>
-                        <RowDefinition Height="1*"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions >
                         <ColumnDefinition Width="3*"/>
@@ -40,7 +40,7 @@
 
                     </StackPanel>
 
-                    <CheckBox x:Name="visibleOnline" Checked="visibleOnline_Checked" Unchecked="visibleOnline_Checked" Grid.Row="2" FontSize="10" Margin="5" Height="20" Width="150" HorizontalAlignment="Left">
+                    <CheckBox x:Name="visibleOnline" Checked="visibleOnline_Checked" Unchecked="visibleOnline_Checked" Grid.Row="2" FontSize="10" Margin="10,0" Width="150" HorizontalAlignment="Left">
                         <ContentControl Height="16" Margin="1">
                             <Viewbox>
                                 <Label Margin="0" Content="Только пользователи в сети"/>
@@ -60,7 +60,7 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="Удалённые" Height="25" Width="80">
+            <TabItem Header="Удалённые" Height="25" >
                 <Grid MinWidth="800" MinHeight="400" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.5*"/>

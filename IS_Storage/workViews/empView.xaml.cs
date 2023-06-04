@@ -219,18 +219,19 @@ namespace IS_Storage.workViews
 
                     foreach (Transaction transaction in tr.actualList)
                     {
-                        transaction.ID_TrTType = 3;
-                    }
-                foreach (Transaction transaction in tr.actualList)
-                {
                     if (stockEntities.GetStockEntity().Transaction.Where(p => p.IDTransaction == transaction.IDTransaction).Count() == 1)
                     {
                         var changing = stockEntities.GetStockEntity().Transaction.Where(p => p.IDTransaction == transaction.IDTransaction).First();
-                        changing = transaction;
-                    }
-                    else
-                    {
-                        stockEntities.GetStockEntity().Transaction.Add(transaction);
+                        changing.ID_TrTType = 3;
+                        stockEntities.GetStockEntity().userRequest.Add(new userRequest
+                        {
+                            requestTypeID = 4,
+                            FullName = employee.Full_Name + " удалил транзакцию\n" + changing.IDTransaction,
+                            requestState = 1,
+                            requestTime = DateTime.Now.ToString("G"),
+                            computerName = Environment.MachineName + " " + Environment.UserName,
+                            userID = employee.IDEmp
+                        });
                     }
                 }
 
@@ -326,7 +327,6 @@ namespace IS_Storage.workViews
         {
             if (prodF.IDProduct != 0)
             {
-
                 MessageBox.Show(prodF.Name + " удалено");
                 prodF.Name = "Удалено" + prodF.Name;
                 stockEntities.GetStockEntity().SaveChanges();
