@@ -24,7 +24,16 @@ namespace IS_Storage
         {
             throw new UnintentionalCodeFirstException();
         }
-    
+        public static stockEntities _context;
+        public static stockEntities GetStockEntity()
+        {
+            if (_context == null) _context = new stockEntities();
+            return _context;
+        }
+        public static stockEntities GetStockEntityD()
+        {
+            return new stockEntities();
+        }
         public virtual DbSet<Client> Client { get; set; }
         public virtual DbSet<Condition> Condition { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }
