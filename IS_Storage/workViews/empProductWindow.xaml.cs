@@ -113,7 +113,9 @@ namespace IS_Storage.workViews
                                 ID_Emp = cEmp.IDEmp,
                                 ID_Place = cp.IDPlace,
                                 ID_Product = p.IDProduct,
-                                ID_TrTType = typeTr.SelectedIndex == 0 ? 1 : 2                                
+                                ID_TrTType = typeTr.SelectedIndex == 0 ? 1 : 2,
+                                Product = p,
+                                Place = cp
                             };
                             DialogResult = true;
                         }
