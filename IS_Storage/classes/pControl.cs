@@ -2,11 +2,13 @@
 using Microsoft.Office.Interop.Excel;
 using Microsoft.Office.Interop.Word;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Net.Mail;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,7 +35,7 @@ namespace IS_Storage.classes
 
             List<Product> products = new List<Product>();
 
-            foreach ( var t in transactions)
+            foreach (var t in transactions)
             {
                 if (t.ID_TrTType == 1)
                 {
@@ -50,7 +52,7 @@ namespace IS_Storage.classes
                 {
                     if (products.Where(p => p.IDProduct == t.ID_Product).Count() > 0) products.Find(p => p.IDProduct == t.ID_Product).Amount -= t.Amount;
                 }
-                if(t.ID_TrTType == 3)
+                if (t.ID_TrTType == 3)
                     if (products.Where(p => p.IDProduct == t.ID_Product).Count() > 0)
                     {
                         products.Find(p => p.IDProduct == t.ID_Product).Amount = 0;
@@ -69,7 +71,7 @@ namespace IS_Storage.classes
             List<Transaction> tr = localCont.Transaction.ToList();
 
             if (transaction != null) tr = transaction.actualList;
-            if (cl != null&&cl!=new Client()) tr = tr.Where(p => p.ID_Client == cl.IDClient).ToList();
+            if (cl != null && cl != new Client()) tr = tr.Where(p => p.ID_Client == cl.IDClient).ToList();
             if (place != null) tr = tr.Where(p => p.ID_Place == place.IDPlace).ToList();
 
             List<Product> products = new List<Product>();
@@ -80,9 +82,9 @@ namespace IS_Storage.classes
                 {
                     products.Find(p => p.IDProduct == t.ID_Product).Amount += t.Amount;
                 }
-                else 
-                { 
-                    products.Add(localCont.Product.Where(p => p.IDProduct == t.ID_Product).First()); products.Last().Amount = t.Amount; 
+                else
+                {
+                    products.Add(localCont.Product.Where(p => p.IDProduct == t.ID_Product).First()); products.Last().Amount = t.Amount;
                 }
             }
             foreach (Transaction t in tr.Where(p => p.ID_TrTType == 2).ToList())
@@ -91,7 +93,7 @@ namespace IS_Storage.classes
             }
             if (type == 1)
                 foreach (Product pr in localCont.Product) if (products.Where(p => p.IDProduct == pr.IDProduct).Count() == 0) { products.Add(localCont.Product.Where(p => p.IDProduct == pr.IDProduct).First()); products.Last().Amount = 0; }
-                        return products.Where(p=>!p.Name.Contains("___")).ToList();
+            return products.Where(p => !p.Name.Contains("___")).ToList();
         }
 
         public static List<pControl> pControlConvert(transactionControll trC = null)
@@ -120,6 +122,7 @@ namespace IS_Storage.classes
                         {
                             Id = c++,
                             prodId = t.ID_Product,
+                            prodName = t.Product.Name,
                             trId = t.IDTransaction,
                             Client = t.Client.Name,
                             ArivalDate = t.Date,
@@ -154,6 +157,7 @@ namespace IS_Storage.classes
                         {
                             Id = c++,
                             prodId = t.ID_Product,
+                            prodName = t.Product.Name,
                             trId = t.IDTransaction,
                             Client = t.Client.Name,
                             ArivalDate = t.Date,
@@ -168,11 +172,14 @@ namespace IS_Storage.classes
             }
             return products;
         }
-        
+
         public static void wordExport(List<pControl> productExtra, List<Product> product, string filePath, string Head)
         {
             try
             {
+                Object defaultTableBehavior = Type.Missing;
+                Object autoFitBehavior = Type.Missing;
+
                 Microsoft.Office.Interop.Word.Application word;
 
                 word = new Microsoft.Office.Interop.Word.Application();
@@ -181,18 +188,27 @@ namespace IS_Storage.classes
 
                 var document = word.Documents.Add();
 
-                var p = document.Paragraphs.Add();
+                object oCollapseEnd = WdCollapseDirection.wdCollapseEnd;
 
-                p = document.Paragraphs.Add();
+                Microsoft.Office.Interop.Word.Range rng = document.Range();
+                rng.Collapse(ref oCollapseEnd);
 
-                p.Range.Text = Head;
+                rng.InsertParagraphAfter();
+                rng.Collapse(ref oCollapseEnd);
 
-                p = document.Paragraphs.Add();
+                rng.Text += Head;
 
-                p.Range.Text = "Дата составления: " + DateTime.Now.ToString("G");
+                rng.InsertParagraphAfter();
+                rng.Collapse(ref oCollapseEnd);
 
-                p.Range.InsertParagraphAfter();
-                Table table = document.Tables.Add(p.Range, product.Count + 1, 3);
+                rng.Text = "Дата составления: " + DateTime.Now.ToString("G");
+
+                rng.InsertParagraphAfter();
+                rng.Collapse(ref oCollapseEnd);
+
+                Table table = document.Tables.Add(rng, product.Count + 1, 3, ref defaultTableBehavior, ref autoFitBehavior);
+
+
 
                 table.Borders[WdBorderType.wdBorderRight].LineStyle = WdLineStyle.wdLineStyleSingle;
                 table.Borders[WdBorderType.wdBorderLeft].LineStyle = WdLineStyle.wdLineStyleSingle;
@@ -221,12 +237,18 @@ namespace IS_Storage.classes
                     table.Cell(i + 2, 3).Range.Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleSingle;
                     table.Cell(i + 2, 3).Range.Borders[WdBorderType.wdBorderTop].LineStyle = WdLineStyle.wdLineStyleSingle;
                 }
-                p.Range.InsertParagraphAfter();
-                p.Range.Text = "Подробнее";
 
-                p.Range.InsertParagraphAfter();
+                rng = document.Content;
 
-                Table table1 = document.Tables.Add(p.Range, productExtra.Count + 1, 6);
+                rng.Collapse(ref oCollapseEnd);
+
+
+                rng.Text = "Подробнее";
+
+                rng.InsertParagraphAfter();
+                rng.Collapse(ref oCollapseEnd);
+
+                Table table1 = document.Tables.Add(rng, productExtra.Count + 1, 6, ref defaultTableBehavior, ref autoFitBehavior);
 
                 table1.Borders[WdBorderType.wdBorderRight].LineStyle = WdLineStyle.wdLineStyleSingle;
                 table1.Borders[WdBorderType.wdBorderLeft].LineStyle = WdLineStyle.wdLineStyleSingle;
@@ -273,7 +295,7 @@ namespace IS_Storage.classes
                     table1.Cell(i + 2, 6).Range.Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleSingle;
                     table1.Cell(i + 2, 6).Range.Borders[WdBorderType.wdBorderTop].LineStyle = WdLineStyle.wdLineStyleSingle;
                 }
-                word.Application.ActiveDocument.SaveAs2(filePath!=""?filePath:"tempdocument.docx", WdSaveFormat.wdFormatDocumentDefault);             
+                word.Application.ActiveDocument.SaveAs2(filePath != "" ? filePath : "tempdocument.docx", WdSaveFormat.wdFormatDocumentDefault);
                 word.Quit(WdSaveOptions.wdSaveChanges);
             }
             catch

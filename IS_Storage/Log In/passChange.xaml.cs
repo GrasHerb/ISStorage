@@ -23,22 +23,21 @@ namespace IS_Storage.Log_In
         List<Run> qrun = new List<Run>();
         bool requestp = false;
         public Employee newEmp { get; set; } = new Employee();
+        string str = "";
         public passChange(Employee employee)
         {
             InitializeComponent();
             newEmp = employee;
-            qrun.AddRange(new List<Run> { req1, req2, req3 });
-            req1.Text = "Пароль не меньше 6 символов.";
-            req2.Text = "\nПароль должен содержать прописные и заглавные буквы.";
-            req3.Text = "\nПароль должен содержать символы и цифры.";
+            str = "Пароль не меньше 6 символов. X\nПароль должен содержать прописные и заглавные буквы. X\nПароль должен содержать символы и цифры. X";
+            reqBlock.Content = str;
         }
 
         private void confirmButton_Click(object sender, RoutedEventArgs e)
         {
             if (newPassTxt.Password != "" || newPassTxtVis.Text != "")
             {
-                if (visiblePass.IsChecked == true ? 
-                    newPassTxt.Password == newPassTxtRep.Password 
+                if (visiblePass.IsChecked != true ?
+                    newPassTxt.Password == newPassTxtRep.Password
                     :
                     newPassTxtVis.Text == newPassTxtVis.Text)
                 {
@@ -58,7 +57,7 @@ namespace IS_Storage.Log_In
                     }
                     else MessageBox.Show("Выполните требования к паролю.");
                 }
-                else MessageBox.Show("Пароли должны совпадать");                
+                else MessageBox.Show("Пароли должны совпадать");
             }
             else MessageBox.Show("Введите новый пароль");
         }
@@ -86,21 +85,14 @@ namespace IS_Storage.Log_In
         }
         private void passwordReq(bool type)
         {
+            requestp = false;
             bool[] passreqs = new bool[3];
             if (type) passreqs = uControll.passwordReq(newPassTxt.Password);
             else passreqs = uControll.passwordReq(newPassTxt.Password);
-            req1.Text = "Пароль не меньше 6 символов.";
-            req2.Text = "\nПароль должен содержать прописные и заглавные буквы.";
-            req3.Text = "\nПароль должен содержать символы и цифры.";
-            reqBlock.Visibility = Visibility.Visible;
-            for (int i = 0; i < passreqs.Length; i++)
-            {
-                if (passreqs[i]) qrun[i].Text.Replace('X', '✓');
-                else qrun[i].Text.Replace('✓','X');
-            }
-            foreach (Run run in qrun) if (!run.Text.Contains('X')) return;
+            str = "Пароль не меньше 6 символов. " + (passreqs[0] ? "✓" : "X") + "\nПароль должен содержать прописные и заглавные буквы. " + (passreqs[1] ? "✓" : "X") + "\nПароль должен содержать символы и цифры." + (passreqs[0] ? "✓" : "X");
+            reqBlock.Content = str;
+            if (str.Contains('X')) return;
             requestp = true;
-            reqBlock.Visibility = Visibility.Collapsed;
         }
 
         private void newPassTxt_PasswordChanged(object sender, RoutedEventArgs e)

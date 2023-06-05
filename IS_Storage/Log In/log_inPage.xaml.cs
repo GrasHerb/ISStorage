@@ -25,7 +25,7 @@ namespace IS_Storage
     /// </summary>
     public partial class log_inPage : Page
     {
-        
+
         MainWindow window = (MainWindow)Application.Current.MainWindow;
         BackgroundWorker bg = new BackgroundWorker() { WorkerSupportsCancellation = true };
         statusWindow sWin = new statusWindow("", "");
@@ -40,10 +40,10 @@ namespace IS_Storage
         {
             mainWork();
         }
-        
+
         void messageClose(object sender, RunWorkerCompletedEventArgs e)
         {
-            
+
             sWin.Close();
             bg.Dispose();
             bg = new BackgroundWorker();
@@ -56,13 +56,19 @@ namespace IS_Storage
             bg.DoWork += new DoWorkEventHandler(bg_DoWork);
             bg.RunWorkerCompleted += new RunWorkerCompletedEventHandler(messageClose);
             bg.RunWorkerAsync();
-            
+
         }
         private void btnEnter_Click(object sender, RoutedEventArgs e)
         {
             result = 0;
             startEntering();
-            if ((txtPass.Password != "" || txtPassVisible.Text != "") && txtLog.Text != "")
+            if (txtLog.Text != "" &&
+                            txtPass.Visibility == Visibility.Visible
+                            ?
+                            txtPass.Password != ""
+                            :
+                            txtPassVisible.Text != ""
+                            )
             {
                 if (window.working)
                 {
@@ -73,22 +79,21 @@ namespace IS_Storage
                         case 0: break;
                         case -1: reasonTxt.Content = "Пользователь не найден."; break;
                         case 1: reasonTxt.Content = "Вход отменён."; break;
-                        case 2: reasonTxt.Content = "Ваша учётная запись ещё не была подтверждена администратором."; break;
-                        case 3: reasonTxt.Content = "Ваша учётная запись была удалена администратором."; break;
-                        case 4: reasonTxt.Content = "Даннная учётная запись используется другим пользователем."; break;
+                        case 2: reasonTxt.Content = "."; break;
+                        case 3: reasonTxt.Content = "Учётная запись была удалена администратором."; break;
+                        case 4: reasonTxt.Content = "Даннная учётная запись используется."; break;
                         case 5: reasonTxt.Content = "Учётная запись не найдена."; break;
                         default: break;
                     }
                 }
-
             }
-            else reasonTxt.Content = "Введите логин и пароль пользователя.";
+            else reasonTxt.Content = "Введите пароль и логин.";
         }
 
         private void lblForgetPass_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var window = (MainWindow)Application.Current.MainWindow;
-            
+
             window.pageChange(1);
         }
 
@@ -120,47 +125,47 @@ namespace IS_Storage
         }
         void mainWork()
         {
-            stockEntities localCont = stockEntities.GetStockEntity();                
-                Employee employee = new Employee();
-                Dispatcher.Invoke(DispatcherPriority.Background, new
-                            Action(() =>
+            stockEntities localCont = stockEntities.GetStockEntity();
+            Employee employee = new Employee();
+            Dispatcher.Invoke(DispatcherPriority.Background, new
+                        Action(() =>
+                        {
+                            if (txtLog.Text != "" &&
+                        txtPass.Visibility == Visibility.Visible
+                        ?
+                        txtPass.Password != ""
+                        :
+                        txtPassVisible.Text != ""
+                        )
                             {
-                                if (txtLog.Text != "" &&
-                            txtPass.Visibility == Visibility.Visible
-                            ?
-                            txtPass.Password != ""
-                            :
-                            txtPassVisible.Text != ""
-                            )
+                                int result = txtPass.Visibility == Visibility.Visible ? uControll.passwCheck(txtPass.Password, txtLog.Text) : uControll.passwCheck(txtPassVisible.Text, txtLog.Text);
+                                switch (result)
                                 {
-                                    int result = txtPass.Visibility == Visibility.Visible ? uControll.passwCheck(txtPass.Password, txtLog.Text): uControll.passwCheck(txtPassVisible.Text, txtLog.Text);
-                                    switch (result)
-                                    {
-                                        case 0:
+                                    case 0:
+                                        window.pageChange(2, txtLog.Text);
+                                        break;
+                                    case 1:
+                                        MessageBox.Show("Вы были зарегистрированы администратором.\n Для продолжения работы установите пароль.");
+                                        passChange passwindow = new passChange(localCont.Employee.Where(p => p.Emp_Login == txtLog.Text).FirstOrDefault());
+                                        if (passwindow.ShowDialog() == true)
+                                        {
+                                            employee = localCont.Employee.Where(p => p.Emp_Login == txtLog.Text).FirstOrDefault();
+                                            employee.Emp_Pass = passwindow.newEmp.Emp_Pass;
+                                            localCont.SaveChanges();
                                             window.pageChange(2, txtLog.Text);
-                                            break;
-                                        case 1:
-                                            MessageBox.Show("Вы были зарегистрированы администратором.\n Для продолжения работы установите пароль.");
-                                            passChange passwindow = new passChange(localCont.Employee.Where(p => p.Emp_Login == txtLog.Text).FirstOrDefault());
-                                            if (passwindow.ShowDialog() == true)
-                                            {
-                                                employee = localCont.Employee.Where(p => p.Emp_Login == txtLog.Text).FirstOrDefault();
-                                                employee.Emp_Pass = passwindow.newEmp.Emp_Pass;
-                                                localCont.SaveChanges();
-                                                window.pageChange(2, txtLog.Text);
-                                            }
-                                            else
-                                            {
+                                        }
+                                        else
+                                        {
 
-                                            }
-                                            break;
-                                        default: return;
-                                    }
-
+                                        }
+                                        break;
+                                    default: return;
                                 }
-                                else return;
-                            }));
-            
+
+                            }
+                            else return;
+                        }));
+
         }
     }
 }

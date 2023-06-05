@@ -92,12 +92,16 @@ namespace IS_Storage.workViews
                                 reqText += "\nE-mail: " + clientChange.Email + "=>" + txtMail.Text;
                                 clientChange.Email = txtMail.Text;
                             }
-                            if (MessageBox.Show("Применить изменения?\n" + reqText, "Подтверждение", MessageBoxButton.YesNo) != MessageBoxResult.Yes) { return; }
-                            Client changing = localCont.Client.Where(p => p.IDClient == clientChange.IDClient).First();
-                            changing = clientChange;
+                            if (reqText == "Изменения") return;
+                            if (MessageBox.Show("Применить изменения?\n" + reqText, "Подтверждение", MessageBoxButton.YesNo) != MessageBoxResult.Yes) { stockEntities.unsaveChanges(); return; }
+                            var changing = localCont.Client.Where(p => p.IDClient == clientChange.IDClient).First();
+                            changing.Email = clientChange.Email;
+                            changing.PNumber = clientChange.PNumber;
+                            changing.Name = clientChange.Name;
                             localCont.SaveChanges();
                             localCont.userRequest.Add(new userRequest() { requestTypeID = 3, FullName = employee.Full_Name + " изменил данные клиента.\n" + reqText, requestState = 1, requestTime = DateTime.Now.ToString("G"), computerName = Environment.MachineName + " " + Environment.UserName, userID = employee.IDEmp });
                             localCont.SaveChanges();
+                            DialogResult = true;
                         }
                         else MessageBox.Show("Клиент уже существует в базе данных!");
                     }

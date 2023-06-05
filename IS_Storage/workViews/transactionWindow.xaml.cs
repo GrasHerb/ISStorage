@@ -36,13 +36,14 @@ namespace IS_Storage.workViews
         MailMessage m;
         string head = "";
         Employee cEmp;
-        public transactionWindow(Client cl = null,transactionControll tr = null, Place pl = null, Employee cE = null)
+        public transactionWindow(Employee cE, Client cl = null, transactionControll tr = null, Place pl = null)
         {
+            cEmp = cE;
             InitializeComponent();
             if (cl != null)
             {
-                products = pControl.ProductsSearch(null,cl);
-                productsExtra = pControl.pControlConvert().Where(p=>p.Client==cl.Name).ToList();
+                products = pControl.ProductsSearch(null, cl);
+                productsExtra = pControl.pControlConvert().Where(p => p.Client == cl.Name).ToList();
                 cClient = cl;
                 head = "Продукция клиента: " + cl.Name;
                 document = "Продукция клиента: " + cl.Name;
@@ -51,15 +52,16 @@ namespace IS_Storage.workViews
             {
                 products = pControl.ProductsSearch(tr);
                 productsExtra = pControl.pControlConvert(tr).ToList();
-                head = "Информация о транзакции: " + tr.Date+" "+tr.Client;
-                document = "Информация о транзакции: " + tr.Date+" "+tr.Client;
+                cClient = tr.actualList[0].Client;
+                head = "Информация о транзакции: " + tr.Date + " " + tr.Client;
+                document = "Информация о транзакции: " + tr.Date + " " + tr.Client;
             }
             if (pl != null)
             {
                 products = pControl.ProductsSearch(null, null, pl);
-                productsExtra = pControl.pControlConvert().Where(p=>p.Place == pl.SpecialCode).ToList();
+                productsExtra = pControl.pControlConvert().Where(p => p.Place == pl.SpecialCode).ToList();
                 mailSendBtn.IsEnabled = false;
-                document = "Продукция на складе: " + pl.SpecialCode;
+                document = "Продукция на месте хранения: " + pl.SpecialCode;
             }
             gridUpdate();
         }
@@ -99,9 +101,9 @@ namespace IS_Storage.workViews
             catch { }
             startExporting(2);
         }
-        void startExporting(int type = 2)
+        void startExporting(int type = 1)
         {
-            switch (type) 
+            switch (type)
             {
                 case 1:
                     SaveFileDialog a = new SaveFileDialog();
@@ -110,7 +112,7 @@ namespace IS_Storage.workViews
                         pControl.wordExport(productsExtra, products, a.FileName, document);
                     break;
                 case 2:
-                    if(MessageBox.Show("Отправить данные на почту " + cClient.Email + "?", "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    if (MessageBox.Show("Отправить данные на почту " + cClient.Email + "?", "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
                         pControl.wordExport(productsExtra, products, "", document);
 
@@ -118,10 +120,10 @@ namespace IS_Storage.workViews
                         MailAddress to = new MailAddress(cClient.Email);
                         m = new MailMessage(from, to);
                         m.Subject = head;
-                        m.Body = "<p style=\"text - align: center; \">ИС Склад</p><p style=\"text - align: left; \">Здравствуйте, "+ cClient.Name+ ", ваш отчёт находится в прикреплённом документе.</p><p style=\"text - align: left; \">Дата отчёта: "+DateTime.Now.ToString("G")+"</p>";
+                        m.Body = "<p style=\"text - align: center; \">ИС Склад</p><p style=\"text - align: left; \">Здравствуйте, " + cClient.Name + ", ваш отчёт находится в прикреплённом документе.</p><p style=\"text - align: left; \">Дата отчёта: " + DateTime.Now.ToString("G") + "</p>";
                         m.IsBodyHtml = true;
                         mailManager.Sending(m, Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\tempdocument.docx");
-                        if (cEmp != null) 
+                        if (cEmp != null)
                         {
                             localCont.userRequest.Add(new userRequest()
                             {
@@ -135,8 +137,7 @@ namespace IS_Storage.workViews
                             });
                             localCont.SaveChanges();
                         }
-                        
-                        if (MessageBox.Show("Документ отправлен!\nЗакрыть окно?", "Отправка документа", MessageBoxButton.YesNo) == MessageBoxResult.Yes) this.Close();
+                        MessageBox.Show("Документ отправлен!", "Отправка документа");
                     }
                     break;
             }

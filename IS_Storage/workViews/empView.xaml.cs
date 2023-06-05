@@ -3,6 +3,7 @@ using Microsoft.Office.Interop.Excel;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Security.Authentication.ExtendedProtection;
 using System.Text;
@@ -37,8 +38,8 @@ namespace IS_Storage.workViews
 
         void gridUpdate()
         {
-            condGrid.ItemsSource = stockEntities.GetStockEntity().Condition.Where(p => !p.Title.Contains("Удалено___")).ToList();
-            placeGrid.ItemsSource = stockEntities.GetStockEntity().Place.Where(p => !p.SpecialCode.Contains("Удалено___")).ToList();
+            condGrid.ItemsSource = stockEntities.GetStockEntity().Condition.Where(p => !p.Title.Contains("Удалено")).ToList();
+            placeGrid.ItemsSource = stockEntities.GetStockEntity().Place.Where(p => !p.SpecialCode.Contains("Удалено")).ToList();
             transGrid.ItemsSource = transactionControll.listConvert(stockEntities.GetStockEntityD().Transaction.AsNoTracking().ToList());
             conditionsP = convertList(stockEntities.GetStockEntityD().Condition.Where(p => p.Title != "Удалено").AsNoTracking().ToList());
             condGridP.ItemsSource = null;
@@ -66,7 +67,7 @@ namespace IS_Storage.workViews
             if (MessageBox.Show("Удалить место хранения " + a.SpecialCode + "?", "Удаление", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 MessageBox.Show("Данное место будет отмечено как 'Удалено' и не станет отображаться для создания новых продуктов");
-                a.SpecialCode = "Удалено___"+a.SpecialCode;
+                a.SpecialCode = "Удалено___" + a.SpecialCode;
                 stockEntities.GetStockEntity().userRequest.Add(new userRequest
                 {
                     requestTypeID = 4,
@@ -98,9 +99,9 @@ namespace IS_Storage.workViews
 
         private void dlCondBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (condGrid.SelectedItems.Count!=1) { MessageBox.Show("Выберите одно условие хранения из таблицы!"); return; }
+            if (condGrid.SelectedItems.Count != 1) { MessageBox.Show("Выберите одно условие хранения из таблицы!"); return; }
             Condition a = (Condition)condGrid.SelectedItem;
-            if(MessageBox.Show("Удалить уловие хранения "+a.Title+"?","Удаление",MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Удалить уловие хранения " + a.Title + "?", "Удаление", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 MessageBox.Show("Данное условие будет отмечено как 'Удалено' и не станет отображаться в свойствах продуктов или мест хранения");
                 a.Title = "Удалено";
@@ -128,18 +129,18 @@ namespace IS_Storage.workViews
         private void chTransBtn_Click(object sender, RoutedEventArgs e)
         {
             if (transGrid.SelectedItems.Count != 1) { MessageBox.Show("Выберите одну транзакцию!"); return; }
-            empTransaction a = new empTransaction(employee,(transactionControll)transGrid.SelectedItem);
+            empTransaction a = new empTransaction(employee, (transactionControll)transGrid.SelectedItem);
             a.ShowDialog();
-            if (a.DialogResult == true) 
+            if (a.DialogResult == true)
             {
-                stockEntities.GetStockEntity().userRequest.Add(new userRequest 
-                { 
-                    requestTypeID = 3, 
-                    FullName = employee.Full_Name + a.actions, 
-                    requestState = 1, 
-                    requestTime = DateTime.Now.ToString("G"), 
-                    computerName = Environment.MachineName + " " + Environment.UserName, 
-                    userID = employee.IDEmp 
+                stockEntities.GetStockEntity().userRequest.Add(new userRequest
+                {
+                    requestTypeID = 3,
+                    FullName = employee.Full_Name + a.actions,
+                    requestState = 1,
+                    requestTime = DateTime.Now.ToString("G"),
+                    computerName = Environment.MachineName + " " + Environment.UserName,
+                    userID = employee.IDEmp
                 });
                 var trq = a.transaction.actualList;
                 foreach (Transaction transaction in trq)
@@ -173,40 +174,40 @@ namespace IS_Storage.workViews
                     userID = employee.IDEmp
                 });
                 var trq = a.transaction.actualList;
-                    foreach (Transaction transaction in trq)
+                foreach (Transaction transaction in trq)
+                {
+                    if (stockEntities.GetStockEntityD().Transaction.Where(p => p.IDTransaction == transaction.IDTransaction).Count() == 1)
                     {
-                        if (stockEntities.GetStockEntityD().Transaction.Where(p => p.IDTransaction == transaction.IDTransaction).Count() == 1)
+                        var changing = stockEntities.GetStockEntity().Transaction.Where(p => p.IDTransaction == transaction.IDTransaction).First();
+                        changing = new Transaction()
                         {
-                            var changing = stockEntities.GetStockEntity().Transaction.Where(p => p.IDTransaction == transaction.IDTransaction).First();
-                            changing = new Transaction() 
-                            {                                
-                                Date = DateTime.Now.ToString("G"),
-                                ID_Client = transaction.ID_Client,
-                                ID_TrTType = transaction.ID_TrTType,
-                                ID_Emp = transaction.ID_Emp,
-                                ID_Place = transaction.ID_Place,
-                                ID_Product = transaction.ID_Product,
-                                Amount = transaction.Amount,
-                                IDTransaction = changing.IDTransaction,
-                                Client = changing.Client,
-                            };
-                        }
-                        else
-                        {
-                            stockEntities.GetStockEntity().Transaction.Add(new Transaction() 
-                            { 
-                                Date = DateTime.Now.ToString("G"),
-                                ID_Client = transaction.ID_Client,
-                                ID_TrTType = transaction.ID_TrTType,
-                                ID_Emp = transaction.ID_Emp,
-                                ID_Place = transaction.ID_Place,
-                                ID_Product = transaction.ID_Product,
-                                Amount = transaction.Amount
-                            } );
-                        }
-                        stockEntities.GetStockEntity().SaveChanges();
+                            Date = DateTime.Now.ToString("G"),
+                            ID_Client = transaction.ID_Client,
+                            ID_TrTType = transaction.ID_TrTType,
+                            ID_Emp = transaction.ID_Emp,
+                            ID_Place = transaction.ID_Place,
+                            ID_Product = transaction.ID_Product,
+                            Amount = transaction.Amount,
+                            IDTransaction = changing.IDTransaction,
+                            Client = changing.Client,
+                        };
                     }
-                    pControl.amountCount();                
+                    else
+                    {
+                        stockEntities.GetStockEntity().Transaction.Add(new Transaction()
+                        {
+                            Date = DateTime.Now.ToString("G"),
+                            ID_Client = transaction.ID_Client,
+                            ID_TrTType = transaction.ID_TrTType,
+                            ID_Emp = transaction.ID_Emp,
+                            ID_Place = transaction.ID_Place,
+                            ID_Product = transaction.ID_Product,
+                            Amount = transaction.Amount
+                        });
+                    }
+                    stockEntities.GetStockEntity().SaveChanges();
+                }
+                pControl.amountCount();
             }
         }
 
@@ -217,8 +218,8 @@ namespace IS_Storage.workViews
             {
                 var tr = (transactionControll)transGrid.SelectedItem;
 
-                    foreach (Transaction transaction in tr.actualList)
-                    {
+                foreach (Transaction transaction in tr.actualList)
+                {
                     if (stockEntities.GetStockEntity().Transaction.Where(p => p.IDTransaction == transaction.IDTransaction).Count() == 1)
                     {
                         var changing = stockEntities.GetStockEntity().Transaction.Where(p => p.IDTransaction == transaction.IDTransaction).First();
@@ -256,21 +257,21 @@ namespace IS_Storage.workViews
 
                         foreach (conditionsOfProduct Wcond in conditionsO)
                         {
-                            stockEntities.GetStockEntity().ProdCond.Add(new ProdCond() {  ID_Product= prodF.IDProduct, ID_Condition = Wcond.number });
+                            stockEntities.GetStockEntity().ProdCond.Add(new ProdCond() { ID_Product = prodF.IDProduct, ID_Condition = Wcond.number });
                             actions += "\nCвойство: " + Wcond.Title + "\n";
                         }
-                            stockEntities.GetStockEntity().userRequest.Add(new userRequest()
-                            {
-                                requestTypeID = 2,
-                                FullName = employee.Full_Name + " создал продукцию " + prodF.Name + "\n" + actions,
-                                requestState = 1,
-                                requestTime = DateTime.Now.ToString("G"),
-                                computerName = Environment.MachineName + " " + Environment.UserName,
-                                userID = employee.IDEmp
-                            });
+                        stockEntities.GetStockEntity().userRequest.Add(new userRequest()
+                        {
+                            requestTypeID = 2,
+                            FullName = employee.Full_Name + " создал продукцию " + prodF.Name + "\n" + actions,
+                            requestState = 1,
+                            requestTime = DateTime.Now.ToString("G"),
+                            computerName = Environment.MachineName + " " + Environment.UserName,
+                            userID = employee.IDEmp
+                        });
 
-                            stockEntities.GetStockEntity().Product.Add(prodF);
-                            stockEntities.GetStockEntity().SaveChanges();
+                        stockEntities.GetStockEntity().Product.Add(prodF);
+                        stockEntities.GetStockEntity().SaveChanges();
                     }
                     else MessageBox.Show("Такой товар уже существует!");
                 else MessageBox.Show("Заполните название и артикул продукции!");
@@ -285,11 +286,11 @@ namespace IS_Storage.workViews
                 int indexP = prodF.IDProduct;
                 string actions = "Изменения продукции " + prodF.IDProduct + "\n";
                 if (txtNewName.Text != prodF.Name && txtNewArticle.Text != prodF.Article)
-                    if (stockEntities.GetStockEntityD().Product.Where(p => p.Name == txtNewName.Text&&p.Article==prodF.Article).Count() != 0)
+                    if (stockEntities.GetStockEntityD().Product.Where(p => p.Name == txtNewName.Text && p.Article == prodF.Article).Count() != 0)
                     { MessageBox.Show("Данный продукт существует!"); return; }
                     else
                     {
-                        actions += "\nИзменен продукт: " + prodF.Name + "=>" + txtNewName.Text+" "+prodF.Article+"=>"+txtNewArticle.Text;
+                        actions += "\nИзменен продукт: " + prodF.Name + "=>" + txtNewName.Text + " " + prodF.Article + "=>" + txtNewArticle.Text;
                         prodF.Name = txtNewName.Text;
                         prodF.Article = txtNewArticle.Text;
                     }
@@ -298,7 +299,8 @@ namespace IS_Storage.workViews
                 {
                     if (prodF.ProdCond.Where(p => Wcond.number == p.ID_Condition).Count() == 0)
                     {
-                        stockEntities.GetStockEntity().PlaceCond.Add(new PlaceCond() { ID_Place = prodF.IDProduct, ID_Condition = Wcond.number });
+                        stockEntities.GetStockEntity().ProdCond.Add(new ProdCond() { ID_Product = prodF.IDProduct, ID_Condition = Wcond.number });
+                        stockEntities.GetStockEntity().SaveChanges();
                         actions += "\nДобавлено свойство: " + Wcond.Title + "\n";
                     }
                 }
@@ -307,48 +309,59 @@ namespace IS_Storage.workViews
                     if (conditionsO.Where(p => Pcond.ID_Condition == p.number).Count() == 0)
                     {
                         stockEntities.GetStockEntity().ProdCond.Remove(Pcond);
+                        stockEntities.GetStockEntity().SaveChanges();
                         actions += "\nУдалено свойство: " + Pcond.Condition.Title + "\n";
                     }
                 }
-                    stockEntities.GetStockEntity().userRequest.Add(new userRequest()
-                    {
-                        requestTypeID = 3,
-                        FullName = employee.Full_Name + " изменил продукцию \n" + actions,
-                        requestState = 1,
-                        requestTime = DateTime.Now.ToString("G"),
-                        computerName = Environment.MachineName + " " + Environment.UserName,
-                        userID = employee.IDEmp
-                    });
-                    stockEntities.GetStockEntity().SaveChanges();
+                stockEntities.GetStockEntity().userRequest.Add(new userRequest()
+                {
+                    requestTypeID = 3,
+                    FullName = employee.Full_Name + " изменил продукцию \n" + actions,
+                    requestState = 1,
+                    requestTime = DateTime.Now.ToString("G"),
+                    computerName = Environment.MachineName + " " + Environment.UserName,
+                    userID = employee.IDEmp
+                });
+                stockEntities.GetStockEntity().SaveChanges();
             }
         }
 
         private void prodDelBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (prodF.IDProduct != 0)
+            if (txtNewArticle.Text != "" && txtNewName.Text != "")
             {
-                MessageBox.Show(prodF.Name + " удалено");
-                prodF.Name = "Удалено" + prodF.Name;
-                stockEntities.GetStockEntity().SaveChanges();
+                try
+                {
+                    if (stockEntities.GetStockEntityD().Product.Where(p => p.Name == txtNewName.Text && p.Article == txtNewArticle.Text).Count() != 0)
+                    {
+                        prodF = stockEntities.GetStockEntity().Product.Where(p => p.Name == txtNewName.Text && p.Article == txtNewArticle.Text).First();
+                        prodF.Name = "Удалено" + prodF.Name;
+                        if (MessageBox.Show("Удалить продукцию?", "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes) stockEntities.GetStockEntity().SaveChanges();
+                        else stockEntities.unsaveChanges();
+                    }
+                    else { MessageBox.Show("Продукция не найдена!"); }
+                }
+                catch { }
+
             }
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             var temp = (conditionsOfProduct)condGridP.SelectedItem;
-            var Cpl = conditionsP.Find(p => p.Title == temp.Title);
-            if (Cpl.Chosen == " ")
+            var Cpl = conditionsP.FindIndex(p => p.Title == temp.Title);
+            if (conditionsP[Cpl].Chosen == " ")
             {
-                Cpl.Chosen = "+";
-                conditionsO.Add(Cpl);
+                conditionsP[Cpl].Chosen = "+";
+                conditionsO.Add(conditionsP[Cpl]);
             }
             else
             {
-                Cpl.Chosen = " ";
-                conditionsO.Remove(Cpl);
+                conditionsP[Cpl].Chosen = " ";
+                conditionsO.Remove(conditionsP[Cpl]);
             }
-            condGrid.ItemsSource = null;
-            condGrid.ItemsSource = conditionsP;
+            condGridP.ItemsSource = null;
+            condGridP.ItemsSource = conditionsP;
         }
         class conditionsOfProduct
         {
@@ -389,6 +402,8 @@ namespace IS_Storage.workViews
                                     {
                                         conditionsP[find].Chosen = "+";
                                         conditionsO.Add(conditionsP[find]);
+                                        condGridP.ItemsSource = null;
+                                        condGridP.ItemsSource = conditionsP;
                                     }
                                     break;
                                 }
@@ -398,6 +413,7 @@ namespace IS_Storage.workViews
                     else { MessageBox.Show("Продукция не найдена!"); }
                 }
                 catch { }
+
             }
         }
     }

@@ -12,14 +12,14 @@ namespace IS_Storage
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    
+
     public partial class stockEntities : DbContext
     {
         public stockEntities()
             : base("name=stockEntities")
         {
         }
-    
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
@@ -29,6 +29,10 @@ namespace IS_Storage
         {
             if (_context == null) _context = new stockEntities();
             return _context;
+        }
+        public static void unsaveChanges()
+        {
+            _context = new stockEntities();
         }
         public static stockEntities GetStockEntityD()
         {

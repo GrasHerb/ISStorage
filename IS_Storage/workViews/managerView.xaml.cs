@@ -42,9 +42,9 @@ namespace IS_Storage.workViews
         }
         public void gridUpdate()
         {
-            placeGrid.ItemsSource = localCont.Place.Where(p=>!p.SpecialCode.Contains("Удалено___")).ToList();
-            if (txtPl.Text != "Поиск" && txtPl.Text != "") placeGrid.ItemsSource = localCont.Place.Where(p => p.SpecialCode == txtPl.Text);
-            listClient = cControl.listConvert(localCont.Client.Where(p=>!p.Name.Contains("___")).ToList());
+            placeGrid.ItemsSource = localCont.Place.Where(p => !p.SpecialCode.Contains("Удалено___")).ToList();
+            if (txtPl.Text != "Поиск" && txtPl.Text != "") placeGrid.ItemsSource = localCont.Place.Where(p => p.SpecialCode == txtPl.Text).ToList();
+            listClient = cControl.listConvert(localCont.Client.Where(p => !p.Name.Contains("___")).ToList());
             if (txtSearch.Text != "Поиск" && txtSearch.Text != "")
             {
                 try
@@ -54,10 +54,10 @@ namespace IS_Storage.workViews
                 }
                 catch
                 {
-                    
+
                 }
             }
-            
+
             clientGrid.ItemsSource = listClient;
 
             trInList = transactionControll.listConvert(localCont.Transaction.AsNoTracking().ToList());
@@ -70,7 +70,7 @@ namespace IS_Storage.workViews
             {
                 trInList = trInList
                     .Where
-                    (p => p.actualDate>=dateP1.SelectedDate && p.actualDate <= dateP2.SelectedDate)
+                    (p => p.actualDate >= dateP1.SelectedDate && p.actualDate <= dateP2.SelectedDate)
                     .ToList();
             }
             transGrid.ItemsSource = trInList;
@@ -83,24 +83,24 @@ namespace IS_Storage.workViews
 
         private void txtSearch_IsKeyboardFocusedChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-                if (txtSearch.IsKeyboardFocused)
-                {
-                    if (txtSearch.Text == "Поиск") txtSearch.Text = "";
-                }
-                else if (txtSearch.Text == "") txtSearch.Text = "Поиск";
+            if (txtSearch.IsKeyboardFocused)
+            {
+                if (txtSearch.Text == "Поиск") txtSearch.Text = "";
+            }
+            else if (txtSearch.Text == "") txtSearch.Text = "Поиск";
         }
         private void txtClient_IsKeyboardFocusedChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (txtClient.IsKeyboardFocused)
             {
-                if (txtClient.Text == "Поиск") txtSearch.Text = "";
+                if (txtClient.Text == "Поиск") txtClient.Text = "";
             }
-            else if (txtClient.Text == "") txtSearch.Text = "Поиск";
+            else if (txtClient.Text == "") txtClient.Text = "Поиск";
 
         }
         private void btnReturn_Click(object sender, RoutedEventArgs e)
         {
-            txtSearch.Text = "Поиск"; gridUpdate(); 
+            txtSearch.Text = "Поиск"; gridUpdate();
         }
 
         private void dlClientBtn_Click(object sender, RoutedEventArgs e)
@@ -109,12 +109,12 @@ namespace IS_Storage.workViews
             {
                 if (clientGrid.SelectedItem == null || clientGrid.SelectedItems.Count > 1) { MessageBox.Show("Выберите одного клиента."); return; }
                 var c = (cControl)clientGrid.SelectedItem;
-                Client cl = stockEntities.GetStockEntity().Client.Where(p=>p.IDClient == c.numActual).First();
-                var a = pControl.ProductsSearch(null,cl);
+                Client cl = stockEntities.GetStockEntity().Client.Where(p => p.IDClient == c.numActual).First();
+                var a = pControl.ProductsSearch(null, cl);
                 if (a.Count != 0) MessageBox.Show("Клиент не может быть удалён.\n Клиент имеет продукцию на складе.");
                 else
                 {
-                    var req = cControl.delClient(localCont.Client.Where(p=>p.IDClient==cl.IDClient).First(),cEmp);
+                    var req = cControl.delClient(localCont.Client.Where(p => p.IDClient == cl.IDClient).First(), cEmp);
                     if (req.ID_Request != -2)
                     {
                         stockEntities.GetStockEntity().userRequest.Add(req);
@@ -138,7 +138,7 @@ namespace IS_Storage.workViews
         }
 
         private void chClientBtn_Click(object sender, RoutedEventArgs e)
-        {            
+        {
             if (clientGrid.SelectedItem == null || clientGrid.SelectedItems.Count > 1) { MessageBox.Show("Выберите одного клиента."); return; }
             var a = (cControl)clientGrid.SelectedItem;
             var cClient = new Client()
@@ -167,8 +167,8 @@ namespace IS_Storage.workViews
             {
                 switch (expFormatCmb.SelectedIndex)
                 {
-                    case 0:                    
-                            cControl.excelExport(localCont.Client.Where(p => !p.Name.Contains("___")).ToList(), a.FileName);
+                    case 0:
+                        cControl.excelExport(localCont.Client.Where(p => !p.Name.Contains("___")).ToList(), a.FileName);
                         MessageBox.Show("Экспорт завершён!");
                         break;
                     case 1: cControl.jsonExport(localCont.Client.Where(p => !p.Name.Contains("___")).ToList(), a.FileName); MessageBox.Show("Экспорт завершён!"); break;
@@ -199,12 +199,12 @@ namespace IS_Storage.workViews
                                 string clientsToAdd = "";
                                 foreach (Client client in list)
                                 {
-                                    if (client.PNumber != "" && client.Email != "" && client.Name != "")
+                                    if (client.PNumber != "" && client.Email != "" && client.Name != "" && stockEntities.GetStockEntityD().Client.Where(p => p.Name == client.Name).Count() == 0)
                                     {
                                         clientsToAdd += "\n" + client.Name + " " + client.Email + " " + client.PNumber;
                                         stockEntities.GetStockEntity().Client.Add(new Client { Name = client.Name, Email = client.Email, PNumber = client.PNumber });
                                         stockEntities.GetStockEntity().userRequest.Add(new userRequest { requestTypeID = 2, FullName = cEmp.Full_Name + " создал клиента: " + client.Name, requestState = 1, requestTime = DateTime.Now.ToString("G"), computerName = Environment.MachineName + " " + Environment.UserName, userID = cEmp.IDEmp });
-                                    }                                    
+                                    }
                                 }
                                 if (MessageBox.Show("Добавить записи: " + clientsToAdd, "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                                 {
@@ -212,6 +212,7 @@ namespace IS_Storage.workViews
                                     gridUpdate();
                                     MessageBox.Show("Импорт завершён!");
                                 }
+                                else stockEntities.unsaveChanges();
                             }
                         }
                         catch { }
@@ -225,7 +226,7 @@ namespace IS_Storage.workViews
                                 string clientsToAdd = "";
                                 foreach (Client client in list)
                                 {
-                                    if (client.Name != "" && client.Email != "" && client.PNumber != "")
+                                    if (client.Name != "" && client.Email != "" && client.PNumber != "" && stockEntities.GetStockEntityD().Client.Where(p => p.Name == client.Name).Count() == 0)
                                     {
                                         clientsToAdd += "\n" + client.Name + " " + client.Email + " " + client.PNumber;
                                         stockEntities.GetStockEntity().Client.Add(new Client { Name = client.Name, Email = client.Email, PNumber = client.PNumber });
@@ -238,9 +239,10 @@ namespace IS_Storage.workViews
                                     gridUpdate();
                                     MessageBox.Show("Импорт завершён!");
                                 }
+                                else stockEntities.unsaveChanges();
                             }
                         }
-                        catch { }                        
+                        catch { }
                         break;
                 }
             }
@@ -285,7 +287,7 @@ namespace IS_Storage.workViews
             try
             {
                 var a = (cControl)clientGrid.SelectedItem;
-                transactionWindow window = new transactionWindow(localCont.Client.Where(p=>p.IDClient == a.numActual).First());
+                transactionWindow window = new transactionWindow(cEmp, localCont.Client.Where(p => p.IDClient == a.numActual).First());
                 window.Show();
             }
             catch { }
@@ -296,7 +298,7 @@ namespace IS_Storage.workViews
             try
             {
                 var place = (Place)placeGrid.SelectedItem;
-                transactionWindow window = new transactionWindow(null, null, place);
+                transactionWindow window = new transactionWindow(cEmp, null, null, place);
                 window.Show();
             }
             catch { }
@@ -306,7 +308,7 @@ namespace IS_Storage.workViews
             try
             {
                 var transaction = (transactionControll)transGrid.SelectedItem;
-                transactionWindow window = new transactionWindow(null, transaction);
+                transactionWindow window = new transactionWindow(cEmp, null, transaction);
                 window.Show();
             }
             catch { }
@@ -334,8 +336,8 @@ namespace IS_Storage.workViews
         {
             SaveFileDialog a = new SaveFileDialog();
             a.Filter = "Файлы Word | *.docx|Таблицы Excel | *.xlsb";
-            var client = txtClient.Text!="Поиск"?txtClient.Text:null;
-            string date = dateP1.SelectedDate.ToString().Split(' ')[0]+" "+ dateP2.SelectedDate.ToString().Split(' ')[0];
+            var client = txtClient.Text != "Поиск" ? txtClient.Text : null;
+            string date = dateP1.SelectedDate.ToString().Split(' ')[0] + " " + dateP2.SelectedDate.ToString().Split(' ')[0];
             if (a.ShowDialog() == true)
             {
                 switch (a.FileName.Split('.')[1])
@@ -344,7 +346,7 @@ namespace IS_Storage.workViews
                         transactionControll.wordExport(trInList, a.FileName);
                         MessageBox.Show("Экспорт завершён!");
                         break;
-                    case "xlsb": transactionControll.excelExport(trInList, a.FileName, date!=""?date:null, client!=null?client:null); MessageBox.Show("Экспорт завершён!"); break;
+                    case "xlsb": transactionControll.excelExport(trInList, a.FileName, date != "" ? date : null, client != null ? client : null); MessageBox.Show("Экспорт завершён!"); break;
                 }
             }
         }
