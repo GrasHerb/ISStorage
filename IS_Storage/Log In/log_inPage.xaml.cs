@@ -43,25 +43,7 @@ namespace IS_Storage
         
         void messageClose(object sender, RunWorkerCompletedEventArgs e)
         {
-            if ((txtPass.Password != "" || txtPassVisible.Text != "") && txtLog.Text != "")
-            {
-                if (window.working)
-                {
-                    result = uControll.passwCheck(txtPass.Password, txtLog.Text);
-                    switch (result)
-                    {
-                        case 0: break;
-                        case 1: MessageBox.Show("Вход отменён."); break;
-                        case 2: MessageBox.Show("Ваша учётная запись ещё не была подтверждена администратором."); break;
-                        case 3: MessageBox.Show("Ваша учётная запись была удалена администратором."); break;
-                        case 4: MessageBox.Show("Даннная учётная запись используется другим пользователем."); break;
-                        case 5: MessageBox.Show("Учётная запись не найдена."); break;
-                        default: break;
-                    }
-                }
-
-            }
-            else MessageBox.Show("Введите логин и пароль пользователя.");
+            
             sWin.Close();
             bg.Dispose();
             bg = new BackgroundWorker();
@@ -80,11 +62,33 @@ namespace IS_Storage
         {
             result = 0;
             startEntering();
+            if ((txtPass.Password != "" || txtPassVisible.Text != "") && txtLog.Text != "")
+            {
+                if (window.working)
+                {
+                    result = uControll.passwCheck(txtPass.Password, txtLog.Text);
+
+                    switch (result)
+                    {
+                        case 0: break;
+                        case -1: reasonTxt.Content = "Пользователь не найден."; break;
+                        case 1: reasonTxt.Content = "Вход отменён."; break;
+                        case 2: reasonTxt.Content = "Ваша учётная запись ещё не была подтверждена администратором."; break;
+                        case 3: reasonTxt.Content = "Ваша учётная запись была удалена администратором."; break;
+                        case 4: reasonTxt.Content = "Даннная учётная запись используется другим пользователем."; break;
+                        case 5: reasonTxt.Content = "Учётная запись не найдена."; break;
+                        default: break;
+                    }
+                }
+
+            }
+            else reasonTxt.Content = "Введите логин и пароль пользователя.";
         }
 
         private void lblForgetPass_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var window = (MainWindow)Application.Current.MainWindow;
+            
             window.pageChange(1);
         }
 

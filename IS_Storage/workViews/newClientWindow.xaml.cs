@@ -93,7 +93,7 @@ namespace IS_Storage.workViews
                                 clientChange.Email = txtMail.Text;
                             }
                             if (MessageBox.Show("Применить изменения?\n" + reqText, "Подтверждение", MessageBoxButton.YesNo) != MessageBoxResult.Yes) { return; }
-                            var changing = localCont.Client.Where(p => p.IDClient == clientChange.IDClient).First();
+                            Client changing = localCont.Client.Where(p => p.IDClient == clientChange.IDClient).First();
                             changing = clientChange;
                             localCont.SaveChanges();
                             localCont.userRequest.Add(new userRequest() { requestTypeID = 3, FullName = employee.Full_Name + " изменил данные клиента.\n" + reqText, requestState = 1, requestTime = DateTime.Now.ToString("G"), computerName = Environment.MachineName + " " + Environment.UserName, userID = employee.IDEmp });

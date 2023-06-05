@@ -34,6 +34,7 @@ namespace IS_Storage.workViews
         Client cClient = new Client();
         string document = "";
         MailMessage m;
+        string head = "";
         Employee cEmp;
         public transactionWindow(Client cl = null,transactionControll tr = null, Place pl = null, Employee cE = null)
         {
@@ -43,14 +44,14 @@ namespace IS_Storage.workViews
                 products = pControl.ProductsSearch(null,cl);
                 productsExtra = pControl.pControlConvert().Where(p=>p.Client==cl.Name).ToList();
                 cClient = cl;
-                m.Subject = "Продукция клиента: " + cl.Name;
+                head = "Продукция клиента: " + cl.Name;
                 document = "Продукция клиента: " + cl.Name;
             }
             if (tr != null)
             {
                 products = pControl.ProductsSearch(tr);
                 productsExtra = pControl.pControlConvert(tr).ToList();
-                m.Subject = "Информация о транзакции: " + tr.Date+" "+tr.Client;
+                head = "Информация о транзакции: " + tr.Date+" "+tr.Client;
                 document = "Информация о транзакции: " + tr.Date+" "+tr.Client;
             }
             if (pl != null)
@@ -116,6 +117,7 @@ namespace IS_Storage.workViews
                         MailAddress from = new MailAddress("is_storage@rambler.ru", "ИС Склад");
                         MailAddress to = new MailAddress(cClient.Email);
                         m = new MailMessage(from, to);
+                        m.Subject = head;
                         m.Body = "<p style=\"text - align: center; \">ИС Склад</p><p style=\"text - align: left; \">Здравствуйте, "+ cClient.Name+ ", ваш отчёт находится в прикреплённом документе.</p><p style=\"text - align: left; \">Дата отчёта: "+DateTime.Now.ToString("G")+"</p>";
                         m.IsBodyHtml = true;
                         mailManager.Sending(m, Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\tempdocument.docx");

@@ -12,7 +12,7 @@
             <TextBox x:Name="txtCode"/>            
         </WrapPanel>
         <ScrollViewer Height="250" Margin="30,0">
-            <DataGrid IsReadOnly="True" x:Name="condGrid" AutoGenerateColumns="False">
+            <DataGrid x:Name="condGrid" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.CellTemplate>

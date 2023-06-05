@@ -95,12 +95,6 @@ namespace IS_Storage.Log_In
                             case 1: roleID = 2; break;
                             case 2: roleID = 1; break;
                         }
-                        try
-                        {
-                            if (stockEntities.GetStockEntity().Employee.Where(p => p.Emp_Login == regLog.Text).Count() > 0) { MessageBox.Show("Логин занят"); return; }
-                            if (regLog.Text.Contains("___")) { MessageBox.Show("Логин не может содержать '___'"); return; }
-                        }
-                        catch { }
                         if (regLog.Text != "")
                             if (regSecName.Text != "")
                                 if (regFstName.Text != "")
@@ -111,18 +105,18 @@ namespace IS_Storage.Log_In
                                         if (regSecName.Text + " " + regFstName.Text + " " + regThrName.Text != tempEmp.Full_Name)
                                         {
                                             reqText += "\nФИО: " + tempEmp.Full_Name + "=>" + regSecName.Text + " " + regFstName.Text + " " + regThrName.Text;
-                                            tempEmp.Full_Name = regSecName.Text + " " + regFstName.Text + " " + regThrName.Text;
                                         }
                                         if (roleID != tempEmp.ID_Role)
                                         {
                                             reqText += "\nРоль: " + stockEntities.GetStockEntity().UserRole.Where(p=>p.IDRole == tempEmp.ID_Role).FirstOrDefault().Title + "=>" + stockEntities.GetStockEntity().UserRole.Where(p => p.IDRole == roleID).FirstOrDefault().Title;
-                                            tempEmp.ID_Role = roleID;
                                         }
                                         if (MessageBox.Show("Применить изменения?\n" + reqText, "Подтверждение", MessageBoxButton.YesNo) != MessageBoxResult.Yes) { return; }
+                                        tempEmp.ID_Role = roleID;
+                                        tempEmp.Full_Name = regSecName.Text + " " + regFstName.Text + " " + regThrName.Text;
                                         _context.SaveChanges();
                                         _context.userRequest.Add(new userRequest() { requestTypeID = 3, FullName = AdmL.Full_Name+" ("+AdmL.Emp_Login+")"+" изменил учётную запись: " + tempEmp.Full_Name +" ("+tempEmp.Emp_Login+")\n"+reqText, requestState = 0, requestTime = DateTime.Now.ToString("G"), computerName = Environment.MachineName + " " + Environment.UserName, userID = AdmL.IDEmp });
                                         _context.SaveChanges();
-                                        MessageBox.Show("Пользователь создан!");
+                                        MessageBox.Show("Пользователь изменён!");
                                     }
 
                                     else MessageBox.Show("Введите Отчество");

@@ -22,7 +22,7 @@
         <TextBox Margin="10,0" Width="auto" x:Name="regFstName" KeyDown="reg_KeyDown"/>
         <Label  Content="Отчество"/>
         <TextBox Margin="10,0" Width="auto" x:Name="regThrName" KeyDown="reg_KeyDown"/>
-        <Button Style="{StaticResource Button1}" Content="Создать пользователя" Margin="10" Click="Button_Click"/>
+        <Button Style="{StaticResource Button1}" Content="Применить" Margin="10" Click="Button_Click"/>
     </StackPanel>
     </Viewbox>
 </Window>

@@ -63,10 +63,16 @@ namespace IS_Storage
                     this.Visibility = Visibility.Hidden;
                     work.Show();
                     working = false;
+                    return;
                 }
                 catch { }
             }
-            else mainFrame.Content = pages[pageI];
+            else
+            if (pageI == 1)
+            {
+                pages[1] = new pass_recoverPage("");
+            }            
+            mainFrame.Content = pages[pageI];
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {

@@ -53,7 +53,7 @@
                                 </WrapPanel>
                             </StackPanel>
                             <StackPanel>
-                                <ScrollViewer Height="250" Width="350" Margin="30,0">
+                                <ScrollViewer Height="250" Width="350" Margin="20,0">
                                     <DataGrid IsReadOnly="True" x:Name="condGrid" AutoGenerateColumns="False">
                                     <DataGrid.Columns>
                                             <DataGridTextColumn Header="Номер" Binding="{Binding IDCondition}"/>

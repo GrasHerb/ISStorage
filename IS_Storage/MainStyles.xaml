@@ -17,7 +17,7 @@
     </Style>
     <!--Таблица-->
     <Style TargetType="DataGrid">
-        
+        <Setter Property="IsReadOnly" Value="True"/>
         <Setter Property="GridLinesVisibility" Value="Horizontal"/>
         <Setter Property="Background" Value="{x:Null}"/>
         <Setter Property="BorderBrush" Value="{x:Null}"/>

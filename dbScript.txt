@@ -1,0 +1,505 @@
+USE [master]
+GO
+/****** Object:  Table [dbo].[Client]    Script Date: 04.06.2023 22:34:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Client](
+	[IDClient] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](max) NOT NULL,
+	[PNumber] [nvarchar](15) NOT NULL,
+	[Email] [nvarchar](max) NULL,
+ CONSTRAINT [PK_Client] PRIMARY KEY CLUSTERED 
+(
+	[IDClient] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Condition]    Script Date: 04.06.2023 22:34:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Condition](
+	[IDCondition] [int] IDENTITY(1,1) NOT NULL,
+	[Title] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_Condition] PRIMARY KEY CLUSTERED 
+(
+	[IDCondition] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Employee]    Script Date: 04.06.2023 22:34:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Employee](
+	[IDEmp] [int] IDENTITY(1,1) NOT NULL,
+	[Full_Name] [nvarchar](max) NOT NULL,
+	[EEmail] [nvarchar](max) NULL,
+	[Emp_Login] [nvarchar](max) NOT NULL,
+	[Emp_Pass] [nvarchar](64) NOT NULL,
+	[ID_Role] [int] NOT NULL,
+	[OStatus] [bit] NOT NULL,
+	[sysInfo] [nvarchar](max) NULL,
+ CONSTRAINT [PK_Employee] PRIMARY KEY CLUSTERED 
+(
+	[IDEmp] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Place]    Script Date: 04.06.2023 22:34:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Place](
+	[IDPlace] [int] IDENTITY(1,1) NOT NULL,
+	[SpecialCode] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_Place] PRIMARY KEY CLUSTERED 
+(
+	[IDPlace] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[PlaceCond]    Script Date: 04.06.2023 22:34:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[PlaceCond](
+	[IDPlaceCond] [int] IDENTITY(1,1) NOT NULL,
+	[ID_Place] [int] NOT NULL,
+	[ID_Condition] [int] NOT NULL,
+ CONSTRAINT [PK_PlaceCond] PRIMARY KEY CLUSTERED 
+(
+	[IDPlaceCond] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ProdCond]    Script Date: 04.06.2023 22:34:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ProdCond](
+	[IDProdCond] [int] IDENTITY(1,1) NOT NULL,
+	[ID_Product] [int] NOT NULL,
+	[ID_Condition] [int] NOT NULL,
+ CONSTRAINT [PK_ProdCond] PRIMARY KEY CLUSTERED 
+(
+	[IDProdCond] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Product]    Script Date: 04.06.2023 22:34:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Product](
+	[IDProduct] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](max) NOT NULL,
+	[Article] [nvarchar](50) NOT NULL,
+	[Amount] [float] NOT NULL,
+	[UnitID] [int] NOT NULL,
+ CONSTRAINT [PK_Product] PRIMARY KEY CLUSTERED 
+(
+	[IDProduct] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[reqType]    Script Date: 04.06.2023 22:34:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[reqType](
+	[ID_Type] [int] IDENTITY(1,1) NOT NULL,
+	[Title] [nvarchar](max) NOT NULL,
+ CONSTRAINT [PK_reqType] PRIMARY KEY CLUSTERED 
+(
+	[ID_Type] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Transaction]    Script Date: 04.06.2023 22:34:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Transaction](
+	[IDTransaction] [int] IDENTITY(1,1) NOT NULL,
+	[ID_Client] [int] NOT NULL,
+	[ID_TrTType] [int] NOT NULL,
+	[Date] [varchar](max) NOT NULL,
+	[ID_Emp] [int] NOT NULL,
+	[ID_Place] [int] NOT NULL,
+	[ID_Product] [int] NOT NULL,
+	[Amount] [float] NOT NULL,
+ CONSTRAINT [PK_Transaction] PRIMARY KEY CLUSTERED 
+(
+	[IDTransaction] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TransType]    Script Date: 04.06.2023 22:34:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TransType](
+	[IDTypeTrans] [int] IDENTITY(1,1) NOT NULL,
+	[Title] [nvarchar](max) NOT NULL,
+ CONSTRAINT [PK_TransType] PRIMARY KEY CLUSTERED 
+(
+	[IDTypeTrans] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[UnitType]    Script Date: 04.06.2023 22:34:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[UnitType](
+	[IDUnit] [int] IDENTITY(1,1) NOT NULL,
+	[Unit_Title] [nvarchar](max) NOT NULL,
+	[Unit_Titlemin] [nvarchar](5) NOT NULL,
+ CONSTRAINT [PK_UnitType] PRIMARY KEY CLUSTERED 
+(
+	[IDUnit] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[userRequest]    Script Date: 04.06.2023 22:34:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[userRequest](
+	[ID_Request] [int] IDENTITY(1,1) NOT NULL,
+	[FullName] [nvarchar](max) NOT NULL,
+	[requestTime] [nvarchar](max) NOT NULL,
+	[computerName] [nvarchar](max) NOT NULL,
+	[requestState] [int] NOT NULL,
+	[requestTypeID] [int] NOT NULL,
+	[userID] [int] NOT NULL,
+ CONSTRAINT [PK_recoverRequest] PRIMARY KEY CLUSTERED 
+(
+	[ID_Request] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[UserRole]    Script Date: 04.06.2023 22:34:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[UserRole](
+	[IDRole] [int] IDENTITY(1,1) NOT NULL,
+	[Title] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_UserRole] PRIMARY KEY CLUSTERED 
+(
+	[IDRole] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Client] ON 
+GO
+INSERT [dbo].[Client] ([IDClient], [Name], [PNumber], [Email]) VALUES (1, N'instax shop', N'+79886213534', N'int@gmail.com')
+GO
+INSERT [dbo].[Client] ([IDClient], [Name], [PNumber], [Email]) VALUES (2, N'___СтройЛомай', N'+79596482521', N'hhhfff@wdw.wdw')
+
+INSERT [dbo].[Client] ([IDClient], [Name], [PNumber], [Email]) VALUES (3, N'Гугалин Иван Георгиевич', N'+79886213534', N'iwdqgqw@gmail.com')
+GO
+INSERT [dbo].[Client] ([IDClient], [Name], [PNumber], [Email]) VALUES (4, N'МагазинЧ', N'+79596482521', N'hhhfff@wdw.wdw')
+GO
+INSERT [dbo].[Client] ([IDClient], [Name], [PNumber], [Email]) VALUES (5, N'dwdwd', N'+79794646125', N'WDqwd@efe.dw')
+GO
+INSERT [dbo].[Client] ([IDClient], [Name], [PNumber], [Email]) VALUES (6, N'ewre', N'94614496149', N'grasonof@gmail.com')
+GO
+INSERT [dbo].[Client] ([IDClient], [Name], [PNumber], [Email]) VALUES (7, N'Бубу Бойс', N'+79856954612', N'ggaa3203@gmail.com')
+GO
+SET IDENTITY_INSERT [dbo].[Client] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Condition] ON 
+GO
+INSERT [dbo].[Condition] ([IDCondition], [Title]) VALUES (1, N'Хрупкий')
+GO
+INSERT [dbo].[Condition] ([IDCondition], [Title]) VALUES (2, N'Влагобоязнь')
+GO
+INSERT [dbo].[Condition] ([IDCondition], [Title]) VALUES (3, N'Хранение в темноте')
+GO
+INSERT [dbo].[Condition] ([IDCondition], [Title]) VALUES (4, N'Радифобия')
+GO
+INSERT [dbo].[Condition] ([IDCondition], [Title]) VALUES (5, N'Хранение в повышеной влажности')
+GO
+SET IDENTITY_INSERT [dbo].[Condition] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Employee] ON 
+GO
+INSERT [dbo].[Employee] ([IDEmp], [Full_Name], [EEmail], [Emp_Login], [Emp_Pass], [ID_Role], [OStatus], [sysInfo]) VALUES (1, N'Асонов Григорий Станиславович', N'ggaa3203@gmail.com', N'admin', N'3fa4791c8c4616d70458e71e52b62ec747bc5bf0f40fad6decbc1f3af97edd24', 1, 0, N'31.05.2023 20:27:34*DESKTOP-6F8P882')
+GO
+INSERT [dbo].[Employee] ([IDEmp], [Full_Name], [EEmail], [Emp_Login], [Emp_Pass], [ID_Role], [OStatus], [sysInfo]) VALUES (2, N'Георгий Лягух _', N'-', N'gogel', N'3fa4791c8c4616d70458e71e52b62ec747bc5bf0f40fad6decbc1f3af97edd24', 2, 0, N'01.06.2023 17:33:26*DESKTOP-6F8P882')
+GO
+INSERT [dbo].[Employee] ([IDEmp], [Full_Name], [EEmail], [Emp_Login], [Emp_Pass], [ID_Role], [OStatus], [sysInfo]) VALUES (3, N'Губин Арсен Гулевич', NULL, N'___321xxx_ArSeN_xxx123', N'-', 3, 0, N' ')
+GO
+INSERT [dbo].[Employee] ([IDEmp], [Full_Name], [EEmail], [Emp_Login], [Emp_Pass], [ID_Role], [OStatus], [sysInfo]) VALUES (4, N'Сотруников Сотрудник Сотрудникович', NULL, N'sotr', N'3fa4791c8c4616d70458e71e52b62ec747bc5bf0f40fad6decbc1f3af97edd24', 3, 0, N'04.06.2023 21:17:23*DESKTOP-6F8P882')
+GO
+SET IDENTITY_INSERT [dbo].[Employee] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Place] ON 
+GO
+INSERT [dbo].[Place] ([IDPlace], [SpecialCode]) VALUES (1, N'25648')
+GO
+INSERT [dbo].[Place] ([IDPlace], [SpecialCode]) VALUES (2, N'58128')
+GO
+INSERT [dbo].[Place] ([IDPlace], [SpecialCode]) VALUES (3, N'18192')
+GO
+INSERT [dbo].[Place] ([IDPlace], [SpecialCode]) VALUES (4, N'15164')
+GO
+SET IDENTITY_INSERT [dbo].[Place] OFF
+GO
+SET IDENTITY_INSERT [dbo].[PlaceCond] ON 
+GO
+INSERT [dbo].[PlaceCond] ([IDPlaceCond], [ID_Place], [ID_Condition]) VALUES (1, 1, 2)
+GO
+INSERT [dbo].[PlaceCond] ([IDPlaceCond], [ID_Place], [ID_Condition]) VALUES (2, 1, 3)
+GO
+INSERT [dbo].[PlaceCond] ([IDPlaceCond], [ID_Place], [ID_Condition]) VALUES (3, 1, 4)
+GO
+INSERT [dbo].[PlaceCond] ([IDPlaceCond], [ID_Place], [ID_Condition]) VALUES (4, 2, 2)
+GO
+INSERT [dbo].[PlaceCond] ([IDPlaceCond], [ID_Place], [ID_Condition]) VALUES (5, 2, 4)
+GO
+INSERT [dbo].[PlaceCond] ([IDPlaceCond], [ID_Place], [ID_Condition]) VALUES (7, 3, 1)
+GO
+INSERT [dbo].[PlaceCond] ([IDPlaceCond], [ID_Place], [ID_Condition]) VALUES (8, 3, 4)
+GO
+INSERT [dbo].[PlaceCond] ([IDPlaceCond], [ID_Place], [ID_Condition]) VALUES (9, 4, 1)
+GO
+INSERT [dbo].[PlaceCond] ([IDPlaceCond], [ID_Place], [ID_Condition]) VALUES (10, 4, 2)
+GO
+INSERT [dbo].[PlaceCond] ([IDPlaceCond], [ID_Place], [ID_Condition]) VALUES (11, 4, 3)
+GO
+INSERT [dbo].[PlaceCond] ([IDPlaceCond], [ID_Place], [ID_Condition]) VALUES (12, 4, 4)
+GO
+INSERT [dbo].[PlaceCond] ([IDPlaceCond], [ID_Place], [ID_Condition]) VALUES (13, 4, 5)
+GO
+SET IDENTITY_INSERT [dbo].[PlaceCond] OFF
+GO
+SET IDENTITY_INSERT [dbo].[ProdCond] ON 
+GO
+INSERT [dbo].[ProdCond] ([IDProdCond], [ID_Product], [ID_Condition]) VALUES (1, 1, 2)
+GO
+INSERT [dbo].[ProdCond] ([IDProdCond], [ID_Product], [ID_Condition]) VALUES (2, 1, 3)
+GO
+INSERT [dbo].[ProdCond] ([IDProdCond], [ID_Product], [ID_Condition]) VALUES (3, 1, 4)
+GO
+INSERT [dbo].[ProdCond] ([IDProdCond], [ID_Product], [ID_Condition]) VALUES (4, 3, 5)
+GO
+SET IDENTITY_INSERT [dbo].[ProdCond] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Product] ON 
+GO
+INSERT [dbo].[Product] ([IDProduct], [Name], [Article], [Amount], [UnitID]) VALUES (1, N'Фотопленка цветная 36 кадров 35 мм Kodak Color Plus 200', N'1', 20, 1)
+GO
+INSERT [dbo].[Product] ([IDProduct], [Name], [Article], [Amount], [UnitID]) VALUES (2, N'Фотопленка цветная 36 кадров 35 мм Kodak Color Plus 120', N'2', 40, 1)
+GO
+INSERT [dbo].[Product] ([IDProduct], [Name], [Article], [Amount], [UnitID]) VALUES (3, N'Супер доски', N'794613467', 250, 1)
+GO
+SET IDENTITY_INSERT [dbo].[Product] OFF
+GO
+SET IDENTITY_INSERT [dbo].[reqType] ON 
+GO
+INSERT [dbo].[reqType] ([ID_Type], [Title]) VALUES (1, N'Восстановление')
+GO
+INSERT [dbo].[reqType] ([ID_Type], [Title]) VALUES (2, N'Создание')
+GO
+INSERT [dbo].[reqType] ([ID_Type], [Title]) VALUES (3, N'Изменение')
+GO
+INSERT [dbo].[reqType] ([ID_Type], [Title]) VALUES (4, N'Удаление')
+GO
+SET IDENTITY_INSERT [dbo].[reqType] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Transaction] ON 
+GO
+INSERT [dbo].[Transaction] ([IDTransaction], [ID_Client], [ID_TrTType], [Date], [ID_Emp], [ID_Place], [ID_Product], [Amount]) VALUES (1, 2, 1, N'25.05.2023 16:01:52', 2, 1, 1, 20)
+GO
+INSERT [dbo].[Transaction] ([IDTransaction], [ID_Client], [ID_TrTType], [Date], [ID_Emp], [ID_Place], [ID_Product], [Amount]) VALUES (2, 2, 1, N'25.05.2023 16:01:52', 2, 1, 2, 50)
+GO
+INSERT [dbo].[Transaction] ([IDTransaction], [ID_Client], [ID_TrTType], [Date], [ID_Emp], [ID_Place], [ID_Product], [Amount]) VALUES (3, 2, 2, N'26.05.2023 13:00:00', 2, 1, 2, 20)
+GO
+INSERT [dbo].[Transaction] ([IDTransaction], [ID_Client], [ID_TrTType], [Date], [ID_Emp], [ID_Place], [ID_Product], [Amount]) VALUES (4, 5, 3, N'04.06.2023 16:29:20', 4, 4, 1, 250)
+GO
+INSERT [dbo].[Transaction] ([IDTransaction], [ID_Client], [ID_TrTType], [Date], [ID_Emp], [ID_Place], [ID_Product], [Amount]) VALUES (5, 5, 1, N'04.06.2023 20:27:23', 4, 4, 3, 250)
+GO
+INSERT [dbo].[Transaction] ([IDTransaction], [ID_Client], [ID_TrTType], [Date], [ID_Emp], [ID_Place], [ID_Product], [Amount]) VALUES (6, 5, 1, N'04.06.2023 20:27:23', 4, 2, 2, 10)
+GO
+INSERT [dbo].[Transaction] ([IDTransaction], [ID_Client], [ID_TrTType], [Date], [ID_Emp], [ID_Place], [ID_Product], [Amount]) VALUES (7, 5, 3, N'04.06.2023 20:28:34', 4, 2, 2, 5)
+GO
+SET IDENTITY_INSERT [dbo].[Transaction] OFF
+GO
+SET IDENTITY_INSERT [dbo].[TransType] ON 
+GO
+INSERT [dbo].[TransType] ([IDTypeTrans], [Title]) VALUES (1, N'Прибытие')
+GO
+INSERT [dbo].[TransType] ([IDTypeTrans], [Title]) VALUES (2, N'Вывоз')
+GO
+INSERT [dbo].[TransType] ([IDTypeTrans], [Title]) VALUES (3, N'Отменена')
+GO
+SET IDENTITY_INSERT [dbo].[TransType] OFF
+GO
+SET IDENTITY_INSERT [dbo].[UnitType] ON 
+GO
+INSERT [dbo].[UnitType] ([IDUnit], [Unit_Title], [Unit_Titlemin]) VALUES (1, N'Штук(а)', N'Шт')
+GO
+INSERT [dbo].[UnitType] ([IDUnit], [Unit_Title], [Unit_Titlemin]) VALUES (2, N'Киллограмм', N'Кг')
+GO
+INSERT [dbo].[UnitType] ([IDUnit], [Unit_Title], [Unit_Titlemin]) VALUES (3, N'Литр(ов)', N'Л')
+GO
+SET IDENTITY_INSERT [dbo].[UnitType] OFF
+GO
+SET IDENTITY_INSERT [dbo].[userRequest] ON 
+GO
+INSERT [dbo].[userRequest] ([ID_Request], [FullName], [requestTime], [computerName], [requestState], [requestTypeID], [userID]) VALUES (1, N'Асонов Григорий Станиславович создал учётную запись: 321xxx_ArSeN_xxx123', N'14.05.2023 22:47:21', N'DESKTOP-6F8P882 Gras', 0, 2, 1)
+GO
+INSERT [dbo].[userRequest] ([ID_Request], [FullName], [requestTime], [computerName], [requestState], [requestTypeID], [userID]) VALUES (2, N'Асонов Григорий Станиславович (admin) удалил 321xxx_ArSeN_xxx123 (Губин Арсен Гулевич)', N'16.05.2023 18:37:21', N'DESKTOP-6F8P882', 1, 4, 1)
+GO
+INSERT [dbo].[userRequest] ([ID_Request], [FullName], [requestTime], [computerName], [requestState], [requestTypeID], [userID]) VALUES (3, N'Георгий Лягух _: запрос на восстановление пароля ОДОБРЕН (Асонов Григорий Станиславович)', N'22.05.2023 21:20:00', N'DESKTOP-6F8P882 Gras', 1, 1, 2)
+GO
+INSERT [dbo].[userRequest] ([ID_Request], [FullName], [requestTime], [computerName], [requestState], [requestTypeID], [userID]) VALUES (4, N'Асонов Григорий Станиславович создал учётную запись: sotr', N'26.05.2023 15:59:20', N'DESKTOP-6F8P882 Gras', 1, 2, 1)
+GO
+INSERT [dbo].[userRequest] ([ID_Request], [FullName], [requestTime], [computerName], [requestState], [requestTypeID], [userID]) VALUES (5, N'Георгий Лягух _ создал клиента: СтройЛомай', N'28.05.2023 14:42:58', N'DESKTOP-6F8P882 Gras', 1, 2, 2)
+GO
+INSERT [dbo].[userRequest] ([ID_Request], [FullName], [requestTime], [computerName], [requestState], [requestTypeID], [userID]) VALUES (6, N'Георгий Лягух _ создал клиента: Гугалин Иван Георгиевич', N'29.05.2023 21:20:47', N'DESKTOP-6F8P882 Gras', 1, 2, 2)
+GO
+INSERT [dbo].[userRequest] ([ID_Request], [FullName], [requestTime], [computerName], [requestState], [requestTypeID], [userID]) VALUES (7, N'Георгий Лягух _ создал клиента: МагазинЧ', N'29.05.2023 21:20:47', N'DESKTOP-6F8P882 Gras', 1, 2, 2)
+GO
+INSERT [dbo].[userRequest] ([ID_Request], [FullName], [requestTime], [computerName], [requestState], [requestTypeID], [userID]) VALUES (8, N'Георгий Лягух _ (gogel) удалил ___СтройЛомай', N'29.05.2023 22:16:59', N'DESKTOP-6F8P882', 1, 4, 2)
+GO
+INSERT [dbo].[userRequest] ([ID_Request], [FullName], [requestTime], [computerName], [requestState], [requestTypeID], [userID]) VALUES (9, N'Георгий Лягух _ создал клиента: Вчеращ', N'30.05.2023 19:33:12', N'DESKTOP-6F8P882 Gras', 1, 2, 2)
+GO
+INSERT [dbo].[userRequest] ([ID_Request], [FullName], [requestTime], [computerName], [requestState], [requestTypeID], [userID]) VALUES (10, N'Георгий Лягух _ создал клиента: dwdwd', N'30.05.2023 20:12:32', N'DESKTOP-6F8P882 Gras', 1, 2, 2)
+GO
+INSERT [dbo].[userRequest] ([ID_Request], [FullName], [requestTime], [computerName], [requestState], [requestTypeID], [userID]) VALUES (11, N'Георгий Лягух _ создал клиента: ewre', N'01.06.2023 0:34:42', N'DESKTOP-6F8P882 Gras', 1, 2, 2)
+GO
+INSERT [dbo].[userRequest] ([ID_Request], [FullName], [requestTime], [computerName], [requestState], [requestTypeID], [userID]) VALUES (12, N'Георгий Лягух _ создал клиента: Бубу Бойс', N'01.06.2023 17:31:31', N'DESKTOP-6F8P882 Gras', 1, 2, 2)
+GO
+INSERT [dbo].[userRequest] ([ID_Request], [FullName], [requestTime], [computerName], [requestState], [requestTypeID], [userID]) VALUES (13, N'Сотруников Сотрудник Сотрудникович изменил условие хранения
+Боязнь излучения=>Радифобия', N'02.06.2023 14:36:42', N'DESKTOP-6F8P882 Gras', 1, 3, 4)
+GO
+INSERT [dbo].[userRequest] ([ID_Request], [FullName], [requestTime], [computerName], [requestState], [requestTypeID], [userID]) VALUES (14, N'Сотруников Сотрудник Сотрудникович добавил условие хранения
+Хранение в повышеной влажности', N'02.06.2023 14:41:26', N'DESKTOP-6F8P882 Gras', 1, 2, 4)
+GO
+INSERT [dbo].[userRequest] ([ID_Request], [FullName], [requestTime], [computerName], [requestState], [requestTypeID], [userID]) VALUES (15, N'Сотруников Сотрудник Сотрудникович создал место хранения 18192
+Cвойство: Хрупкий
+Cвойство: Радифобия
+', N'02.06.2023 18:42:10', N'DESKTOP-6F8P882 Gras', 1, 2, 4)
+GO
+INSERT [dbo].[userRequest] ([ID_Request], [FullName], [requestTime], [computerName], [requestState], [requestTypeID], [userID]) VALUES (16, N'Сотруников Сотрудник Сотрудникович создал место хранения 15164
+Cвойство: Хрупкий
+Cвойство: Влагобоязнь
+Cвойство: Хранение в темноте
+Cвойство: Радифобия
+Cвойство: Хранение в повышеной влажности
+', N'04.06.2023 10:55:52', N'DESKTOP-6F8P882 Gras', 1, 2, 4)
+GO
+INSERT [dbo].[userRequest] ([ID_Request], [FullName], [requestTime], [computerName], [requestState], [requestTypeID], [userID]) VALUES (17, N'Сотруников Сотрудник Сотрудникович создал продукцию Супер доски
+
+Cвойство: Хранение в повышеной влажности
+', N'04.06.2023 12:09:23', N'DESKTOP-6F8P882 Gras', 1, 2, 4)
+GO
+INSERT [dbo].[userRequest] ([ID_Request], [FullName], [requestTime], [computerName], [requestState], [requestTypeID], [userID]) VALUES (18, N'Сотруников Сотрудник Сотрудникович
+Добавление транзакции: привоз продукции Супер доски, в количестве 250, место 15164', N'04.06.2023 16:29:11', N'DESKTOP-6F8P882 Gras', 1, 2, 4)
+GO
+INSERT [dbo].[userRequest] ([ID_Request], [FullName], [requestTime], [computerName], [requestState], [requestTypeID], [userID]) VALUES (19, N'Сотруников Сотрудник Сотрудникович
+Добавление транзакции: привоз продукции Супер доски, в количестве 250, место 15164
+Добавление транзакции: привоз продукции Фотопленка цветная 36 кадров 35 мм Kodak Color Plus 120, в количестве 10, место 58128', N'04.06.2023 20:27:23', N'DESKTOP-6F8P882 Gras', 1, 2, 4)
+GO
+INSERT [dbo].[userRequest] ([ID_Request], [FullName], [requestTime], [computerName], [requestState], [requestTypeID], [userID]) VALUES (20, N'Сотруников Сотрудник Сотрудникович
+Добавление транзакции: вывоз продукции Фотопленка цветная 36 кадров 35 мм Kodak Color Plus 120, в количестве 5, место 58128', N'04.06.2023 20:28:34', N'DESKTOP-6F8P882 Gras', 1, 2, 4)
+GO
+INSERT [dbo].[userRequest] ([ID_Request], [FullName], [requestTime], [computerName], [requestState], [requestTypeID], [userID]) VALUES (21, N'Сотруников Сотрудник Сотрудникович удалил транзакцию
+13', N'04.06.2023 20:35:14', N'DESKTOP-6F8P882 Gras', 1, 4, 4)
+GO
+SET IDENTITY_INSERT [dbo].[userRequest] OFF
+GO
+SET IDENTITY_INSERT [dbo].[UserRole] ON 
+GO
+INSERT [dbo].[UserRole] ([IDRole], [Title]) VALUES (1, N'Admin')
+GO
+INSERT [dbo].[UserRole] ([IDRole], [Title]) VALUES (2, N'Manager')
+GO
+INSERT [dbo].[UserRole] ([IDRole], [Title]) VALUES (3, N'Employee')
+GO
+SET IDENTITY_INSERT [dbo].[UserRole] OFF
+GO
+ALTER TABLE [dbo].[Employee]  WITH CHECK ADD  CONSTRAINT [FK_Employee_UserRole] FOREIGN KEY([ID_Role])
+REFERENCES [dbo].[UserRole] ([IDRole])
+GO
+ALTER TABLE [dbo].[Employee] CHECK CONSTRAINT [FK_Employee_UserRole]
+GO
+ALTER TABLE [dbo].[PlaceCond]  WITH CHECK ADD  CONSTRAINT [FK_PlaceCond_Condition] FOREIGN KEY([ID_Condition])
+REFERENCES [dbo].[Condition] ([IDCondition])
+GO
+ALTER TABLE [dbo].[PlaceCond] CHECK CONSTRAINT [FK_PlaceCond_Condition]
+GO
+ALTER TABLE [dbo].[PlaceCond]  WITH CHECK ADD  CONSTRAINT [FK_PlaceCond_Place] FOREIGN KEY([ID_Place])
+REFERENCES [dbo].[Place] ([IDPlace])
+GO
+ALTER TABLE [dbo].[PlaceCond] CHECK CONSTRAINT [FK_PlaceCond_Place]
+GO
+ALTER TABLE [dbo].[ProdCond]  WITH CHECK ADD  CONSTRAINT [FK_ProdCond_Condition] FOREIGN KEY([ID_Condition])
+REFERENCES [dbo].[Condition] ([IDCondition])
+GO
+ALTER TABLE [dbo].[ProdCond] CHECK CONSTRAINT [FK_ProdCond_Condition]
+GO
+ALTER TABLE [dbo].[ProdCond]  WITH CHECK ADD  CONSTRAINT [FK_ProdCond_Product] FOREIGN KEY([ID_Product])
+REFERENCES [dbo].[Product] ([IDProduct])
+GO
+ALTER TABLE [dbo].[ProdCond] CHECK CONSTRAINT [FK_ProdCond_Product]
+GO
+ALTER TABLE [dbo].[Product]  WITH CHECK ADD  CONSTRAINT [FK_Product_UnitType] FOREIGN KEY([UnitID])
+REFERENCES [dbo].[UnitType] ([IDUnit])
+GO
+ALTER TABLE [dbo].[Product] CHECK CONSTRAINT [FK_Product_UnitType]
+GO
+ALTER TABLE [dbo].[Transaction]  WITH CHECK ADD  CONSTRAINT [FK_Transaction_Client] FOREIGN KEY([ID_Client])
+REFERENCES [dbo].[Client] ([IDClient])
+GO
+ALTER TABLE [dbo].[Transaction] CHECK CONSTRAINT [FK_Transaction_Client]
+GO
+ALTER TABLE [dbo].[Transaction]  WITH CHECK ADD  CONSTRAINT [FK_Transaction_Employee1] FOREIGN KEY([ID_Emp])
+REFERENCES [dbo].[Employee] ([IDEmp])
+GO
+ALTER TABLE [dbo].[Transaction] CHECK CONSTRAINT [FK_Transaction_Employee1]
+GO
+ALTER TABLE [dbo].[Transaction]  WITH CHECK ADD  CONSTRAINT [FK_Transaction_Place1] FOREIGN KEY([ID_Place])
+REFERENCES [dbo].[Place] ([IDPlace])
+GO
+ALTER TABLE [dbo].[Transaction] CHECK CONSTRAINT [FK_Transaction_Place1]
+GO
+ALTER TABLE [dbo].[Transaction]  WITH CHECK ADD  CONSTRAINT [FK_Transaction_Product1] FOREIGN KEY([ID_Product])
+REFERENCES [dbo].[Product] ([IDProduct])
+GO
+ALTER TABLE [dbo].[Transaction] CHECK CONSTRAINT [FK_Transaction_Product1]
+GO
+ALTER TABLE [dbo].[Transaction]  WITH CHECK ADD  CONSTRAINT [FK_Transaction_TransType] FOREIGN KEY([ID_TrTType])
+REFERENCES [dbo].[TransType] ([IDTypeTrans])
+GO
+ALTER TABLE [dbo].[Transaction] CHECK CONSTRAINT [FK_Transaction_TransType]
+GO
+ALTER TABLE [dbo].[userRequest]  WITH CHECK ADD  CONSTRAINT [FK_userRequest_Employee] FOREIGN KEY([userID])
+REFERENCES [dbo].[Employee] ([IDEmp])
+GO
+ALTER TABLE [dbo].[userRequest] CHECK CONSTRAINT [FK_userRequest_Employee]
+GO
+ALTER TABLE [dbo].[userRequest]  WITH CHECK ADD  CONSTRAINT [FK_userRequest_reqType] FOREIGN KEY([requestTypeID])
+REFERENCES [dbo].[reqType] ([ID_Type])
+GO
+ALTER TABLE [dbo].[userRequest] CHECK CONSTRAINT [FK_userRequest_reqType]
+GO

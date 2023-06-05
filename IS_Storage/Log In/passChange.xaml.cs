@@ -95,10 +95,10 @@ namespace IS_Storage.Log_In
             reqBlock.Visibility = Visibility.Visible;
             for (int i = 0; i < passreqs.Length; i++)
             {
-                if (passreqs[i]) qrun[i].Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#75FF5A"));
-                else qrun[i].Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF5A5A"));
+                if (passreqs[i]) qrun[i].Text.Replace('X', '✓');
+                else qrun[i].Text.Replace('✓','X');
             }
-            foreach (Run run in qrun) if (run.Foreground != new SolidColorBrush((Color)ColorConverter.ConvertFromString("#75FF5A"))) return;
+            foreach (Run run in qrun) if (!run.Text.Contains('X')) return;
             requestp = true;
             reqBlock.Visibility = Visibility.Collapsed;
         }

@@ -109,13 +109,6 @@ namespace IS_Storage.Log_In
                         window.pageChange(0);
                     }
                     else { MessageBox.Show("Восстановление отменено.");
-                        recover = 0;
-                        maintxt.Text = usLog;
-                        recoverBtn.Content = "Восстановить";
-                        recoverBtn.Visibility = Visibility.Visible;
-                        mainLbl.Content = "Укажите логин/почту пользователя";
-                        maintxt.Visibility = Visibility.Visible;
-                        cleaning();
                         window.pageChange(0);
                     }
                     
@@ -131,13 +124,13 @@ namespace IS_Storage.Log_In
             try
             {
                 _context = stockEntities.GetStockEntity();
-                if (_context.userRequest.Where(p => p.userID == newEmp.IDEmp && p.requestTime == reqTime).FirstOrDefault().requestState == 1)
+                if (stockEntities.GetStockEntityD().userRequest.Where(p => p.userID == newEmp.IDEmp && p.requestTime == reqTime).FirstOrDefault().requestState == 1)
                 {
                     timer.Stop();
                     recover = 3;
                     recoverProcess(1);
                 }
-                if (_context.userRequest.Where(p => p.userID == newEmp.IDEmp && p.requestTime == reqTime).FirstOrDefault().requestState == 2)
+                if (stockEntities.GetStockEntityD().userRequest.Where(p => p.userID == newEmp.IDEmp && p.requestTime == reqTime).FirstOrDefault().requestState == 2)
                 {
                     MessageBox.Show("Запрос был отменён администратором.");
                     timer.Stop();

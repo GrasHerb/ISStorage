@@ -46,7 +46,7 @@ namespace IS_Storage.classes
                     return 0;
                 else return -1;
             }
-            catch { MessageBox.Show("Пользователя с таким логином не существует!"); return -1; }
+            catch { return -1; }
         }
         public static void statusChange(string login,int i)
         {
