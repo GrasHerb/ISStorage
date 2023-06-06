@@ -51,11 +51,22 @@ namespace IS_Storage.workViews
                 a.ShowDialog();
                 if (a.DialogResult == true)
                 {
-                    var prodAction = stockEntities.GetStockEntityD().Product.Single(p => p.IDProduct == a.controll.ID_Product).Name;
-                    var placeAction = stockEntities.GetStockEntityD().Place.Single(p => p.IDPlace == a.controll.ID_Place).SpecialCode;
-                    actions += "\nИзменение транзакции: id " + a.controll.IDTransaction + ", " + (a.controll.ID_TrTType == 1 ? "привоз" : "вывоз") + ", продукции " + prodAction + ", в количестве " + a.controll.Amount + ", место " + placeAction;
-                    var ind = transaction.actualList.FindIndex(p => p.IDTransaction == a.controll.IDTransaction);
-                    transaction.actualList[ind] = a.controll;
+                    if (a.controll.IDTransaction != 0)
+                    {
+                        var prodAction = stockEntities.GetStockEntityD().Product.Single(p => p.IDProduct == a.controll.ID_Product).Name;
+                        var placeAction = stockEntities.GetStockEntityD().Place.Single(p => p.IDPlace == a.controll.ID_Place).SpecialCode;
+                        actions += "\nИзменение транзакции: id " + a.controll.IDTransaction + ", " + (a.controll.ID_TrTType == 1 ? "привоз" : "вывоз") + ", продукции " + prodAction + ", в количестве " + a.controll.Amount + ", место " + placeAction;
+                        var ind = transaction.actualList.FindIndex(p => p.IDTransaction == a.controll.IDTransaction);
+                        transaction.actualList[ind] = a.controll;
+                    }
+                    else
+                    {
+                        var prodAction = stockEntities.GetStockEntityD().Product.Single(p => p.IDProduct == a.controll.ID_Product).Name;
+                        var placeAction = stockEntities.GetStockEntityD().Place.Single(p => p.IDPlace == a.controll.ID_Place).SpecialCode;
+                        actions += "\nИзменение транзакции: id " + a.controll.IDTransaction+1 + ", " + (a.controll.ID_TrTType == 1 ? "привоз" : "вывоз") + ", продукции " + prodAction + ", в количестве " + a.controll.Amount + ", место " + placeAction;
+                        var ind = transaction.actualList.FindIndex(p => p.IDTransaction == a.controll.IDTransaction);
+                        transaction.actualList[ind] = a.controll;
+                    }
                 }
                 mainGridExtra.ItemsSource = null;
                 mainGridExtra.ItemsSource = transaction.actualList;
