@@ -115,7 +115,8 @@ namespace IS_Storage.workViews
                                 ID_Product = p.IDProduct,
                                 ID_TrTType = typeTr.SelectedIndex == 0 ? 1 : 2,
                                 Product = p,
-                                Place = cp
+                                Place = cp,
+                                TransType = stockEntities.GetStockEntityD().TransType.Where(trt => trt.IDTypeTrans == (typeTr.SelectedIndex == 0 ? 1 : 2)).First()
                             };
                             DialogResult = true;
                         }

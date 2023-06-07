@@ -8,7 +8,7 @@
         Title="Окно транзакций" Height="500" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" Width="760" ResizeMode="NoResize">
     <Viewbox>
         <StackPanel>
-            <ScrollViewer Height="250" x:Name="noExtra">
+            <ScrollViewer Height="250" MaxWidth="700" Width="700" x:Name="noExtra">
         <DataGrid Margin="10" x:Name="mainGrid" AutoGenerateColumns="False" HorizontalScrollBarVisibility="Visible">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
@@ -17,7 +17,7 @@
                 </DataGrid.Columns>
         </DataGrid>            
         </ScrollViewer>
-        <ScrollViewer Height="250" x:Name="yExtra">
+            <ScrollViewer Height="250" MaxWidth="700" Width="700" x:Name="yExtra">
                 <DataGrid Margin="10" x:Name="mainGridExtra" AutoGenerateColumns="False" HorizontalScrollBarVisibility="Visible">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Клиент" Binding="{Binding Client}"/>

@@ -80,6 +80,8 @@ namespace IS_Storage.workViews
                 stockEntities.GetStockEntity().SaveChanges();
                 gridUpdate();
             }
+            else
+            stockEntities.unsaveChanges();
         }
 
         private void crCondBtn_Click(object sender, RoutedEventArgs e)
@@ -117,7 +119,8 @@ namespace IS_Storage.workViews
                 stockEntities.GetStockEntity().SaveChanges();
                 gridUpdate();
             }
-
+            else
+                stockEntities.unsaveChanges();
 
         }
 
@@ -156,6 +159,8 @@ namespace IS_Storage.workViews
                     }
                 }
             }
+            else
+                stockEntities.unsaveChanges();
         }
 
         private void crTransBtn_Click(object sender, RoutedEventArgs e)
